@@ -1,0 +1,57 @@
+package com.example.kinopoisk.ui.home
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.kinopoisk.databinding.ItemBinding
+import com.example.kinopoisk.entity.Movie
+
+class MovieListAdapter(
+    private val onClick: (Movie, ImageView) -> Unit
+) : ListAdapter<Movie, MovieListViewHolder>(DiffUtilCallback()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
+        return MovieListViewHolder(
+            ItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.binding.apply {
+            if (!item.rating.isNullOrEmpty()) {
+                rating.visibility = View.VISIBLE
+                rating.text = item.rating
+            } else {
+                rating.visibility = View.GONE
+            }
+            movieName.text = item?.nameRu ?: ""
+            movieGenre.text = item?.genres?.joinToString(", ") {
+                it.genre.toString()
+            }
+            imageView.load(item?.posterUrlPreview)
+
+            root.setOnClickListener {
+                onClick.invoke(item, imageView)
+            }
+        }
+    }
+
+}
+
+class DiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        oldItem.kinopoiskId == newItem.kinopoiskId
+
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean = oldItem == newItem
+}
+
+class MovieListViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root)

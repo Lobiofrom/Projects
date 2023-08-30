@@ -1,0 +1,11 @@
+<resources>
+    <style name="BoldItalicText">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="Widget.MyApp.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>
