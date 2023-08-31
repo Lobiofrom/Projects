@@ -27,7 +27,10 @@ class MovieListAdapter(
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.apply {
-            if (!item.rating.isNullOrEmpty()) {
+            if (item.ratingKinopoisk != 0.0) {
+                rating.visibility = View.VISIBLE
+                rating.text = item.ratingKinopoisk.toString()
+            } else if (!item.rating.isNullOrEmpty()){
                 rating.visibility = View.VISIBLE
                 rating.text = item.rating
             } else {

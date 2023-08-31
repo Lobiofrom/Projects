@@ -286,7 +286,7 @@
                 android:id="@+id/galary_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:spanCount="1"
@@ -303,7 +303,9 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/galary_recycler" />
+                app:layout_constraintTop_toBottomOf="@+id/galary_recycler"
+                android:layout_marginTop="8dp"
+                />
 
             <TextView
                 android:id="@+id/all_similar"
@@ -313,6 +315,7 @@
                 android:text="4"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/galary_recycler" />
 
@@ -326,6 +329,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/similar_text"
                 app:spanCount="1"
                 tools:listitem="@layout/item"
+                android:layout_marginTop="10dp"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,13 +8,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="actorFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="939" />
+                            <option name="y" value="712" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="bigPictureFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="938" />
-                            <option name="y" value="585" />
+                            <option name="x" value="928" />
+                            <option name="y" value="414" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -32,6 +44,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_detailFragment_to_bigPictureFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_detailFragment_to_gallaryFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -67,9 +84,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="946" />
-                            <option name="y" value="185" />
+                            <option name="x" value="925" />
+                            <option name="y" value="95" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_gallaryFragment_to_bigPictureFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

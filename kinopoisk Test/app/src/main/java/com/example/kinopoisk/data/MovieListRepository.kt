@@ -21,7 +21,7 @@ class MovieListRepository {
         return retrofitAndApi.api.getSelection(countries, genres, type, yearFrom, page).items
     }
 
-    suspend fun getMovieDescription(id: Int) : MovieDescriptionDto {
+    suspend fun getMovieDescription(id: Int) : Movie {
         return retrofitAndApi.api.getMovieDescription(id)
     }
 
@@ -35,5 +35,9 @@ class MovieListRepository {
 
     suspend fun getSimilars(id: Int): List<Movie> {
         return retrofitAndApi.api.getSimilars(id).items
+    }
+
+    suspend fun getPerson(id: Int): PersonDto {
+        return retrofitAndApi.api.getPersonDetails(id)
     }
 }

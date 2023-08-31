@@ -2,7 +2,6 @@ package com.example.kinopoisk.ui.detail_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kinopoisk.data.MovieDescriptionDto
 import com.example.kinopoisk.data.State
 import com.example.kinopoisk.domain.MovieListUseCase
 import com.example.kinopoisk.entity.Movie
@@ -17,7 +16,7 @@ class MovieActorsSimilarsViewModel : ViewModel() {
 
     private val useCase = MovieListUseCase()
 
-    private val _movieDescription = MutableStateFlow<MovieDescriptionDto?>(null)
+    private val _movieDescription = MutableStateFlow<Movie?>(null)
     val movieDescription = _movieDescription.asStateFlow()
 
     private val _state = MutableStateFlow<State>(State.Success)

@@ -2,12 +2,15 @@ package com.example.kinopoisk.ui.detail_fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import coil.load
 import com.example.kinopoisk.databinding.ItemStaffBinding
 import com.example.kinopoisk.entity.StaffItem
 
-class ActorAdapter : ListAdapter<StaffItem, StaffViewHolder>(StaffDiffUtilCallback()) {
+class ActorAdapter(
+    private val onClick: (StaffItem, ImageView) -> Unit
+) : ListAdapter<StaffItem, StaffViewHolder>(StaffDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
         return StaffViewHolder(
             ItemStaffBinding.inflate(
@@ -26,7 +29,7 @@ class ActorAdapter : ListAdapter<StaffItem, StaffViewHolder>(StaffDiffUtilCallba
             profession.text = item.description ?: item.professionKey
 
             root.setOnClickListener {
-                //onClick.invoke(item, imageView)
+                onClick.invoke(item, imageView)
             }
         }
     }

@@ -22,6 +22,7 @@ import com.example.kinopoisk.ui.gallary_fragments.PicturesViewModelFactory
 import com.example.kinopoisk.ui.home.HomeFragment
 import com.example.kinopoisk.ui.home.MovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.ui.onItemClick.onPersonClick
 import com.example.kinopoisk.ui.onItemClick.onPictureClick
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,8 +35,13 @@ class DetailFragment : Fragment() {
 
     private var bottomNavBarVisibilityListener: HomeFragment.BottomNavBarVisibilityListener? = null
 
-    private val staffAdapter = StaffAdapter()
-    private val actorAdapter = ActorAdapter()
+    private val staffAdapter = StaffAdapter { item, view ->
+        onPersonClick(item, view, this)
+    }
+    private val actorAdapter = ActorAdapter { item, view ->
+        onPersonClick(item, view, this)
+    }
+
     private val picturesAdapter = PicturesAdapter { picture, imageView ->
         onPictureClick(picture, imageView, this)
     }
@@ -122,9 +128,7 @@ class DetailFragment : Fragment() {
             binding.allActors.text = it.filter {
                 it.professionKey == "ACTOR"
             }.size.toString()
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        movieAndActorsViewModel.staffList.onEach {
             staffAdapter.run {
                 submitList(it.filter {
                     it.professionKey != "ACTOR"

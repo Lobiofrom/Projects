@@ -2,6 +2,7 @@ package com.example.kinopoisk.domain
 
 import com.example.kinopoisk.data.MovieDescriptionDto
 import com.example.kinopoisk.data.MovieListRepository
+import com.example.kinopoisk.data.PersonDto
 import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.StaffItem
@@ -25,7 +26,7 @@ class MovieListUseCase {
         return movieListRepository.getSelection(countries, genres, type, yearFrom, page)
     }
 
-    suspend fun executeMovieDescription(id: Int): MovieDescriptionDto {
+    suspend fun executeMovieDescription(id: Int): Movie {
         return movieListRepository.getMovieDescription(id)
     }
 
@@ -39,5 +40,9 @@ class MovieListUseCase {
 
     suspend fun executeSimilars(id: Int): List<Movie> {
         return movieListRepository.getSimilars(id)
+    }
+
+    suspend fun executePerson(id: Int): PersonDto {
+        return movieListRepository.getPerson(id)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kinopoisk.data
 
+import com.example.kinopoisk.entity.Movie
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,10 +10,10 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val API_KEY = "22fe150a-c4b8-43b9-bc23-f52a5d11ab0d"
-    //"e117253f-1c92-459e-b8f3-6b5c08c5f17f"
+private const val API_KEY = "e117253f-1c92-459e-b8f3-6b5c08c5f17f"
     //"94faef07-7bdf-486d-ba34-5669bc1f983a"
     //"03e4ab10-b9e4-4bd6-b6d6-0d7321495bfa"
+    //"22fe150a-c4b8-43b9-bc23-f52a5d11ab0d"
 
 class RetrofitAndApi {
 
@@ -66,7 +67,7 @@ class RetrofitAndApi {
         @GET("/api/v2.2/films/{id}")
         suspend fun getMovieDescription(
             @Path("id") id: Int
-        ): MovieDescriptionDto
+        ): Movie
 
         @Headers("X-API-KEY: $API_KEY")
         @GET("/api/v2.2/films/{id}/images")
@@ -87,5 +88,11 @@ class RetrofitAndApi {
         suspend fun getStaff(
             @Query("filmId") filmId: Int
         ): StaffDto
+
+        @Headers("X-API-KEY: $API_KEY")
+        @GET("/api/v1/staff/{id}")
+        suspend fun getPersonDetails(
+            @Path("id") id: Int?
+        ): PersonDto
     }
 }

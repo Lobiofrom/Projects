@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_detailFragment_to_gallaryFragment"
             app:destination="@id/gallaryFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_actorFragment"
+            app:destination="@id/actorFragment" />
     </fragment>
     <fragment
         android:id="@+id/bigPictureFragment"
@@ -67,4 +70,9 @@
             android:id="@+id/action_gallaryFragment_to_bigPictureFragment"
             app:destination="@id/bigPictureFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/actorFragment"
+        android:name="com.example.kinopoisk.ui.actor_fragment.ActorFragment"
+        android:label="fragment_actor"
+        tools:layout="@layout/fragment_actor" />
 </navigation>

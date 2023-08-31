@@ -2,6 +2,7 @@ package com.example.kinopoisk.ui.detail_fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.example.kinopoisk.databinding.ItemStaffBinding
 import com.example.kinopoisk.entity.StaffItem
 
 class StaffAdapter(
-    //private val onClick: (StaffItem, ImageView) -> Unit
+    private val onClick: (StaffItem, ImageView) -> Unit
 ) : ListAdapter<StaffItem, StaffViewHolder>(StaffDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
         return StaffViewHolder(
@@ -30,7 +31,7 @@ class StaffAdapter(
             profession.text = item.description ?: item.professionKey
 
             root.setOnClickListener {
-                //onClick.invoke(item, imageView)
+               onClick.invoke(item, imageView)
             }
         }
     }
