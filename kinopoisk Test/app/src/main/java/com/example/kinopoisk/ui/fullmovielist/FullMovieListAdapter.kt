@@ -12,7 +12,7 @@ import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.ui.home.DiffUtilCallback
 
 class FullMovieListAdapter(
-    private val onClick: (Movie, ImageView) -> Unit
+    private val onClick: (Movie) -> Unit
 ) : PagingDataAdapter<Movie, FullListViewHolder>(DiffUtilCallback()) {
     override fun onBindViewHolder(holder: FullListViewHolder, position: Int) {
         val item = getItem(position)
@@ -30,7 +30,7 @@ class FullMovieListAdapter(
             imageView.load(item?.posterUrlPreview)
 
             root.setOnClickListener {
-                onClick.invoke(item!!, imageView)
+                onClick.invoke(item!!)
             }
         }
     }

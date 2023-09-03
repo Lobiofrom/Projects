@@ -26,11 +26,11 @@ class ActorViewModel : ViewModel() {
                 .sortedByDescending {
                     it.rating?.toDouble()
                 }
-                .take(8)
                 .map {
                     it.filmId
                 }
                 .distinct()
+                .take(10)
             _actorInfo.value = person
 
             val list = mutableListOf<Movie>()
@@ -38,8 +38,11 @@ class ActorViewModel : ViewModel() {
             for (filmId in idList) {
                 val movie = movieListUseCase.executeMovieDescription(filmId)
                 list.add(movie)
+                val filteredList = list.filter {
+                    !it.genres!!.any { it.genre!!.contains("ток-шоу") }
+                }
+                _filteredList.value = filteredList
             }
-            _filteredList.value = list
         }
     }
 }

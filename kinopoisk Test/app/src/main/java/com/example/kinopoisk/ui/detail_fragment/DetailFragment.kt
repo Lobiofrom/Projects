@@ -45,8 +45,8 @@ class DetailFragment : Fragment() {
     private val picturesAdapter = PicturesAdapter { picture, imageView ->
         onPictureClick(picture, imageView, this)
     }
-    private val similarsAdapter = MovieListAdapter { movie, imageView ->
-        onItemClick(movie, imageView, this)
+    private val similarsAdapter = MovieListAdapter { movie ->
+        onItemClick(movie, this)
     }
 
     private val movieAndActorsViewModel: MovieActorsSimilarsViewModel by activityViewModels()
@@ -60,7 +60,7 @@ class DetailFragment : Fragment() {
 
         bottomNavBarVisibilityListener = activity as? HomeFragment.BottomNavBarVisibilityListener
 
-        bottomNavBarVisibilityListener?.setBottomNavBarVisibility(false)
+        bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
 
         binding.galaryRecycler.adapter = picturesAdapter
         binding.actorsRecycler.adapter = actorAdapter
@@ -163,7 +163,8 @@ class DetailFragment : Fragment() {
                     binding.country.text = descriptionDto?.countries?.take(1)?.joinToString {
                         it.country.toString()
                     } ?: ""
-                    binding.time.text = "${descriptionDto?.filmLength?.toString() ?: ""} мин"
+                    binding.time.text = "${descriptionDto?.filmLength ?: ""} мин"
+                    binding.movieImage.load(descriptionDto?.posterUrl)
                 }
             }
         }
@@ -179,10 +180,6 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
-        val url = arguments?.getString("posterUrl")
-
-        binding.movieImage.load(url)
 
         return binding.root
 

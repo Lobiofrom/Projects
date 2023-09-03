@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="actorFilmographyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1172" />
+                            <option name="y" value="721" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="actorFragment">
                     <value>
                       <LayoutPositions>
@@ -16,6 +28,15 @@
                             <option name="x" value="939" />
                             <option name="y" value="712" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_actorFragment_to_navigation_home">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -28,6 +49,15 @@
                             <option name="x" value="928" />
                             <option name="y" value="414" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_bigPictureFragment_to_navigation_home">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -43,12 +73,22 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_detailFragment_to_actorFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_detailFragment_to_bigPictureFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                             <entry key="action_detailFragment_to_gallaryFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_detailFragment_to_navigation_home">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -74,6 +114,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_fullMovieListFragment_to_navigation_home">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -91,6 +136,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_gallaryFragment_to_bigPictureFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_gallaryFragment_to_navigation_home">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -79,8 +79,7 @@ class GalleryFragment : Fragment() {
         viewModel.getPictures(category)
         viewModel.pictures?.onEach {
             picturesAdapter.submitData(it)
-        }
-            ?.launchIn(viewLifecycleOwner.lifecycleScope)
+        }?.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun clearChipCheck(chip1: Chip, chip2: Chip) {

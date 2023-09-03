@@ -26,12 +26,12 @@ class FullMovieListFragment : Fragment() {
     private var _binding: FragmentFullMovieListBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = MovieListAdapter { movie, imageView ->
-        onItemClick(movie, imageView, this)
+    private val adapter = MovieListAdapter { movie ->
+        onItemClick(movie, this)
     }
 
-    private val pagedAdapter = FullMovieListAdapter { movie, imageView ->
-        onItemClick(movie, imageView, this)
+    private val pagedAdapter = FullMovieListAdapter { movie ->
+        onItemClick(movie, this)
     }
 
     private var bottomNavBarVisibilityListener: HomeFragment.BottomNavBarVisibilityListener? = null
@@ -47,7 +47,7 @@ class FullMovieListFragment : Fragment() {
 
         bottomNavBarVisibilityListener = activity as? HomeFragment.BottomNavBarVisibilityListener
 
-        bottomNavBarVisibilityListener?.setBottomNavBarVisibility(false)
+        bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
 
         val argsList = arguments?.getStringArrayList("1")
 
@@ -56,6 +56,7 @@ class FullMovieListFragment : Fragment() {
         when {
             argsList?.contains("premiers") == true -> {
                 homeViewModel.getPremiers()
+                bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
                 binding.recyclerFullMovieList.adapter = adapter
                 homeViewModel.premiers.onEach {
                     adapter.submitList(it)

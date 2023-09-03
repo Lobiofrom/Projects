@@ -3,7 +3,6 @@ package com.example.kinopoisk.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,7 @@ import com.example.kinopoisk.databinding.ItemBinding
 import com.example.kinopoisk.entity.Movie
 
 class MovieListAdapter(
-    private val onClick: (Movie, ImageView) -> Unit
+    private val onClick: (Movie) -> Unit
 ) : ListAdapter<Movie, MovieListViewHolder>(DiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         return MovieListViewHolder(
@@ -43,7 +42,7 @@ class MovieListAdapter(
             imageView.load(item?.posterUrlPreview)
 
             root.setOnClickListener {
-                onClick.invoke(item, imageView)
+                onClick.invoke(item)
             }
         }
     }

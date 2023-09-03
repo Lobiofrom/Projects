@@ -36,6 +36,27 @@ class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityLis
         navView.setupWithNavController(navController)
 
         supportActionBar?.hide()
+
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navController.navigate(R.id.navigation_home)
+                    true
+                }
+
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+
+                R.id.navigation_notifications -> {
+                    navController.navigate(R.id.navigation_notifications)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     override fun setBottomNavBarVisibility(isVisible: Boolean) {

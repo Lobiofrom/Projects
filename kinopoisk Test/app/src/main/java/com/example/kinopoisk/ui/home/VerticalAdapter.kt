@@ -33,8 +33,8 @@ class VerticalAdapter(private val fragment: HomeFragment) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: VerticalViewHolder, position: Int) {
-        val horizontalAdapter = MovieListAdapter { movie, imageView ->
-            onItemClick(movie, imageView, fragment)
+        val horizontalAdapter = MovieListAdapter { movie ->
+            onItemClick(movie, fragment)
         }
         holder.binding.itemHorizontalRecycler.adapter = horizontalAdapter
         horizontalAdapter.submitList(movieList[position].take(20))
@@ -74,9 +74,9 @@ class VerticalAdapter(private val fragment: HomeFragment) :
 
                 movieList[3] -> {
                     holder.binding.newMovies.text = "${
-                        movieList[3].first().genres[0].genre?.replaceFirstChar { it.uppercase() }
+                        movieList[3].first().genres?.get(0)?.genre?.replaceFirstChar { it.uppercase() }
                     } ${
-                        movieList[3].first().countries[0].country
+                        movieList[3].first().countries?.get(0)?.country
                     }"
                     holder.binding.seeAll.setOnClickListener {
                         argsList.add("selection1")
@@ -97,9 +97,9 @@ class VerticalAdapter(private val fragment: HomeFragment) :
 
                 movieList[5] -> {
                     holder.binding.newMovies.text = "${
-                        movieList[5].first().genres[0].genre?.replaceFirstChar { it.uppercase() }
+                        movieList[5].first().genres?.get(0)?.genre?.replaceFirstChar { it.uppercase() }
                     } ${
-                        movieList[5].first().countries[0].country
+                        movieList[5].first().countries?.get(0)?.country
                     }"
                     holder.binding.seeAll.setOnClickListener {
                         argsList.add("selection2")

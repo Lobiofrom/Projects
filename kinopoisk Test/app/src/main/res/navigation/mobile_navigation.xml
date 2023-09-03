@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_fullMovieListFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_fullMovieListFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -55,12 +58,19 @@
         <action
             android:id="@+id/action_detailFragment_to_actorFragment"
             app:destination="@id/actorFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/bigPictureFragment"
         android:name="com.example.kinopoisk.ui.gallary_fragments.BigPictureFragment"
         android:label="fragment_big_picture"
-        tools:layout="@layout/fragment_big_picture" />
+        tools:layout="@layout/fragment_big_picture" >
+        <action
+            android:id="@+id/action_bigPictureFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
     <fragment
         android:id="@+id/gallaryFragment"
         android:name="com.example.kinopoisk.ui.gallary_fragments.GalleryFragment"
@@ -69,10 +79,25 @@
         <action
             android:id="@+id/action_gallaryFragment_to_bigPictureFragment"
             app:destination="@id/bigPictureFragment" />
+        <action
+            android:id="@+id/action_gallaryFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/actorFragment"
         android:name="com.example.kinopoisk.ui.actor_fragment.ActorFragment"
         android:label="fragment_actor"
-        tools:layout="@layout/fragment_actor" />
+        tools:layout="@layout/fragment_actor" >
+        <action
+            android:id="@+id/action_actorFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_actorFragment_to_actorFilmographyFragment"
+            app:destination="@id/actorFilmographyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/actorFilmographyFragment"
+        android:name="com.example.kinopoisk.ui.actorFilmography.ActorFilmographyFragment"
+        android:label="fragment_actor_filmography"
+        tools:layout="@layout/fragment_actor_filmography" />
 </navigation>

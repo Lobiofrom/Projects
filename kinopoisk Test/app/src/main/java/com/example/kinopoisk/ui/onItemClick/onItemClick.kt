@@ -10,13 +10,11 @@ import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.StaffItem
 
-fun onItemClick(item: Movie, imageView: ImageView, fragment: Fragment) {
+fun onItemClick(item: Movie, fragment: Fragment) {
     val bundle = Bundle()
-    val posterUrl = item.posterUrl
     val filmId = item.filmId
     val kinopoiskId = item.kinopoiskId
 
-    bundle.putString("posterUrl", posterUrl)
     bundle.putInt("filmId", filmId)
     bundle.putInt("kinopoiskId", kinopoiskId)
 
