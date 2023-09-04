@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +23,7 @@ import com.example.kinopoisk.ui.home.MovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonClick
 import com.example.kinopoisk.ui.onItemClick.onPictureClick
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -49,14 +49,14 @@ class DetailFragment : Fragment() {
         onItemClick(movie, this)
     }
 
-    private val movieAndActorsViewModel: MovieActorsSimilarsViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+
+        val movieAndActorsViewModel = ViewModelProvider(this)[MovieActorsSimilarsViewModel::class.java]
 
         bottomNavBarVisibilityListener = activity as? HomeFragment.BottomNavBarVisibilityListener
 
@@ -93,9 +93,9 @@ class DetailFragment : Fragment() {
                 picturesAdapter.submitData(PagingData.from(it))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-            movieAndActorsViewModel.getDescription(kinopoiskId)
-            movieAndActorsViewModel.getStaff(kinopoiskId)
-            movieAndActorsViewModel.getSimilars(kinopoiskId)
+            //movieAndActorsViewModel.getDescription(kinopoiskId)
+            //movieAndActorsViewModel.getStaff(kinopoiskId)
+            movieAndActorsViewModel.getAllDetails(kinopoiskId)
         } else {
             val picturesViewModel =
                 ViewModelProvider(
@@ -109,9 +109,9 @@ class DetailFragment : Fragment() {
                 picturesAdapter.submitData(PagingData.from(it))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-            movieAndActorsViewModel.getDescription(filmId)
-            movieAndActorsViewModel.getStaff(filmId)
-            movieAndActorsViewModel.getSimilars(filmId)
+            //movieAndActorsViewModel.getDescription(filmId)
+            //movieAndActorsViewModel.getStaff(filmId)
+            movieAndActorsViewModel.getAllDetails(filmId)
         }
 
         movieAndActorsViewModel.similars.onEach {
@@ -142,6 +142,11 @@ class DetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.movieDescription.collect { descriptionDto ->
+                    if (descriptionDto?.type == "TV_SERIES") {
+                        binding.seriesText.visibility = View.VISIBLE
+                        binding.seasonsCount.visibility = View.VISIBLE
+                        binding.seriesAll.visibility = View.VISIBLE
+                    }
                     binding.shortDescription.text = descriptionDto?.shortDescription
                     binding.description.text = descriptionDto?.description
                     binding.nameEnglish.text =
@@ -165,6 +170,20 @@ class DetailFragment : Fragment() {
                     } ?: ""
                     binding.time.text = "${descriptionDto?.filmLength ?: ""} мин"
                     binding.movieImage.load(descriptionDto?.posterUrl)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                movieAndActorsViewModel.series.collect {
+
+                    val episodeCount = it.sumOf {
+                        it.episodes.size
+                    }
+
+                    binding.seasonsCount.text =
+                        "Сезонов: ${it?.size}, Серий: $episodeCount"
                 }
             }
         }

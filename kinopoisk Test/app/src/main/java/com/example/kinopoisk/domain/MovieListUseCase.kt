@@ -3,8 +3,10 @@ package com.example.kinopoisk.domain
 import com.example.kinopoisk.data.MovieDescriptionDto
 import com.example.kinopoisk.data.MovieListRepository
 import com.example.kinopoisk.data.PersonDto
+import com.example.kinopoisk.data.SeriesDto
 import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
+import com.example.kinopoisk.entity.Season
 import com.example.kinopoisk.entity.StaffItem
 
 class MovieListUseCase {
@@ -44,5 +46,9 @@ class MovieListUseCase {
 
     suspend fun executePerson(id: Int): PersonDto {
         return movieListRepository.getPerson(id)
+    }
+
+    suspend fun executeSereies(id: Int): List<Season> {
+        return movieListRepository.getSeries(id)
     }
 }

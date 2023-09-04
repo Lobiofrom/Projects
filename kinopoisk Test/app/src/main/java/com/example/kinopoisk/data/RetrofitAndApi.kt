@@ -95,5 +95,11 @@ class RetrofitAndApi {
         suspend fun getPersonDetails(
             @Path("id") id: Int?
         ): PersonDto
+
+        @Headers("X-API-KEY: $API_KEY")
+        @GET("/api/v2.2/films/{id}/seasons")
+        suspend fun getSeries(
+            @Path("id") id: Int
+        ): SeriesDto
     }
 }

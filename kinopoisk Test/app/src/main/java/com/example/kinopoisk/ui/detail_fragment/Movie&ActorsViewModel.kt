@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kinopoisk.data.State
 import com.example.kinopoisk.domain.MovieListUseCase
 import com.example.kinopoisk.entity.Movie
+import com.example.kinopoisk.entity.Season
 import com.example.kinopoisk.entity.StaffItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,24 +29,21 @@ class MovieActorsSimilarsViewModel : ViewModel() {
     private val _similars = MutableStateFlow<List<Movie>>(emptyList())
     val similars = _similars.asStateFlow()
 
-    fun getSimilars(movieId: Int) {
+    private val _series = MutableStateFlow<List<Season>>(emptyList())
+    val series = _series.asStateFlow()
+
+    fun getAllDetails(movieId: Int) {
         viewModelScope.launch {
             _state.value = State.Loading
             try {
                 val similars = useCase.executeSimilars(movieId)
                 _similars.value = similars
-            } catch (e: Exception) {
-                _state.value = State.Error
-            }
-        }
-    }
-
-    fun getDescription(id: Int) {
-        viewModelScope.launch {
-            _state.value = State.Loading
-            try {
-                val description = useCase.executeMovieDescription(id)
+                val description = useCase.executeMovieDescription(movieId)
                 _movieDescription.value = description
+                val staffList = useCase.executeStaff(movieId)
+                _staffList.value = staffList
+                val series = useCase.executeSereies(movieId)
+                _series.value = series
                 _state.value = State.Success
             } catch (e: Exception) {
                 _state.value = State.Error
@@ -53,16 +51,29 @@ class MovieActorsSimilarsViewModel : ViewModel() {
         }
     }
 
-    fun getStaff(filmId: Int) {
-        viewModelScope.launch {
-            _state.value = State.Loading
-            try {
-                val staffList = useCase.executeStaff(filmId)
-                _staffList.value = staffList
-                _state.value = State.Success
-            } catch (e: Exception) {
-                _state.value = State.Error
-            }
-        }
-    }
+//    fun getDescription(id: Int) {
+//        viewModelScope.launch {
+//            _state.value = State.Loading
+//            try {
+//                val description = useCase.executeMovieDescription(id)
+//                _movieDescription.value = description
+//                _state.value = State.Success
+//            } catch (e: Exception) {
+//                _state.value = State.Error
+//            }
+//        }
+//    }
+//
+//    fun getStaff(filmId: Int) {
+//        viewModelScope.launch {
+//            _state.value = State.Loading
+//            try {
+//                val staffList = useCase.executeStaff(filmId)
+//                _staffList.value = staffList
+//                _state.value = State.Success
+//            } catch (e: Exception) {
+//                _state.value = State.Error
+//            }
+//        }
+//    }
 }

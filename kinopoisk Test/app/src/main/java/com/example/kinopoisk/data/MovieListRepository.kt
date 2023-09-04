@@ -2,6 +2,7 @@ package com.example.kinopoisk.data
 
 import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
+import com.example.kinopoisk.entity.Season
 import com.example.kinopoisk.entity.StaffItem
 
 class MovieListRepository {
@@ -39,5 +40,9 @@ class MovieListRepository {
 
     suspend fun getPerson(id: Int): PersonDto {
         return retrofitAndApi.api.getPersonDetails(id)
+    }
+
+    suspend fun getSeries(id: Int): List<Season> {
+        return retrofitAndApi.api.getSeries(id).items
     }
 }
