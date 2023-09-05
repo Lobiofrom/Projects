@@ -1,4 +1,4 @@
-package com.example.testhotels.entity
+package com.example.testhotels.entity.hotel
 
 interface Hotel {
     val about_the_hotel: AboutTheHotel

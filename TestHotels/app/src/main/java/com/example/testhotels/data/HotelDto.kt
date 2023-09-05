@@ -1,7 +1,7 @@
 package com.example.testhotels.data
 
-import com.example.testhotels.entity.AboutTheHotel
-import com.example.testhotels.entity.Hotel
+import com.example.testhotels.entity.hotel.AboutTheHotel
+import com.example.testhotels.entity.hotel.Hotel
 
 class HotelDto(
     override val about_the_hotel: AboutTheHotel,

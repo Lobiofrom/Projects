@@ -9,5 +9,18 @@
         android:id="@+id/hotelFragment"
         android:name="com.example.testhotels.ui.HotelFragment"
         android:label="fragment_hotel"
-        tools:layout="@layout/fragment_hotel" />
+        tools:layout="@layout/fragment_hotel" >
+        <action
+            android:id="@+id/action_hotelFragment_to_roomFragment"
+            app:destination="@id/roomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomFragment"
+        android:name="com.example.testhotels.ui.RoomFragment"
+        android:label="fragment_room"
+        tools:layout="@layout/fragment_room" >
+        <action
+            android:id="@+id/action_roomFragment_to_hotelFragment"
+            app:destination="@id/hotelFragment" />
+    </fragment>
 </navigation>

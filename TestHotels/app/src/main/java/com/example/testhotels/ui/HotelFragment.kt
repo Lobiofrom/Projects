@@ -9,9 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import coil.load
+import androidx.navigation.fragment.findNavController
+import com.example.testhotels.R
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentHotelBinding
+import com.example.testhotels.ui.adapters.FeaturesAdapter
+import com.example.testhotels.ui.adapters.ViewPagerAdapter
+import com.example.testhotels.ui.viewmodel.MyViewModel
 import kotlinx.coroutines.launch
 
 class HotelFragment : Fragment() {
@@ -26,11 +30,31 @@ class HotelFragment : Fragment() {
     ): View {
         _binding = FragmentHotelBinding.inflate(inflater, container, false)
 
+        viewModel.getHotel()
+
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.hotel.collect {
-                    binding.image.load(it?.image_urls?.get(0))
-                    binding.textView.text = it?.about_the_hotel?.description
+                viewModel.hotel.collect { hotel ->
+                    if (hotel != null) {
+                        binding.viewpager2.adapter = ViewPagerAdapter(
+                            hotel.image_urls
+                        )
+                        binding.indicator.setViewPager(binding.viewpager2)
+                        binding.recyclerPeculiarities.adapter =
+                            FeaturesAdapter(hotel.about_the_hotel.peculiarities)
+                    }
+                    binding.hotelName.text = hotel?.name
+                    binding.hotelAddress.text = hotel?.adress
+                    binding.price.text = "от ${hotel?.minimal_price?.toString() ?: ""} P"
+                    binding.zaTyp.text = hotel?.price_for_it
+                    binding.description.text = hotel?.about_the_hotel?.description
+
+                    binding.button.setOnClickListener {
+                        val bundle = Bundle()
+                        val hotelName = hotel?.name
+                        bundle.putString("hotelName", hotelName)
+                        findNavController().navigate(R.id.roomFragment, bundle)
+                    }
                 }
             }
         }

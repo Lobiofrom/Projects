@@ -2,6 +2,7 @@ package com.example.testhotels.domain
 
 import com.example.testhotels.data.HotelDto
 import com.example.testhotels.data.Repository
+import com.example.testhotels.entity.room.Room
 
 class UseCase {
 
@@ -9,5 +10,9 @@ class UseCase {
 
     suspend fun executeHotel(): HotelDto {
         return repository.getHotel()
+    }
+
+    suspend fun executeRooms(): List<Room> {
+        return repository.getRooms()
     }
 }

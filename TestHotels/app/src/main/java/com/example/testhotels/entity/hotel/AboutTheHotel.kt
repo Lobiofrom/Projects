@@ -1,4 +1,4 @@
-package com.example.testhotels.entity
+package com.example.testhotels.entity.hotel
 
 data class AboutTheHotel(
     val description: String,
