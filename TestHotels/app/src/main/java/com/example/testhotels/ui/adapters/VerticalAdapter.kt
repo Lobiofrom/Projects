@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testhotels.R
 import com.example.testhotels.databinding.ItemRoomBinding
 import com.example.testhotels.entity.room.Room
-import com.example.testhotels.ui.RoomFragment
+import com.example.testhotels.ui.fragments.RoomFragment
 
 class VerticalAdapter(
     private val fragment: RoomFragment

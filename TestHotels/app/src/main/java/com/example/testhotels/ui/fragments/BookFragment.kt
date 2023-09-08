@@ -1,11 +1,11 @@
-package com.example.testhotels.ui
+package com.example.testhotels.ui.fragments
 
 import android.os.Bundle
-import android.text.Layout
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -17,8 +17,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.testhotels.R
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentBookBinding
+import com.example.testhotels.entity.passenger.Passenger
+import com.example.testhotels.ui.adapters.PassengerAdapter
 import com.example.testhotels.ui.viewmodel.MyViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class BookFragment : Fragment() {
@@ -27,6 +28,15 @@ class BookFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MyViewModel by viewModels()
+
+    private var isEmailValid = false
+    private var isPhoneValid = false
+
+    private var touristCount = 0
+
+    private val passengerList = mutableListOf(addPassenger())
+
+    private val adapter = PassengerAdapter(passengerList)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +52,6 @@ class BookFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.button.isEnabled = false
-
         viewModel.getBooking()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -55,7 +63,7 @@ class BookFragment : Fragment() {
                     binding.viletIz.text = it?.departure
                     binding.country.text = it?.arrival_country
                     binding.date.text = "${it?.tour_date_start ?: ""} - ${it?.tour_date_stop ?: ""}"
-                    binding.nightCount.text = if (it == null) "" else it.number_of_nights.toString()
+                    binding.nightCount.text = it?.number_of_nights?.toString() ?: ""
                     binding.palceName.text = it?.hotel_name
                     binding.roomType.text = it?.room
                     binding.food.text = it?.nutrition
@@ -74,39 +82,30 @@ class BookFragment : Fragment() {
             }
         }
 
-        binding.dropdownMenu2.setOnClickListener {
-            if (binding.customLayout2.customLayout.visibility == View.GONE) {
-                binding.customLayout2.customLayout.visibility = View.VISIBLE
-                binding.dropdownMenu2.setImageResource(R.drawable.img_5)
-            } else {
-                binding.customLayout2.customLayout.visibility = View.GONE
-                binding.dropdownMenu2.setImageResource(R.drawable.img_6)
-            }
+        binding.testRecycler.adapter = adapter
+
+        binding.addTouristButton.setOnClickListener {
+            adapter.addItem(addPassenger())
         }
 
+
         binding.email.doOnTextChanged { text, _, _, _ ->
+            isEmailValid = validateEmail(text)
             if (validateEmail(text)) {
                 binding.TextInputLayout2.isErrorEnabled = false
-                binding.button.isEnabled = true
             } else {
                 binding.TextInputLayout2.error = "некорректный адрес"
                 binding.TextInputLayout2.isErrorEnabled = true
-                binding.button.isEnabled = false
             }
         }
         binding.telNumber.doOnTextChanged { text, _, _, _ ->
+            isPhoneValid = !text.isNullOrEmpty() && text.length == 10
             if (text.isNullOrEmpty() || text.length != 10) {
                 binding.TextInputLayout1.error = "некорректный номер"
                 binding.TextInputLayout1.isErrorEnabled = true
-                binding.button.isEnabled = false
             } else {
-                binding.button.isEnabled = true
                 binding.TextInputLayout1.isErrorEnabled = false
             }
-        }
-
-        binding.dropdownMenu3.setOnClickListener {
-
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -121,7 +120,36 @@ class BookFragment : Fragment() {
             }
         }
 
+        binding.button.setOnClickListener {
+            val isPassengersValid = adapter.isAllValid
+            val isDataValidForNewPassenger = adapter.passengerStatesList
+                .filterIndexed { index, _ ->
+                    index >= adapter.passengerList.size - 1
+                }
+                .all { it.isAllValid() }
+
+            if (isPhoneValid && isEmailValid && isPassengersValid && isDataValidForNewPassenger) {
+                findNavController().navigate(R.id.overFragment)
+            } else {
+                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_LONG).show()
+            }
+        }
+
         return binding.root
+    }
+
+    private fun addPassenger(): Passenger {
+        touristCount++
+        return Passenger(
+            text = "Турист",
+            tourist_count = touristCount,
+            name = null,
+            surname = null,
+            birthdate = null,
+            nationality = null,
+            passportN = null,
+            passportTime = null
+        )
     }
 
     private fun validateEmail(email: CharSequence?): Boolean {

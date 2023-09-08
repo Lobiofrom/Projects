@@ -1,9 +1,10 @@
-package com.example.testhotels.test
+package com.example.testhotels.entity.passenger
 
 import android.text.Editable
 
-data class Item(
+data class Passenger(
     val text: String,
+    val tourist_count: Int,
     val name: Editable?,
     val surname: Editable?,
     val birthdate: Editable?,

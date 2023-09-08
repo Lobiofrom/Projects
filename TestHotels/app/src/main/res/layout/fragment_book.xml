@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BookFragment">
+    tools:context=".ui.fragments.BookFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -279,10 +279,10 @@
                 android:background="@drawable/background_input"
                 android:hint="номер телефона"
                 app:boxBackgroundColor="#F6F6F9"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:counterEnabled="true"
                 app:counterMaxLength="10"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/client_info"
                 app:prefixText="+7">
@@ -334,102 +334,40 @@
 
                 />
 
-            <LinearLayout
-                android:id="@+id/spinnerLayout"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/test_recycler"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/disclaimer"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_passenger" />
+
+
+            <TextView
+                android:id="@+id/add_tourist"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/disclaimer">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:fontFamily="@font/sfpro"
+                android:text="Добавить туриста"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_recycler" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/sfpro"
-                        android:text="Первый турист"
-                        android:textSize="22sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/dropdown_menu"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginEnd="16dp"
-                        android:clickable="true"
-                        android:src="@drawable/img_5"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <include
-                    android:id="@+id/custom_layout1"
-                    layout="@layout/custom_viewgroup" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/sfpro"
-                        android:text="Второй турист"
-                        android:textSize="22sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/dropdown_menu2"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginEnd="16dp"
-                        android:clickable="true"
-                        android:src="@drawable/img_6"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <include
-                    android:id="@+id/custom_layout2"
-                    layout="@layout/custom_viewgroup"
-                    android:visibility="gone" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/sfpro"
-                        android:text="Добавить туриста"
-                        android:textSize="22sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/dropdown_menu3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginEnd="16dp"
-                        android:clickable="true"
-                        android:src="@drawable/img_7"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/add_tourist_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:src="@drawable/img_7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_recycler" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -441,7 +379,7 @@
                 android:textColor="#828796"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/add_tourist" />
 
             <TextView
                 android:id="@+id/tour_price"
@@ -453,7 +391,7 @@
                 android:text="186000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/add_tourist" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -536,6 +474,7 @@
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="36dp"
+                android:fontFamily="@font/sfpro"
                 android:backgroundTint="#0D72FF"
                 android:text="оплатить 200000"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -557,7 +496,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

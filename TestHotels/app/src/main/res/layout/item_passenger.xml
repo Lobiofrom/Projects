@@ -12,9 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/sfpro"
-        android:text="Первый турист"
+        android:text="Турист"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tourist_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/sfpro"
+        android:text="0"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
