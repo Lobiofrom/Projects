@@ -2,6 +2,7 @@ package com.example.testhotels.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testhotels.data.BookingDto
 import com.example.testhotels.data.HotelDto
 import com.example.testhotels.data.State
 import com.example.testhotels.domain.UseCase
@@ -23,6 +24,9 @@ class MyViewModel : ViewModel() {
     private var _rooms = MutableStateFlow<List<Room>>(emptyList())
     val rooms = _rooms.asStateFlow()
 
+    private var _booking = MutableStateFlow<BookingDto?>(null)
+    val booking = _booking.asStateFlow()
+
     fun getHotel() {
         viewModelScope.launch {
             _state.value = State.Loading
@@ -42,6 +46,19 @@ class MyViewModel : ViewModel() {
             try {
                 val  rooms = useCase.executeRooms()
                 _rooms.value = rooms
+                _state.value = State.Success
+            } catch (e: Exception) {
+                _state.value = State.Error
+            }
+        }
+    }
+
+    fun getBooking() {
+        viewModelScope.launch {
+            _state.value = State.Loading
+            try {
+                val  booking = useCase.executeBooking()
+                _booking.value = booking
                 _state.value = State.Success
             } catch (e: Exception) {
                 _state.value = State.Error

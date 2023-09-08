@@ -12,4 +12,8 @@ class Repository {
     suspend fun getRooms(): List<Room> {
         return retrofitAndApi.api.getRooms().rooms
     }
+
+    suspend fun getBooking(): BookingDto {
+        return retrofitAndApi.api.getBooking()
+    }
 }

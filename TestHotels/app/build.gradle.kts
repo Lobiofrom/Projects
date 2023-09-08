@@ -77,4 +77,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    //Phone number
+    implementation (libs.libphonenumber)
+    implementation (libs.maskededittext)
+
 }

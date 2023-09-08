@@ -85,7 +85,6 @@
                 android:background="@drawable/rounded_background"
                 android:fontFamily="@font/sfpro"
                 android:gravity="center"
-                android:text="5 превосходно"
                 android:textColor="#FFA800"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -22,5 +22,22 @@
         <action
             android:id="@+id/action_roomFragment_to_hotelFragment"
             app:destination="@id/hotelFragment" />
+        <action
+            android:id="@+id/action_roomFragment_to_bookFragment"
+            app:destination="@id/bookFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.example.testhotels.ui.BookFragment"
+        android:label="fragment_book"
+        tools:layout="@layout/fragment_book" >
+        <action
+            android:id="@+id/action_bookFragment_to_roomFragment"
+            app:destination="@id/roomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.example.testhotels.test.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>

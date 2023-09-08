@@ -2,13 +2,15 @@ package com.example.testhotels.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testhotels.R
 import com.example.testhotels.databinding.ItemRoomBinding
 import com.example.testhotels.entity.room.Room
 import com.example.testhotels.ui.RoomFragment
 
 class VerticalAdapter(
-    //private val fragment: RoomFragment
+    private val fragment: RoomFragment
 ) :
     RecyclerView.Adapter<VerticalViewHolder>() {
 
@@ -39,9 +41,11 @@ class VerticalAdapter(
         holder.binding.roomName.text = roomList[position].name
         holder.binding.price.text = "${roomList[position].price} P"
         holder.binding.zaTyp.text = roomList[position].price_per
+        holder.binding.button.setOnClickListener {
+            fragment.findNavController().navigate(R.id.bookFragment)
+        }
 
     }
-
 
     override fun getItemCount(): Int = roomList.size
 }

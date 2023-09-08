@@ -48,6 +48,7 @@ class HotelFragment : Fragment() {
                     binding.price.text = "от ${hotel?.minimal_price?.toString() ?: ""} P"
                     binding.zaTyp.text = hotel?.price_for_it
                     binding.description.text = hotel?.about_the_hotel?.description
+                    binding.textPrevoshodno.text = "${hotel?.rating ?: ""} ${hotel?.rating_name ?: ""}"
 
                     binding.button.setOnClickListener {
                         val bundle = Bundle()
