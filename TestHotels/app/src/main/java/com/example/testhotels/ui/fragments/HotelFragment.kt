@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.testhotels.App
 import com.example.testhotels.R
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentHotelBinding
@@ -23,7 +24,12 @@ class HotelFragment : Fragment() {
     private var _binding: FragmentHotelBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MyViewModel by activityViewModels()
+    private val appComponent = App().appComponent
+
+    private val viewModel: MyViewModel by viewModels {
+        appComponent
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +54,8 @@ class HotelFragment : Fragment() {
                     binding.price.text = "от ${hotel?.minimal_price?.toString() ?: ""} P"
                     binding.zaTyp.text = hotel?.price_for_it
                     binding.description.text = hotel?.about_the_hotel?.description
-                    binding.textPrevoshodno.text = "${hotel?.rating ?: ""} ${hotel?.rating_name ?: ""}"
+                    binding.textPrevoshodno.text =
+                        "${hotel?.rating ?: ""} ${hotel?.rating_name ?: ""}"
 
                     binding.button.setOnClickListener {
                         val bundle = Bundle()

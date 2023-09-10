@@ -1,6 +1,7 @@
 package com.example.testhotels.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.testhotels.data.BookingDto
 import com.example.testhotels.data.HotelDto
@@ -10,10 +11,10 @@ import com.example.testhotels.entity.room.Room
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-class MyViewModel : ViewModel() {
-    private val useCase = UseCase()
+class MyViewModel(
+    private val useCase: UseCase
+) : ViewModel() {
 
     private var _state = MutableStateFlow<State>(State.Success)
     val state = _state.asStateFlow()
@@ -44,7 +45,7 @@ class MyViewModel : ViewModel() {
         viewModelScope.launch {
             _state.value = State.Loading
             try {
-                val  rooms = useCase.executeRooms()
+                val rooms = useCase.executeRooms()
                 _rooms.value = rooms
                 _state.value = State.Success
             } catch (e: Exception) {
@@ -57,12 +58,20 @@ class MyViewModel : ViewModel() {
         viewModelScope.launch {
             _state.value = State.Loading
             try {
-                val  booking = useCase.executeBooking()
+                val booking = useCase.executeBooking()
                 _booking.value = booking
                 _state.value = State.Success
             } catch (e: Exception) {
                 _state.value = State.Error
             }
         }
+    }
+}
+
+class MyViewModelFactory(
+    private val viewModel: MyViewModel
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return viewModel as T
     }
 }

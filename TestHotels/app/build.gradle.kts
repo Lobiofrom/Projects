@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
-    alias(libs.plugins.daggerHilt)
+    //alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -69,8 +69,8 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
 
     //Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    //implementation(libs.hilt.android)
+    //kapt(libs.hilt.android.compiler)
 
     //LifeCycle&Navi
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -81,5 +81,9 @@ dependencies {
     //Phone number
     implementation (libs.libphonenumber)
     implementation (libs.maskededittext)
+
+    //Dagger
+    implementation (libs.dagger)
+    kapt (libs.dagger.compiler)
 
 }

@@ -4,6 +4,7 @@ androidx-lifecycle-livedata-ktx = "2.6.1"
 androidx-navigation-fragment-ktx = "2.7.1"
 circleindicator = "2.1.6"
 coil = "2.4.0"
+dagger = "2.46.1"
 hilt = "2.44"
 hilt-android = "2.44"
 kotlin = "1.9.0"
@@ -32,6 +33,8 @@ circleindicator = { module = "me.relex:circleindicator", version.ref = "circlein
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

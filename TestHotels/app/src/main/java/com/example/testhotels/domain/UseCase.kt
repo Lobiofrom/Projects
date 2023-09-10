@@ -5,10 +5,9 @@ import com.example.testhotels.data.HotelDto
 import com.example.testhotels.data.Repository
 import com.example.testhotels.entity.room.Room
 
-class UseCase {
-
-    private val repository = Repository()
-
+class UseCase(
+    private val repository: Repository
+) {
     suspend fun executeHotel(): HotelDto {
         return repository.getHotel()
     }

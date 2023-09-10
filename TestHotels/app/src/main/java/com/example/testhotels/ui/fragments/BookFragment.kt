@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.testhotels.App
 import com.example.testhotels.R
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentBookBinding
@@ -27,7 +28,11 @@ class BookFragment : Fragment() {
     private var _binding: FragmentBookBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MyViewModel by viewModels()
+    private val appComponent = App().appComponent
+
+    private val viewModel: MyViewModel by viewModels {
+        appComponent
+    }
 
     private var isEmailValid = false
     private var isPhoneValid = false
