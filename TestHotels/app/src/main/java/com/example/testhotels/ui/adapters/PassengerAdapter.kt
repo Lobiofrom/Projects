@@ -45,7 +45,7 @@ class PassengerAdapter(
         val passengerStates = passengerStatesList[position]
 
         holder.binding.text.text = currentItem.text
-        holder.binding.touristCount.text = currentItem.tourist_count.toString()
+        holder.binding.touristCount.text = currentItem.touristCount.toString()
         holder.binding.name.text = currentItem.name
         holder.binding.surname.text = currentItem.surname
         holder.binding.birthdate.text = currentItem.birthdate
@@ -139,6 +139,8 @@ class PassengerAdapter(
         }
     }
 
+    override fun getItemCount() = passengerList.size
+
     fun highlightEmptyFields(recyclerView: RecyclerView) {
         passengerStatesList.forEachIndexed { index, passengerStates ->
             if (!passengerStates.isAllValid()) {
@@ -147,54 +149,36 @@ class PassengerAdapter(
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
                 holder?.binding?.surname?.let { editText ->
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
                 holder?.binding?.nationality?.let { editText ->
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
                 holder?.binding?.passportTime?.let { editText ->
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
                 holder?.binding?.passportN?.let { editText ->
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
                 holder?.binding?.birthdate?.let { editText ->
                     if (editText.text.isNullOrEmpty()) {
                         editText.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    } else {
-                        editText.backgroundTintList = null
-
                     }
                 }
             }
@@ -205,9 +189,6 @@ class PassengerAdapter(
     private fun updateIsAllValid() {
         isAllValid = passengerStatesList.all { it.isAllValid() }
     }
-
-    override fun getItemCount() = passengerList.size
-
 }
 
 class PassengerStates(

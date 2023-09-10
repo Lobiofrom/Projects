@@ -4,7 +4,7 @@ import android.text.Editable
 
 data class Passenger(
     val text: String,
-    val tourist_count: Int,
+    val touristCount: Int,
     val name: Editable?,
     val surname: Editable?,
     val birthdate: Editable?,

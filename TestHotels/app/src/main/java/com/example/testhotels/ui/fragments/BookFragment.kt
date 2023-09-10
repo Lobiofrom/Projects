@@ -174,7 +174,7 @@ class BookFragment : Fragment() {
         touristCount++
         return Passenger(
             text = "Турист",
-            tourist_count = touristCount,
+            touristCount = touristCount,
             name = null,
             surname = null,
             birthdate = null,
