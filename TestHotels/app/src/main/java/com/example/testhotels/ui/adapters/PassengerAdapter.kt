@@ -141,7 +141,7 @@ class PassengerAdapter(
 
     override fun getItemCount() = passengerList.size
 
-    fun highlightEmptyFields(recyclerView: RecyclerView) {
+    fun paintRedEmptyFields(recyclerView: RecyclerView) {
         passengerStatesList.forEachIndexed { index, passengerStates ->
             if (!passengerStates.isAllValid()) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(index) as MyViewHolder?

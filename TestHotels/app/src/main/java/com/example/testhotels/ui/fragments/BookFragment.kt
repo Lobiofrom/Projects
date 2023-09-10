@@ -156,9 +156,11 @@ class BookFragment : Fragment() {
                 .filterIndexed { index, _ ->
                     index >= adapter.passengerList.size - 1
                 }
-                .all { it.isAllValid() }
+                .all {
+                    it.isAllValid()
+                }
 
-            adapter.highlightEmptyFields(binding.testRecycler)
+            adapter.paintRedEmptyFields(binding.testRecycler)
 
             if (isPhoneValid && isEmailValid && isPassengersValid && isDataValidForNewPassenger) {
                 findNavController().navigate(R.id.overFragment)
