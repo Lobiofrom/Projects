@@ -163,7 +163,7 @@ class BookFragment : Fragment() {
             if (isPhoneValid && isEmailValid && isPassengersValid && isDataValidForNewPassenger) {
                 findNavController().navigate(R.id.overFragment)
             } else {
-                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_SHORT).show()
             }
         }
 
