@@ -87,7 +87,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
-            <com.google.android.material.textfield.TextInputEditText
+            birthdate<com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
-            <com.google.android.material.textfield.TextInputEditText
+            nationality<com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/birthdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

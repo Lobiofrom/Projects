@@ -1,5 +1,7 @@
 package com.example.testhotels.ui.adapters
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +72,7 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout1.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout1.isErrorEnabled = false
+                holder.binding.name.backgroundTintList = null
             }
         }
 
@@ -82,6 +85,7 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout2.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout2.isErrorEnabled = false
+                holder.binding.surname.backgroundTintList = null
             }
         }
 
@@ -94,6 +98,7 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout3.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout3.isErrorEnabled = false
+                holder.binding.birthdate.backgroundTintList = null
             }
         }
         holder.binding.nationality.doOnTextChanged { text, _, _, _ ->
@@ -105,6 +110,7 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout4.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout4.isErrorEnabled = false
+                holder.binding.nationality.backgroundTintList = null
             }
         }
         holder.binding.passportN.doOnTextChanged { text, _, _, _ ->
@@ -116,6 +122,7 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout5.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout5.isErrorEnabled = false
+                holder.binding.passportN.backgroundTintList = null
             }
         }
         holder.binding.passportTime.doOnTextChanged { text, _, _, _ ->
@@ -127,9 +134,71 @@ class PassengerAdapter(
                 holder.binding.customtextInputLayout6.error = "заполните поле"
             } else {
                 holder.binding.customtextInputLayout6.isErrorEnabled = false
+                holder.binding.passportTime.backgroundTintList = null
             }
         }
+    }
 
+    fun highlightEmptyFields(recyclerView: RecyclerView) {
+        passengerStatesList.forEachIndexed { index, passengerStates ->
+            if (!passengerStates.isAllValid()) {
+                val holder = recyclerView.findViewHolderForAdapterPosition(index) as MyViewHolder?
+                holder?.binding?.name?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+                holder?.binding?.surname?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+                holder?.binding?.nationality?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+                holder?.binding?.passportTime?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+                holder?.binding?.passportN?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+                holder?.binding?.birthdate?.let { editText ->
+                    if (editText.text.isNullOrEmpty()) {
+                        editText.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
+                    } else {
+                        editText.backgroundTintList = null
+
+                    }
+                }
+            }
+        }
     }
 
 

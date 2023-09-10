@@ -1,5 +1,7 @@
 package com.example.testhotels.ui.fragments
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -98,6 +100,8 @@ class BookFragment : Fragment() {
             isEmailValid = validateEmail(text)
             if (validateEmail(text)) {
                 binding.TextInputLayout2.isErrorEnabled = false
+                binding.email.backgroundTintList = null
+
             } else {
                 binding.TextInputLayout2.error = "некорректный адрес"
                 binding.TextInputLayout2.isErrorEnabled = true
@@ -109,6 +113,7 @@ class BookFragment : Fragment() {
                 binding.TextInputLayout1.error = "некорректный номер"
                 binding.TextInputLayout1.isErrorEnabled = true
             } else {
+                binding.telNumber.backgroundTintList = null
                 binding.TextInputLayout1.isErrorEnabled = false
             }
         }
@@ -126,12 +131,34 @@ class BookFragment : Fragment() {
         }
 
         binding.button.setOnClickListener {
+            val isEmailValid = validateEmail(binding.email.text)
+            val isPhoneValid =
+                !binding.telNumber.text.isNullOrEmpty() && binding.telNumber.text!!.length == 10
+
+            if (!isEmailValid) {
+                binding.email.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EB5757"))
+            } else {
+                binding.TextInputLayout2.isErrorEnabled = false
+                binding.email.backgroundTintList = null
+            }
+
+            if (!isPhoneValid) {
+                binding.telNumber.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EB5757"))
+            } else {
+                binding.TextInputLayout1.isErrorEnabled = false
+                binding.telNumber.backgroundTintList = null
+            }
+
             val isPassengersValid = adapter.isAllValid
             val isDataValidForNewPassenger = adapter.passengerStatesList
                 .filterIndexed { index, _ ->
                     index >= adapter.passengerList.size - 1
                 }
                 .all { it.isAllValid() }
+
+            adapter.highlightEmptyFields(binding.testRecycler)
 
             if (isPhoneValid && isEmailValid && isPassengersValid && isDataValidForNewPassenger) {
                 findNavController().navigate(R.id.overFragment)
