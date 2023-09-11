@@ -50,30 +50,4 @@ class MovieActorsSimilarsViewModel : ViewModel() {
             }
         }
     }
-
-//    fun getDescription(id: Int) {
-//        viewModelScope.launch {
-//            _state.value = State.Loading
-//            try {
-//                val description = useCase.executeMovieDescription(id)
-//                _movieDescription.value = description
-//                _state.value = State.Success
-//            } catch (e: Exception) {
-//                _state.value = State.Error
-//            }
-//        }
-//    }
-//
-//    fun getStaff(filmId: Int) {
-//        viewModelScope.launch {
-//            _state.value = State.Loading
-//            try {
-//                val staffList = useCase.executeStaff(filmId)
-//                _staffList.value = staffList
-//                _state.value = State.Success
-//            } catch (e: Exception) {
-//                _state.value = State.Error
-//            }
-//        }
-//    }
 }

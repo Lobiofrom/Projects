@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_detailFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_detailFragment_to_seriesFragment"
+            app:destination="@id/seriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/bigPictureFragment"
@@ -100,4 +103,9 @@
         android:name="com.example.kinopoisk.ui.actorFilmography.ActorFilmographyFragment"
         android:label="fragment_actor_filmography"
         tools:layout="@layout/fragment_actor_filmography" />
+    <fragment
+        android:id="@+id/seriesFragment"
+        android:name="com.example.kinopoisk.ui.seriesFragment.SeriesFragment"
+        android:label="fragment_series"
+        tools:layout="@layout/fragment_series" />
 </navigation>

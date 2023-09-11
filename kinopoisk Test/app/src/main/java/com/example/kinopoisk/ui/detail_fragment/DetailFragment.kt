@@ -1,6 +1,7 @@
 package com.example.kinopoisk.ui.detail_fragment
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,6 @@ import com.example.kinopoisk.ui.home.MovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonClick
 import com.example.kinopoisk.ui.onItemClick.onPictureClick
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -56,7 +56,8 @@ class DetailFragment : Fragment() {
 
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
 
-        val movieAndActorsViewModel = ViewModelProvider(this)[MovieActorsSimilarsViewModel::class.java]
+        val movieAndActorsViewModel =
+            ViewModelProvider(this)[MovieActorsSimilarsViewModel::class.java]
 
         bottomNavBarVisibilityListener = activity as? HomeFragment.BottomNavBarVisibilityListener
 
@@ -93,8 +94,6 @@ class DetailFragment : Fragment() {
                 picturesAdapter.submitData(PagingData.from(it))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-            //movieAndActorsViewModel.getDescription(kinopoiskId)
-            //movieAndActorsViewModel.getStaff(kinopoiskId)
             movieAndActorsViewModel.getAllDetails(kinopoiskId)
         } else {
             val picturesViewModel =
@@ -109,8 +108,6 @@ class DetailFragment : Fragment() {
                 picturesAdapter.submitData(PagingData.from(it))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-            //movieAndActorsViewModel.getDescription(filmId)
-            //movieAndActorsViewModel.getStaff(filmId)
             movieAndActorsViewModel.getAllDetails(filmId)
         }
 
@@ -139,9 +136,14 @@ class DetailFragment : Fragment() {
             }.size.toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        var nameOriginal: String? = null
+        var nameRu: String? = null
+        var nameEn: String? = null
+
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.movieDescription.collect { descriptionDto ->
+
                     if (descriptionDto?.type == "TV_SERIES") {
                         binding.seriesText.visibility = View.VISIBLE
                         binding.seasonsCount.visibility = View.VISIBLE
@@ -170,6 +172,11 @@ class DetailFragment : Fragment() {
                     } ?: ""
                     binding.time.text = "${descriptionDto?.filmLength ?: ""} мин"
                     binding.movieImage.load(descriptionDto?.posterUrl)
+
+                    nameOriginal = descriptionDto?.nameOriginal ?: ""
+                    nameEn = descriptionDto?.nameEn ?: ""
+                    nameRu = descriptionDto?.nameRu ?: ""
+
                 }
             }
         }
@@ -179,11 +186,24 @@ class DetailFragment : Fragment() {
                 movieAndActorsViewModel.series.collect {
 
                     val episodeCount = it.sumOf {
-                        it.episodes.size
+                        it.episodes!!.size
                     }
 
                     binding.seasonsCount.text =
-                        "Сезонов: ${it?.size}, Серий: $episodeCount"
+                        "Сезонов: ${it.size}, Серий: $episodeCount"
+
+                    val list = it
+
+                    binding.seriesAll.setOnClickListener {
+                        val bundle = Bundle()
+                        val seasonList = list as? ArrayList<out Parcelable>
+                        bundle.putParcelableArrayList("seasonList", seasonList)
+                        bundle.putString("nameEn", nameEn)
+                        bundle.putString("nameOriginal", nameOriginal)
+                        bundle.putString("nameRu", nameRu)
+
+                        findNavController().navigate(R.id.seriesFragment, bundle)
+                    }
                 }
             }
         }

@@ -31,6 +31,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_actorFragment_to_actorFilmographyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_actorFragment_to_navigation_home">
                               <value>
                                 <LayoutPositions />
@@ -217,6 +222,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="seriesFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1163" />
+                            <option name="y" value="105" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
