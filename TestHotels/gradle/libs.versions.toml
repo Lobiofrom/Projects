@@ -1,14 +1,12 @@
 [versions]
 agp = "8.3.0-alpha03"
-androidx-lifecycle-livedata-ktx = "2.6.1"
-androidx-navigation-fragment-ktx = "2.7.1"
+androidx-lifecycle-livedata-ktx = "2.6.2"
+androidx-navigation-fragment-ktx = "2.7.2"
 circleindicator = "2.1.6"
 coil = "2.4.0"
 dagger = "2.46.1"
-hilt = "2.44"
-hilt-android = "2.44"
 kotlin = "1.9.0"
-core-ktx = "1.10.1"
+core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
@@ -18,7 +16,7 @@ logging-interceptor = "4.9.1"
 maskededittext = "1.1.0"
 material = "1.9.0"
 constraintlayout = "2.1.4"
-paging-runtime = "3.2.0"
+paging-runtime = "3.2.1"
 retrofit = "2.9.0"
 viewpager2 = "1.0.0"
 
@@ -35,8 +33,6 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
@@ -51,7 +47,6 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 
 

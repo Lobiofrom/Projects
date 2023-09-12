@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
-    //alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -67,11 +66,7 @@ dependencies {
 
     //Paging
     implementation(libs.androidx.paging.runtime)
-
-    //Hilt
-    //implementation(libs.hilt.android)
-    //kapt(libs.hilt.android.compiler)
-
+    
     //LifeCycle&Navi
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

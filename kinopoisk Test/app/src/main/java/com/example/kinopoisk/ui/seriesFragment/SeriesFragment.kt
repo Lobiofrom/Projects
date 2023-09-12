@@ -65,7 +65,6 @@ class SeriesFragment : Fragment() {
 
         binding.episodesCount.text = "Сезонов: ${seasonList.size}, Серий: $episodeCount"
 
-
         return binding.root
     }
 
