@@ -66,7 +66,7 @@ dependencies {
 
     //Paging
     implementation(libs.androidx.paging.runtime)
-    
+
     //LifeCycle&Navi
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
