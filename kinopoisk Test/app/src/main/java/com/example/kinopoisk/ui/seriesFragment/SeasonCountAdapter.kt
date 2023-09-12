@@ -41,13 +41,8 @@ class SeasonCountAdapter(
 
         holder.binding.chip.text = (item.number + 1 - seasonList[0].number).toString()
 
-
         holder.binding.chip.setOnClickListener {
-//            if (seasonNumber != selectedSeasonNumber) {
-//                selectedSeasonNumber = seasonNumber
-//                notifyDataSetChanged()
-                seasonClickListener?.onSeasonClicked(item.number, item.episodes!!)
-            //}
+            seasonClickListener?.onSeasonClicked(item.number, item.episodes!!)
         }
     }
 
