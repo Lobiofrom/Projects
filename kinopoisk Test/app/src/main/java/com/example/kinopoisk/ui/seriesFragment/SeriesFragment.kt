@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kinopoisk.databinding.FragmentSeriesBinding
+import com.example.kinopoisk.entity.Episode
 import com.example.kinopoisk.entity.Season
 
 class SeriesFragment : Fragment() {
@@ -42,12 +43,21 @@ class SeriesFragment : Fragment() {
         }
 
         val adapter = SeasonCountAdapter(seasonList!!)
-
-        val adapterEpisode = EpisodesAdapter(seasonList.get(0).episodes!!)
-
         binding.seasonsCountRecycler.adapter = adapter
 
-        binding.episodesRecycler.adapter = adapterEpisode
+        val episodesAdapter = EpisodesAdapter(seasonList.get(0).episodes!!)
+        binding.episodesRecycler.adapter = episodesAdapter
+        adapter.selectedSeasonNumber = seasonList[0].number
+
+        adapter.setSeasonClickListener(object : SeasonCountAdapter.SeasonClickListener {
+            override fun onSeasonClicked(seasonNumber: Int, episodes: List<Episode>) {
+                val adapterEpisode = EpisodesAdapter(episodes)
+                binding.episodesRecycler.adapter = adapterEpisode
+
+                adapter.selectedSeasonNumber = seasonNumber
+                adapter.notifyDataSetChanged()
+            }
+        })
 
         val episodeCount = seasonList.sumOf {
             it.episodes!!.size
