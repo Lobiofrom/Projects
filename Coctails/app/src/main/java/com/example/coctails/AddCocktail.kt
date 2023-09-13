@@ -1,15 +1,12 @@
 package com.example.coctails
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -38,21 +35,11 @@ import com.example.coctails.entity.Ingredient
 import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
-fun AddCocktail(onIconClicked: () -> Unit) {
+fun AddCocktail(
+    onIconClicked: () -> Unit
+) {
     Column {
-        Row(
-            modifier = Modifier
-                .padding(start = 16.dp, top = 16.dp)
-        ) {
-            IconButton(
-                onClick = onIconClicked,
-                modifier = Modifier
-                    .paint(painterResource(id = R.drawable.img_4))
-                    .size(23.dp)
-            ) {
-            }
-            Text(text = "Back")
-        }
+        Back(onIconClicked)
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -192,25 +179,6 @@ fun AddCocktail(onIconClicked: () -> Unit) {
                 Text(text = "Cancel")
             }
         }
-    }
-}
-
-@Composable
-fun OutlinedTextFieldBackground(
-    color: Color,
-    content: @Composable () -> Unit
-) {
-    Box {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(top = 8.dp)
-                .background(
-                    color,
-                    shape = RoundedCornerShape(4.dp)
-                )
-        )
-        content()
     }
 }
 
