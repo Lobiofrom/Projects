@@ -38,7 +38,7 @@ import com.example.coctails.entity.Ingredient
 import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
-fun AddCoctail(onIconClicked: () -> Unit) {
+fun AddCocktail(onIconClicked: () -> Unit) {
     Column {
         Row(
             modifier = Modifier
@@ -220,6 +220,6 @@ fun OutlinedTextFieldBackground(
 fun AddCocktailPreview() {
     CoctailsTheme {
         val onIconClicked: () -> Unit = {}
-        AddCoctail(onIconClicked = onIconClicked)
+        AddCocktail(onIconClicked = onIconClicked)
     }
 }
