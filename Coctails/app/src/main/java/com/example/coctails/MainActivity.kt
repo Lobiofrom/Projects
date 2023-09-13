@@ -36,6 +36,7 @@ fun MyApp() {
     var showGreeting by remember {
         mutableStateOf(true)
     }
+
     if (showGreeting) {
         Greeting(
             name = "My cocktails",

@@ -191,7 +191,6 @@ fun AddCocktail(onIconClicked: () -> Unit) {
             ) {
                 Text(text = "Cancel")
             }
-
         }
     }
 }
