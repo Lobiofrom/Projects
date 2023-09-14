@@ -51,13 +51,11 @@ class MyViewModel(
     }
 
     fun addIngredient(
-        ingredient: Ingredient,
         ingredientName: String?
     ) {
         viewModelScope.launch {
             recipeDao.usertIngredient(
                 Ingredient(
-                    id = ingredient.id.plus(1),
                     ingredientName = ingredientName
                 )
             )

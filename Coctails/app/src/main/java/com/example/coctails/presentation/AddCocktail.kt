@@ -30,17 +30,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
 import com.example.coctails.entity.Ingredient
-import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun AddCocktail(
     onIconClicked: () -> Unit,
     onCancelClick: () -> Unit,
+    onSaveClick: () -> Unit,
     viewModel: MyViewModel
 ) {
     val context = LocalContext.current
@@ -176,6 +175,7 @@ fun AddCocktail(
                     if (name.isEmpty()) {
                         Toast.makeText(context, "Enter cocktail name!", Toast.LENGTH_SHORT).show()
                     } else {
+                        onSaveClick()
                         viewModel.addRecipe(name, description, recipe, null, null)
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT).show()
                     }

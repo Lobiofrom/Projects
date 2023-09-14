@@ -5,8 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.coctails.presentation.AddCocktail
-import com.example.coctails.presentation.Greeting
 
 @Composable
 fun MyApp(
@@ -25,6 +23,7 @@ fun MyApp(
         AddCocktail(
             onIconClicked = { showGreeting = true },
             onCancelClick = { showGreeting = true },
+            onSaveClick = { showGreeting = true },
             viewModel
         )
     }

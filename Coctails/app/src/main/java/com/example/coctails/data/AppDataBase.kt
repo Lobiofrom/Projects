@@ -9,7 +9,7 @@ import com.example.coctails.entity.Recipe
 
 @Database(
     entities = [Recipe::class, Ingredient::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

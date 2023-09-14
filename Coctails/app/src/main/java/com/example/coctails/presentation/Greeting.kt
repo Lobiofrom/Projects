@@ -3,7 +3,6 @@ package com.example.coctails.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -73,7 +72,9 @@ fun Greeting(
             )
             Spacer(modifier = Modifier.height(46.dp))
         } else {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 Column {
 
                     Text(
@@ -90,16 +91,15 @@ fun Greeting(
                         }
                     }
                 }
-
-                IconButton(
-                    onClick = onContinueClicked,
-                    modifier = Modifier
-                        .paint(painterResource(id = R.drawable.img_2))
-                        .align(Alignment.BottomCenter),
-                ) {
-
-                }
             }
+        }
+        IconButton(
+            onClick = onContinueClicked,
+            modifier = Modifier
+                .paint(painterResource(id = R.drawable.img_2))
+                .align(Alignment.CenterHorizontally),
+        ) {
+
         }
     }
 }
