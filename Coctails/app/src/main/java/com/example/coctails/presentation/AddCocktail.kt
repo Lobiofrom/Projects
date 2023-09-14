@@ -1,5 +1,6 @@
-package com.example.coctails
+package com.example.coctails.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,19 +27,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.coctails.R
 import com.example.coctails.entity.Ingredient
 import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun AddCocktail(
     onIconClicked: () -> Unit,
-    onCancelClick: () -> Unit
+    onCancelClick: () -> Unit,
+    viewModel: MyViewModel
 ) {
+    val context = LocalContext.current
+
     Column {
         Back(onIconClicked)
         Column(
@@ -166,7 +172,14 @@ fun AddCocktail(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    if (name.isEmpty()) {
+                        Toast.makeText(context, "Enter cocktail name!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.addRecipe(name, description, recipe, null, null)
+                        Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT).show()
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -183,15 +196,15 @@ fun AddCocktail(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AddCocktailPreview() {
-    CoctailsTheme {
-        val onIconClicked: () -> Unit = {}
-        val onCancelClick: () -> Unit = {}
-        AddCocktail(
-            onIconClicked = onIconClicked,
-            onCancelClick = onCancelClick
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AddCocktailPreview() {
+//    CoctailsTheme {
+//        val onIconClicked: () -> Unit = {}
+//        val onCancelClick: () -> Unit = {}
+//        AddCocktail(
+//            onIconClicked = onIconClicked,
+//            onCancelClick = onCancelClick
+//        )
+//    }
+//}

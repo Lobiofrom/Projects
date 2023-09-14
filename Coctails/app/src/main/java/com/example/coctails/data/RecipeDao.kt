@@ -1,5 +1,6 @@
 package com.example.coctails.data
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
@@ -7,6 +8,7 @@ import com.example.coctails.entity.Ingredient
 import com.example.coctails.entity.Recipe
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface RecipeDao {
     @Upsert
     suspend fun upsertRecipe(recipe: Recipe)

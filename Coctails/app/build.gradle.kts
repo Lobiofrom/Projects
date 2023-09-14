@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    //Gson
+    implementation (libs.gson)
+
     //Coil
     implementation (libs.coil.compose)
 
