@@ -36,7 +36,8 @@ import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun AddCocktail(
-    onIconClicked: () -> Unit
+    onIconClicked: () -> Unit,
+    onCancelClick: () -> Unit
 ) {
     Column {
         Back(onIconClicked)
@@ -172,7 +173,7 @@ fun AddCocktail(
                 Text(text = "Save")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = onCancelClick,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -187,6 +188,10 @@ fun AddCocktail(
 fun AddCocktailPreview() {
     CoctailsTheme {
         val onIconClicked: () -> Unit = {}
-        AddCocktail(onIconClicked = onIconClicked)
+        val onCancelClick: () -> Unit = {}
+        AddCocktail(
+            onIconClicked = onIconClicked,
+            onCancelClick = onCancelClick
+        )
     }
 }
