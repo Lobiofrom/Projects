@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.coctails.App
 import com.example.coctails.data.RecipeDao
-import com.example.coctails.entity.Ingredient
 import com.example.coctails.entity.Recipe
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -23,18 +22,11 @@ class MyViewModel(
             emptyList()
         )
 
-    val allIngredients = this.recipeDao.getAllIngredients()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
-
     fun addRecipe(
         title: String,
         description: String?,
         recipe: String?,
-        ingredients: List<Ingredient>?,
+        ingredients: List<String>?,
         image: Int?
     ) {
         viewModelScope.launch {
@@ -45,18 +37,6 @@ class MyViewModel(
                     recipe = recipe,
                     ingredients = ingredients,
                     image = image
-                )
-            )
-        }
-    }
-
-    fun addIngredient(
-        ingredientName: String?
-    ) {
-        viewModelScope.launch {
-            recipeDao.usertIngredient(
-                Ingredient(
-                    ingredientName = ingredientName
                 )
             )
         }

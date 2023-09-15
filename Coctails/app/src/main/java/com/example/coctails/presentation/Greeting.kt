@@ -98,8 +98,6 @@ fun Greeting(
             modifier = Modifier
                 .paint(painterResource(id = R.drawable.img_2))
                 .align(Alignment.CenterHorizontally),
-        ) {
-
-        }
+        ) {}
     }
 }

@@ -2,9 +2,12 @@ package com.example.coctails.presentation
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,7 +37,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
-import com.example.coctails.entity.Ingredient
 
 @Composable
 fun AddCocktail(
@@ -43,6 +46,14 @@ fun AddCocktail(
     viewModel: MyViewModel
 ) {
     val context = LocalContext.current
+
+    var showIngredientDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val ingredientList by remember {
+        mutableStateOf(mutableStateListOf<String>())
+    }
 
     Column {
         Back(onIconClicked)
@@ -118,20 +129,21 @@ fun AddCocktail(
                     .padding(start = 46.dp)
             )
 
-            val ingredientList by remember {
-                mutableStateOf(emptyList<Ingredient>())
-            }
-
-            Row {
-                LazyRow {
-                    items(ingredientList) {
-                    }
-                }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { showIngredientDialog = true },
                     modifier = Modifier
                         .paint(painterResource(id = R.drawable.img_3))
                 ) {
+                }
+                LazyRow(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    items(ingredientList) {
+                        ItemIngredient(ingredient = it)
+                    }
                 }
             }
             var recipe by rememberSaveable { mutableStateOf("") }
@@ -173,11 +185,13 @@ fun AddCocktail(
             Button(
                 onClick = {
                     if (name.isEmpty()) {
-                        Toast.makeText(context, "Enter cocktail name!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Enter cocktail name!", Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         onSaveClick()
-                        viewModel.addRecipe(name, description, recipe, null, null)
-                        Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT).show()
+                        viewModel.addRecipe(name, description, recipe, ingredientList, null)
+                        Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 },
                 modifier = Modifier
@@ -194,6 +208,85 @@ fun AddCocktail(
             }
         }
     }
+
+    if (showIngredientDialog) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+        ) {
+            Column(
+                modifier = Modifier
+                    .height(250.dp)
+                    .align(Alignment.Center)
+                    .padding(start = 16.dp, end = 16.dp)
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(15.dp),
+                    )
+            ) {
+                Text(
+                    text = "Add ingredient",
+                    fontSize = 32.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
+
+                var ingredient by rememberSaveable {
+                    mutableStateOf("")
+                }
+
+                OutlinedTextFieldBackground(Color.White) {
+                    OutlinedTextField(
+                        value = ingredient,
+                        onValueChange = {
+                            ingredient = it
+                        },
+                        label = {
+                            if (ingredient.isEmpty()) {
+                                Text(
+                                    text = "Ingredient name",
+                                    color = Color.Red
+                                )
+                            }
+                        },
+                        textStyle = TextStyle(
+                            color = Color.Black,
+                            fontSize = 20.sp
+                        ),
+                        shape = RoundedCornerShape(50.dp),
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                    )
+                }
+                Button(
+                    onClick = {
+                        if (ingredient.isEmpty()) {
+                            Toast.makeText(context, "Enter ingredient name!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            ingredientList.add(ingredient)
+                            Toast.makeText(context, "Ingredient saved!", Toast.LENGTH_SHORT).show()
+                            showIngredientDialog = false
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                ) {
+                    Text(text = "Save")
+                }
+                Button(
+                    onClick = { showIngredientDialog = false },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                ) {
+                    Text(text = "Cancel")
+                }
+            }
+        }
+    }
 }
 
 //@Preview(showBackground = true)
@@ -202,9 +295,12 @@ fun AddCocktail(
 //    CoctailsTheme {
 //        val onIconClicked: () -> Unit = {}
 //        val onCancelClick: () -> Unit = {}
+//        val onSaveClick: () -> Unit = {}
+//
 //        AddCocktail(
 //            onIconClicked = onIconClicked,
-//            onCancelClick = onCancelClick
+//            onCancelClick = onCancelClick,
+//            onSaveClick = onSaveClick
 //        )
 //    }
 //}

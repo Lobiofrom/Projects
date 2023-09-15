@@ -20,5 +20,5 @@ data class Recipe(
     val recipe: String?,
 
     @ColumnInfo(name = "ingredients")
-    val ingredients: List<Ingredient>?
+    val ingredients: List<String>?
 )
