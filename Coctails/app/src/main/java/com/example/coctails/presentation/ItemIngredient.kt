@@ -20,14 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.coctails.R
+import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun ItemIngredient(
     ingredient: String?,
     deleteClick: () -> Unit
-    ) {
+) {
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
@@ -51,17 +55,16 @@ fun ItemIngredient(
             Text(
                 text = ingredient ?: "",
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
                     .wrapContentSize()
-                    .padding(start = 6.dp)
+                    .padding(start = 6.dp, bottom = 4.dp),
+                fontSize = 13.sp
             )
             IconButton(
                 onClick = deleteClick,
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 10.dp, end = 5.dp)
+                    .padding(end = 5.dp)
                     .paint(painterResource(id = R.drawable.img_5))
-                    .size(15.dp)
+                    .size(20.dp)
             ) {}
         }
     }
@@ -69,10 +72,13 @@ fun ItemIngredient(
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun ItemIngredientPreview() {
-//    CoctailsTheme {
-//        ItemIngredient(ingredient = "Vodka")
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun ItemIngredientPreview() {
+    CoctailsTheme {
+
+        val deleteClick: () -> Unit = {}
+
+        ItemIngredient(ingredient = "vodka", deleteClick)
+    }
+}

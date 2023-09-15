@@ -1,5 +1,6 @@
 package com.example.coctails.presentation
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun AddCocktail(
     onIconClicked: () -> Unit,
