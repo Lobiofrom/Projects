@@ -5,10 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -18,17 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.coctails.R
-import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
-fun ItemIngredient(ingredient: String?) {
+fun ItemIngredient(
+    ingredient: String?,
+    deleteClick: () -> Unit
+    ) {
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
-            .wrapContentSize()
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(15.dp)
@@ -38,6 +40,8 @@ fun ItemIngredient(ingredient: String?) {
                 color = Color.Black,
                 shape = RoundedCornerShape(15.dp)
             )
+            .wrapContentWidth()
+            .height(30.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -52,7 +56,7 @@ fun ItemIngredient(ingredient: String?) {
                     .padding(start = 6.dp)
             )
             IconButton(
-                onClick = {},
+                onClick = deleteClick,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(start = 10.dp, end = 5.dp)
@@ -65,10 +69,10 @@ fun ItemIngredient(ingredient: String?) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun ItemIngredientPreview() {
-    CoctailsTheme {
-        ItemIngredient(ingredient = "Vodka")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ItemIngredientPreview() {
+//    CoctailsTheme {
+//        ItemIngredient(ingredient = "Vodka")
+//    }
+//}

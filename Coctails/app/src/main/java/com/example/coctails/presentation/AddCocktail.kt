@@ -142,7 +142,7 @@ fun AddCocktail(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     items(ingredientList) {
-                        ItemIngredient(ingredient = it)
+                        ItemIngredient(ingredient = it) { ingredientList.remove(it) }
                     }
                 }
             }
@@ -272,7 +272,7 @@ fun AddCocktail(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 10.dp)
+                        .padding(top = 10.dp, start = 16.dp, end = 16.dp)
                 ) {
                     Text(text = "Save")
                 }
@@ -280,7 +280,7 @@ fun AddCocktail(
                     onClick = { showIngredientDialog = false },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 10.dp)
+                        .padding(top = 10.dp, start = 16.dp, end = 16.dp)
                 ) {
                     Text(text = "Cancel")
                 }
