@@ -43,6 +43,7 @@ class MyViewModel(
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 class MyViewModelFactory(
     private val application: Application
 ) : ViewModelProvider.Factory {

@@ -32,11 +32,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    CoctailsTheme {
-//        MyApp(viewModel = )
-//    }
-//}
