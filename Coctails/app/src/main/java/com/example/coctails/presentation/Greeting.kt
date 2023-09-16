@@ -1,5 +1,6 @@
 package com.example.coctails.presentation
 
+import DetailScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,14 @@ fun Greeting(
         mutableStateOf(emptyList<Recipe>())
     }
 
+    var showDetailScreen by remember {
+        mutableStateOf(false)
+    }
+
+    var recipe by remember {
+        mutableStateOf<Recipe?>(null)
+    }
+
     LaunchedEffect(Unit) {
         viewModel.allRecipes.collect {
             recipeList = it
@@ -45,59 +54,66 @@ fun Greeting(
 
     }
 
-    Column(modifier = Modifier.padding(36.dp)) {
-        if (recipeList.isEmpty()) {
-            Image(
-                painter = painterResource(id = R.drawable.img),
-                contentDescription = null
-            )
+    if (!showDetailScreen) {
+        Column(modifier = Modifier.padding(36.dp)) {
+            if (recipeList.isEmpty()) {
+                Image(
+                    painter = painterResource(id = R.drawable.img),
+                    contentDescription = null
+                )
 
-            Text(
-                text = "My Cocktails",
-                fontSize = 36.sp,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(46.dp))
-            Text(
-                text = "Add your first cocktail here",
-                fontSize = 16.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(46.dp))
-            Image(
-                painter = painterResource(id = R.drawable.img_1),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(46.dp))
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Column {
+                Text(
+                    text = "My Cocktails",
+                    fontSize = 36.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(46.dp))
+                Text(
+                    text = "Add your first cocktail here",
+                    fontSize = 16.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(46.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.img_1),
+                    contentDescription = null,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(46.dp))
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Column {
 
-                    Text(
-                        text = "My Cocktails",
-                        fontSize = 36.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                    )
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2)
-                    ) {
-                        items(recipeList) {
-                            Item(recipe = it)
+                        Text(
+                            text = "My Cocktails",
+                            fontSize = 36.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2)
+                        ) {
+                            items(recipeList) {
+                                Item(recipe = it) {
+                                    showDetailScreen = true
+                                    recipe = it
+                                }
+                            }
                         }
                     }
                 }
             }
+            IconButton(
+                onClick = onContinueClicked,
+                modifier = Modifier
+                    .paint(painterResource(id = R.drawable.img_2))
+                    .align(Alignment.CenterHorizontally),
+            ) {}
         }
-        IconButton(
-            onClick = onContinueClicked,
-            modifier = Modifier
-                .paint(painterResource(id = R.drawable.img_2))
-                .align(Alignment.CenterHorizontally),
-        ) {}
+    } else {
+        recipe?.let { DetailScreen(recipe = it) { showDetailScreen = false } }
     }
 }
