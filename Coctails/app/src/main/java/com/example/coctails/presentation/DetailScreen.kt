@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
+import com.example.coctails.presentation.Back
 
 @Composable
 fun DetailScreen(
@@ -36,6 +37,7 @@ fun DetailScreen(
                 .height(500.dp),
             contentScale = ContentScale.Crop
         )
+        Back(onEditClick)
         Surface(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -52,18 +54,18 @@ fun DetailScreen(
                     fontSize = 32.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-                recipe.description?.let {
+                if (recipe.recipe?.isNotEmpty() == true) {
                     Text(
-                        text = it,
+                        text = recipe.description!!,
                         fontSize = 16.sp,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .padding(6.dp),
                     )
                 }
-                recipe.ingredients?.let {
+                if (recipe.ingredients!!.isNotEmpty()) {
                     Text(
-                        text = it.joinToString("\n") {
+                        text = recipe.ingredients.joinToString("\n") {
                             it
                         },
                         fontSize = 16.sp,
@@ -73,7 +75,7 @@ fun DetailScreen(
                     )
                 }
 
-                recipe.recipe?.let {
+                if (recipe.recipe!!.isNotEmpty()) {
                     Text(
                         text = "Recipe:",
                         fontSize = 16.sp,
@@ -81,7 +83,7 @@ fun DetailScreen(
                             .align(Alignment.CenterHorizontally)
                     )
                     Text(
-                        text = it,
+                        text = recipe.recipe,
                         fontSize = 16.sp,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -101,11 +103,13 @@ fun DetailScreen(
         }
     }
 }
-//
+
 //@Preview(showBackground = true)
 //@Composable
 //fun DetailPreview() {
 //    CoctailsTheme {
-//        DetailScreen()
+//        val onEditClick: () -> Unit = {}
+//
+//        DetailScreen(onEditClick)
 //    }
 //}
