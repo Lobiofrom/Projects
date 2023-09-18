@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha03"
+agp = "8.3.0-alpha04"
 androidx-lifecycle-livedata-ktx = "2.6.2"
 androidx-navigation-fragment-ktx = "2.7.2"
 circleindicator = "2.1.6"

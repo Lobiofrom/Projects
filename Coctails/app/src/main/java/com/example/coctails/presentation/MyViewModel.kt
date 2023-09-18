@@ -41,6 +41,12 @@ class MyViewModel(
             )
         }
     }
+
+    fun deleteRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            recipeDao.deleteRecipe(recipe)
+        }
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

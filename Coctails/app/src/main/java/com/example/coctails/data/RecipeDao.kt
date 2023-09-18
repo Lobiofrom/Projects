@@ -1,6 +1,7 @@
 package com.example.coctails.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.coctails.entity.Recipe
@@ -13,4 +14,7 @@ interface RecipeDao {
 
     @Query("select * from Recipe")
     fun getAllRecipes(): Flow<List<Recipe>>
+
+    @Delete
+    suspend fun deleteRecipe(recipe: Recipe)
 }

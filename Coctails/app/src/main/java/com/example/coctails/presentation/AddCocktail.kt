@@ -138,13 +138,20 @@ fun AddCocktail(
                     onClick = { showIngredientDialog = true },
                     modifier = Modifier
                         .paint(painterResource(id = R.drawable.img_3))
-                ) {
-                }
-                LazyRow(
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                ) {
-                    items(ingredientList) {
-                        ItemIngredient(ingredient = it) { ingredientList.remove(it) }
+                ) {}
+                if (ingredientList.isEmpty()) {
+                    Text(
+                        text = "Add Ingredients",
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        color = Color.Red
+                    )
+                } else {
+                    LazyRow(
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        items(ingredientList) {
+                            ItemIngredient(ingredient = it) { ingredientList.remove(it) }
+                        }
                     }
                 }
             }
@@ -186,8 +193,8 @@ fun AddCocktail(
 
             Button(
                 onClick = {
-                    if (name.isEmpty()) {
-                        Toast.makeText(context, "Enter cocktail name!", Toast.LENGTH_SHORT)
+                    if (name.isEmpty() || ingredientList.isEmpty()) {
+                        Toast.makeText(context, "Add cocktail name and ingredients!", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         onSaveClick()

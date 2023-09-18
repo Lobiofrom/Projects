@@ -30,7 +30,7 @@ fun Item(
         modifier = Modifier
             .width(140.dp)
             .height(140.dp)
-            .padding(top = 10.dp, bottom = 10.dp, start = 10.dp)
+            .padding(10.dp)
             .clickable(
                 onClick = onItemClick
             )
@@ -40,9 +40,7 @@ fun Item(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
-                .clip(shape = RoundedCornerShape(30.dp))
-
-            ,
+                .clip(shape = RoundedCornerShape(30.dp)),
             contentScale = ContentScale.Crop
         )
         Text(
@@ -52,13 +50,6 @@ fun Item(
             modifier = Modifier
                 .align(Alignment.Center)
         )
-//        Text(
-//            text = recipe.ingredients!!.joinToString(", "),
-//            fontSize = 15.sp,
-//            color = Color.White,
-//            modifier = Modifier
-//                .align(Alignment.BottomCenter)
-//        )
     }
 }
 //

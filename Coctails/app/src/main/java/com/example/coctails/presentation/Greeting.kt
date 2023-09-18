@@ -1,11 +1,10 @@
 package com.example.coctails.presentation
 
-import DetailScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -55,8 +54,9 @@ fun Greeting(
     }
 
     if (!showDetailScreen) {
-        Column(modifier = Modifier.padding(36.dp)) {
-            if (recipeList.isEmpty()) {
+        if (recipeList.isEmpty()) {
+            Column(modifier = Modifier.padding(36.dp)) {
+
                 Image(
                     painter = painterResource(id = R.drawable.img),
                     contentDescription = null
@@ -81,39 +81,49 @@ fun Greeting(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(46.dp))
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize()
+                IconButton(
+                    onClick = onContinueClicked,
+                    modifier = Modifier
+                        .paint(painterResource(id = R.drawable.img_2))
+                        .align(Alignment.CenterHorizontally),
+                ) {}
+            }
+        } else {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(6.dp)
                 ) {
-                    Column {
-
-                        Text(
-                            text = "My Cocktails",
-                            fontSize = 36.sp,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                        )
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2)
-                        ) {
-                            items(recipeList) {
-                                Item(recipe = it) {
-                                    showDetailScreen = true
-                                    recipe = it
-                                }
+                    Text(
+                        text = "My Cocktails",
+                        fontSize = 36.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                    )
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2)
+                    ) {
+                        items(recipeList) {
+                            Item(recipe = it) {
+                                showDetailScreen = true
+                                recipe = it
                             }
                         }
                     }
                 }
+                IconButton(
+                    onClick = onContinueClicked,
+                    modifier = Modifier
+                        .paint(painterResource(id = R.drawable.img_2))
+                        .align(Alignment.BottomCenter)
+                        .padding(26.dp),
+                ) {}
             }
-            IconButton(
-                onClick = onContinueClicked,
-                modifier = Modifier
-                    .paint(painterResource(id = R.drawable.img_2))
-                    .align(Alignment.CenterHorizontally),
-            ) {}
         }
     } else {
-        recipe?.let { DetailScreen(recipe = it) { showDetailScreen = false } }
+        recipe?.let {
+            DetailScreen(recipe = it, viewModel = viewModel) {
+                showDetailScreen = false
+            }
+        }
     }
 }
