@@ -52,6 +52,8 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+
+
         Image(
             painter = painterResource(id = R.drawable.oldfashioned),
             contentDescription = null,
@@ -59,6 +61,7 @@ fun DetailScreen(
                 .height(500.dp),
             contentScale = ContentScale.Crop
         )
+
         Back(onEditClick)
 
         Box(
