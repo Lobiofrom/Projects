@@ -1,6 +1,8 @@
 package com.example.coctails.presentation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
@@ -151,8 +153,8 @@ fun Greeting(
             visible = isVisible2,
             modifier = Modifier
                 .fillMaxWidth(),
-            enter = fadeIn(),
-            exit = fadeOut()
+            enter = fadeIn(animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 600))
         ) {
             recipe?.let {
                 DetailScreen(
