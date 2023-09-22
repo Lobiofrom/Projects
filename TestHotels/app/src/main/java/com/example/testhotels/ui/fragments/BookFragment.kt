@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,9 +20,10 @@ import com.example.testhotels.App
 import com.example.testhotels.R
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentBookBinding
-import com.example.testhotels.entity.passenger.Passenger
+import com.example.testhotels.entity.passenger.TextField
 import com.example.testhotels.ui.adapters.PassengerAdapter
 import com.example.testhotels.ui.viewmodel.MyViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class BookFragment : Fragment() {
@@ -32,24 +33,23 @@ class BookFragment : Fragment() {
 
     private val appComponent = App().appComponent
 
-    private val viewModel: MyViewModel by viewModels {
+    private val viewModel: MyViewModel by activityViewModels {
         appComponent
     }
 
     private var isEmailValid = false
     private var isPhoneValid = false
 
-    private var touristCount = 0
-
-    private val passengerList = mutableListOf(addPassenger())
-
-    private val adapter = PassengerAdapter(passengerList)
+    private val adapter = PassengerAdapter(emptyList()) { textField: TextField, i: Int ->
+        viewModel.onTextChange(textField, i)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBookBinding.inflate(inflater, container, false)
+
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -60,6 +60,10 @@ class BookFragment : Fragment() {
         }
 
         viewModel.getBooking()
+
+        flowObserver(viewModel.viewStates()) { state ->
+            adapter.updateList(state.passengerList)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -92,7 +96,7 @@ class BookFragment : Fragment() {
         binding.testRecycler.adapter = adapter
 
         binding.addTouristButton.setOnClickListener {
-            adapter.addItem(addPassenger())
+            viewModel.addPassenger()
         }
 
 
@@ -150,41 +154,29 @@ class BookFragment : Fragment() {
                 binding.TextInputLayout1.isErrorEnabled = false
                 binding.telNumber.backgroundTintList = null
             }
-
-            val isPassengersValid = adapter.isAllValid
-            val isDataValidForNewPassenger = adapter.passengerStatesList
-                .filterIndexed { index, _ ->
-                    index >= adapter.passengerList.size - 1
+            flowObserver(viewModel.viewStates()) { state ->
+                if (isPhoneValid && isEmailValid && !state.passengerList.any {
+                        it.hasEmptyProperty
+                    }
+                ) {
+                    findNavController().navigate(R.id.overFragment)
+                } else {
+                    viewModel.checkEmptyFields()
+                    Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                .all {
-                    it.isAllValid()
-                }
-
-            adapter.paintRedEmptyFields(binding.testRecycler)
-
-            if (isPhoneValid && isEmailValid && isPassengersValid && isDataValidForNewPassenger) {
-                findNavController().navigate(R.id.overFragment)
-            } else {
-                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_SHORT).show()
             }
         }
 
         return binding.root
     }
 
-    private fun addPassenger(): Passenger {
-        touristCount++
-        return Passenger(
-            text = "Турист",
-            touristCount = touristCount,
-            name = null,
-            surname = null,
-            birthdate = null,
-            nationality = null,
-            passportN = null,
-            passportTime = null
-        )
-    }
+    private fun <I : Any?> flowObserver(flow: Flow<I>?, action: suspend (it: I) -> Unit) =
+        viewLifecycleOwner.lifecycleScope.launch {
+            flow?.collect {
+                action(it)
+            }
+        }
 
     private fun validateEmail(email: CharSequence?): Boolean {
         return !email.isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()

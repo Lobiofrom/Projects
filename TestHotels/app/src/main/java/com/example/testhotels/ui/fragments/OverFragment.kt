@@ -27,12 +27,6 @@ class OverFragment : Fragment() {
             findNavController().navigate(R.id.hotelFragment)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.hotelFragment)
-            }
-        })
-
         val number = (100000..999999).random()
 
         binding.orderNumber.text = "Подтверждение заказа №$number может занять некоторое время (от 1 часа до суток). Как только мы получим ответ от туроператора, вам на почту придет уведомление.\n"

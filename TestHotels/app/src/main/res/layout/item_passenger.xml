@@ -36,8 +36,7 @@
         android:clickable="true"
         android:src="@drawable/img_5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/custom_layout"
@@ -46,11 +45,10 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/text">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout1"
+            android:id="@+id/name"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +63,6 @@
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -73,7 +70,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout2"
+            android:id="@+id/surname"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,8 +84,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
-            birthdate<com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/surname"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -96,7 +92,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout3"
+            android:id="@+id/birthdate"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,8 +106,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
-            nationality<com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/birthdate"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="date" />
@@ -119,7 +114,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout4"
+            android:id="@+id/nationality"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,14 +129,13 @@
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nationality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout5"
+            android:id="@+id/passportN"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,7 +150,6 @@
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passportN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -164,7 +157,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customtextInputLayout6"
+            android:id="@+id/passportTime"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,7 +172,6 @@
             app:layout_constraintTop_toBottomOf="@+id/masked">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passportTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="date" />

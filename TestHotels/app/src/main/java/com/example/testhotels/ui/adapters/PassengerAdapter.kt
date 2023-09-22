@@ -1,33 +1,24 @@
 package com.example.testhotels.ui.adapters
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testhotels.R
 import com.example.testhotels.databinding.ItemPassengerBinding
 import com.example.testhotels.entity.passenger.Passenger
+import com.example.testhotels.entity.passenger.TextField
 
 class PassengerAdapter(
-    var passengerList: List<Passenger>
+    private var passengerList: List<Passenger>,
+    val onTextChange: (TextField, Int) -> Unit
 ) : RecyclerView.Adapter<MyViewHolder>() {
 
-    var isAllValid = false
-        private set
-
-    val passengerStatesList = MutableList(passengerList.size) {
-        PassengerStates()
-    }
-
-    fun addItem(passenger: Passenger) {
-        val updatedList = passengerList.toMutableList()
-        updatedList.add(passenger)
-        passengerList = updatedList
-        passengerStatesList.add(PassengerStates())
-        notifyItemInserted(passengerList.size - 1)
+    fun updateList(newList: List<Passenger>) {
+        passengerList = newList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -42,16 +33,15 @@ class PassengerAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = passengerList[position]
-        val passengerStates = passengerStatesList[position]
 
         holder.binding.text.text = currentItem.text
         holder.binding.touristCount.text = currentItem.touristCount.toString()
-        holder.binding.name.text = currentItem.name
-        holder.binding.surname.text = currentItem.surname
-        holder.binding.birthdate.text = currentItem.birthdate
-        holder.binding.nationality.text = currentItem.nationality
-        holder.binding.passportN.text = currentItem.passportN
-        holder.binding.passportTime.text = currentItem.passportTime
+        holder.binding.name.editText?.setText(currentItem.name)
+        holder.binding.surname.editText?.setText(currentItem.surname)
+        holder.binding.birthdate.editText?.setText(currentItem.birthdate)
+        holder.binding.nationality.editText?.setText(currentItem.nationality)
+        holder.binding.passportN.editText?.setText(currentItem.passportNumber)
+        holder.binding.passportTime.editText?.setText(currentItem.passportDate)
 
         holder.binding.dropdownMenu.setOnClickListener {
             if (holder.binding.customLayout.visibility == View.GONE) {
@@ -62,146 +52,78 @@ class PassengerAdapter(
                 holder.binding.dropdownMenu.setImageResource(R.drawable.img_6)
             }
         }
+        with(holder.binding) {
 
-        holder.binding.name.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isNameValid = !text.isNullOrEmpty()
-            updateIsAllValid()
-
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout1.isErrorEnabled = true
-                holder.binding.customtextInputLayout1.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout1.isErrorEnabled = false
-                holder.binding.name.backgroundTintList = null
+            name.apply {
+                if (currentItem.nameError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.name)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.NAME.property = text.toString()
+                    onTextChange(TextField.NAME, holder.bindingAdapterPosition)
+                }
             }
-        }
 
-        holder.binding.surname.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isSurnameValid = !text.isNullOrEmpty()
-            updateIsAllValid()
-
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout2.isErrorEnabled = true
-                holder.binding.customtextInputLayout2.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout2.isErrorEnabled = false
-                holder.binding.surname.backgroundTintList = null
+            surname.apply {
+                if (currentItem.surnameError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.surname)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.SURNAME.property = text.toString()
+                    onTextChange(TextField.SURNAME, holder.bindingAdapterPosition)
+                }
             }
-        }
 
-        holder.binding.birthdate.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isBirthdateValid = !text.isNullOrEmpty()
-            updateIsAllValid()
-
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout3.isErrorEnabled = true
-                holder.binding.customtextInputLayout3.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout3.isErrorEnabled = false
-                holder.binding.birthdate.backgroundTintList = null
+            nationality.apply {
+                if (currentItem.nationalityError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.nationality)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.NATIONALITY.property = text.toString()
+                    onTextChange(TextField.NATIONALITY, holder.bindingAdapterPosition)
+                }
             }
-        }
-        holder.binding.nationality.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isNationalityValid = !text.isNullOrEmpty()
-            updateIsAllValid()
 
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout4.isErrorEnabled = true
-                holder.binding.customtextInputLayout4.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout4.isErrorEnabled = false
-                holder.binding.nationality.backgroundTintList = null
+            birthdate.apply {
+                if (currentItem.birthdayError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.birthdate)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.BIRTHDAY.property = text.toString()
+                    onTextChange(TextField.BIRTHDAY, holder.bindingAdapterPosition)
+                }
             }
-        }
-        holder.binding.passportN.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isPassportNValid = !text.isNullOrEmpty()
-            updateIsAllValid()
 
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout5.isErrorEnabled = true
-                holder.binding.customtextInputLayout5.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout5.isErrorEnabled = false
-                holder.binding.passportN.backgroundTintList = null
+            passportN.apply {
+                if (currentItem.foreignPassportNumberError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.passportNumber)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.PASSPORT_NUMBER.property = text.toString()
+                    onTextChange(TextField.PASSPORT_NUMBER, holder.bindingAdapterPosition)
+                }
             }
-        }
-        holder.binding.passportTime.doOnTextChanged { text, _, _, _ ->
-            passengerStates.isPassportTimeValid = !text.isNullOrEmpty()
-            updateIsAllValid()
 
-            if (text.isNullOrEmpty()) {
-                holder.binding.customtextInputLayout6.isErrorEnabled = true
-                holder.binding.customtextInputLayout6.error = "заполните поле"
-            } else {
-                holder.binding.customtextInputLayout6.isErrorEnabled = false
-                holder.binding.passportTime.backgroundTintList = null
+            passportTime.apply {
+                if (currentItem.foreignPassportDateError) setBoxBackgroundColorResource(R.color.error)
+                editText?.setText(currentItem.passportDate)
+                editText?.doAfterTextChanged { text ->
+                    if (text.toString().isNotEmpty())
+                        boxBackgroundColor = Color.parseColor("#F6F6F9")
+                    TextField.PASSPORT_DATE.property = text.toString()
+                    onTextChange(TextField.PASSPORT_DATE, holder.bindingAdapterPosition)
+                }
             }
+
         }
     }
 
     override fun getItemCount() = passengerList.size
-
-    fun paintRedEmptyFields(recyclerView: RecyclerView) {
-        passengerStatesList.forEachIndexed { index, passengerStates ->
-            if (!passengerStates.isAllValid()) {
-                val holder = recyclerView.findViewHolderForAdapterPosition(index) as MyViewHolder?
-                holder?.binding?.name?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-                holder?.binding?.surname?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-                holder?.binding?.nationality?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-                holder?.binding?.passportTime?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-                holder?.binding?.passportN?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-                holder?.binding?.birthdate?.let { editText ->
-                    if (editText.text.isNullOrEmpty()) {
-                        editText.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EB5757"))
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun updateIsAllValid() {
-        isAllValid = passengerStatesList.all { it.isAllValid() }
-    }
-}
-
-class PassengerStates(
-    var isNameValid: Boolean = false,
-    var isSurnameValid: Boolean = false,
-    var isBirthdateValid: Boolean = false,
-    var isNationalityValid: Boolean = false,
-    var isPassportNValid: Boolean = false,
-    var isPassportTimeValid: Boolean = false
-) {
-    fun isAllValid() = isNameValid && isSurnameValid && isBirthdateValid &&
-            isNationalityValid && isPassportNValid && isPassportTimeValid
 }
 
 class MyViewHolder(val binding: ItemPassengerBinding) : RecyclerView.ViewHolder(binding.root)
-

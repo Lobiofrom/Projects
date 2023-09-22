@@ -81,4 +81,6 @@ dependencies {
     implementation (libs.dagger)
     kapt (libs.dagger.compiler)
 
+    //Koin
+    implementation (libs.koin.android)
 }
