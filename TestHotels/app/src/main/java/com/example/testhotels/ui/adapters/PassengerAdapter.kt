@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testhotels.R
 import com.example.testhotels.databinding.ItemPassengerBinding
@@ -12,14 +14,9 @@ import com.example.testhotels.entity.passenger.Passenger
 import com.example.testhotels.entity.passenger.TextField
 
 class PassengerAdapter(
-    private var passengerList: List<Passenger>,
     val onTextChange: (TextField, Int) -> Unit
-) : RecyclerView.Adapter<MyViewHolder>() {
+) : ListAdapter<Passenger, MyViewHolder>(DiffUtilCallback()) {
 
-    fun updateList(newList: List<Passenger>) {
-        passengerList = newList
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
@@ -32,7 +29,7 @@ class PassengerAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = passengerList[position]
+        val currentItem = getItem(position)
 
         holder.binding.text.text = currentItem.text
         holder.binding.touristCount.text = currentItem.touristCount.toString()
@@ -122,8 +119,21 @@ class PassengerAdapter(
 
         }
     }
+}
 
-    override fun getItemCount() = passengerList.size
+class DiffUtilCallback : DiffUtil.ItemCallback<Passenger>() {
+    override fun areItemsTheSame(oldItem: Passenger, newItem: Passenger): Boolean =
+        oldItem.touristCount == newItem.touristCount
+
+    override fun areContentsTheSame(oldItem: Passenger, newItem: Passenger): Boolean {
+        return oldItem.touristCount == newItem.touristCount &&
+                oldItem.nameError == newItem.nameError &&
+                oldItem.surnameError == newItem.surnameError
+                && oldItem.birthdayError == newItem.birthdayError &&
+                oldItem.nationalityError == newItem.nationalityError
+                && oldItem.foreignPassportNumberError == newItem.foreignPassportNumberError
+                && oldItem.foreignPassportDateError == newItem.foreignPassportDateError
+    }
 }
 
 class MyViewHolder(val binding: ItemPassengerBinding) : RecyclerView.ViewHolder(binding.root)

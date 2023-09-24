@@ -11,13 +11,18 @@ import com.example.testhotels.domain.UseCase
 import com.example.testhotels.entity.passenger.Passenger
 import com.example.testhotels.entity.passenger.TextField
 import com.example.testhotels.entity.room.Room
+import com.vsv.core.base.BaseViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MyViewModel(
-    private val useCase: UseCase
+    private val useCase: UseCase,
 ) : BaseViewModel<BookingState>(BookingState()) {
+
+    private val dispatcherWrapper: DispatcherWrapper = MyDispatcherWrapper()
 
     private var _state = MutableStateFlow<State>(State.Success)
     val state = _state.asStateFlow()
@@ -30,6 +35,10 @@ class MyViewModel(
 
     private var _booking = MutableStateFlow<BookingDto?>(null)
     val booking = _booking.asStateFlow()
+
+    init {
+        getBooking()
+    }
 
     fun addPassenger() {
         val newList = viewState.passengerList.toMutableList()
@@ -51,46 +60,43 @@ class MyViewModel(
     }
 
     fun onTextChange(textField: TextField, touristIndex: Int) {
-        viewModelScope.launch {
+        scopeLaunch(context = dispatcherWrapper.io) {
             val newTouristList = viewState.passengerList.toMutableList()
-            if (touristIndex >= 0 && touristIndex < newTouristList.size) {
-
-                var newTourist = newTouristList[touristIndex]
-                when (textField) {
-                    TextField.NAME -> {
-                        newTourist = newTourist.copy(name = textField.property)
-                    }
-
-                    TextField.SURNAME -> {
-                        newTourist = newTourist.copy(surname = textField.property)
-                    }
-
-                    TextField.BIRTHDAY -> {
-                        newTourist = newTourist.copy(birthdate = textField.property)
-                    }
-
-                    TextField.NATIONALITY -> {
-                        newTourist = newTourist.copy(nationality = textField.property)
-                    }
-
-                    TextField.PASSPORT_NUMBER -> {
-                        newTourist = newTourist.copy(passportNumber = textField.property)
-                    }
-
-                    TextField.PASSPORT_DATE -> {
-                        newTourist = newTourist.copy(passportDate = textField.property)
-                    }
+            var newTourist = newTouristList[touristIndex]
+            when (textField) {
+                TextField.NAME -> {
+                    newTourist = newTourist.copy(name = textField.property)
                 }
-                newTouristList[touristIndex] = newTourist
-                viewState = viewState.copy(
-                    passengerList = newTouristList
-                )
+
+                TextField.SURNAME -> {
+                    newTourist = newTourist.copy(surname = textField.property)
+                }
+
+                TextField.BIRTHDAY -> {
+                    newTourist = newTourist.copy(birthdate = textField.property)
+                }
+
+                TextField.NATIONALITY -> {
+                    newTourist = newTourist.copy(nationality = textField.property)
+                }
+
+                TextField.PASSPORT_NUMBER -> {
+                    newTourist = newTourist.copy(passportNumber = textField.property)
+                }
+
+                TextField.PASSPORT_DATE -> {
+                    newTourist = newTourist.copy(passportDate = textField.property)
+                }
             }
+            newTouristList[touristIndex] = newTourist
+            viewState = viewState.copy(
+                passengerList = newTouristList
+            )
         }
     }
 
     fun checkEmptyFields() {
-        viewModelScope.launch {
+        scopeLaunch(context = dispatcherWrapper.io) {
             val newTouristList = viewState.passengerList.toMutableList()
             viewState.passengerList.forEachIndexed { index, tourist ->
                 var newTourist = tourist
@@ -144,6 +150,9 @@ class MyViewModel(
                 val booking = useCase.executeBooking()
                 _booking.value = booking
                 _state.value = State.Success
+                viewState = viewState.copy(
+                    isLoading = false,
+                )
             } catch (e: Exception) {
                 _state.value = State.Error
             }
@@ -157,4 +166,12 @@ class MyViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return viewModel as T
     }
+}
+
+interface DispatcherWrapper {
+    val io: CoroutineDispatcher
+}
+
+class MyDispatcherWrapper : DispatcherWrapper {
+    override val io: CoroutineDispatcher = Dispatchers.IO
 }

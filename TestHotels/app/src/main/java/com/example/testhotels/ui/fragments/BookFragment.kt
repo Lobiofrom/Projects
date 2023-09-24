@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.testhotels.App
 import com.example.testhotels.R
+import com.example.testhotels.data.BookingState
 import com.example.testhotels.data.State
 import com.example.testhotels.databinding.FragmentBookBinding
 import com.example.testhotels.entity.passenger.TextField
@@ -26,10 +28,16 @@ import com.example.testhotels.ui.viewmodel.MyViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class BookFragment : Fragment() {
+class BookFragment : BaseFragment<FragmentBookBinding>() {
+    override fun initBinding(inflater: LayoutInflater): FragmentBookBinding? {
+        return FragmentBookBinding.inflate(inflater)
+    }
 
-    private var _binding: FragmentBookBinding? = null
-    private val binding get() = _binding!!
+    private val adapter by lazy {
+        PassengerAdapter { textField, touristIndex ->
+            viewModel.onTextChange(textField, touristIndex)
+        }
+    }
 
     private val appComponent = App().appComponent
 
@@ -40,16 +48,11 @@ class BookFragment : Fragment() {
     private var isEmailValid = false
     private var isPhoneValid = false
 
-    private val adapter = PassengerAdapter(emptyList()) { textField: TextField, i: Int ->
-        viewModel.onTextChange(textField, i)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentBookBinding.inflate(inflater, container, false)
-
+        binding.testRecycler.adapter = adapter
+        flowObserver(viewModel.viewStates()) { state -> stateObserver(state) }
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -58,13 +61,10 @@ class BookFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
-        viewModel.getBooking()
-
-        flowObserver(viewModel.viewStates()) { state ->
-            adapter.updateList(state.passengerList)
-        }
-
+    private fun setupViews(state: BookingState) {
+        adapter.submitList(state.passengerList)
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.booking.collect {
@@ -92,8 +92,6 @@ class BookFragment : Fragment() {
                 }
             }
         }
-
-        binding.testRecycler.adapter = adapter
 
         binding.addTouristButton.setOnClickListener {
             viewModel.addPassenger()
@@ -154,36 +152,27 @@ class BookFragment : Fragment() {
                 binding.TextInputLayout1.isErrorEnabled = false
                 binding.telNumber.backgroundTintList = null
             }
-            flowObserver(viewModel.viewStates()) { state ->
-                if (isPhoneValid && isEmailValid && !state.passengerList.any {
-                        it.hasEmptyProperty
-                    }
-                ) {
-                    findNavController().navigate(R.id.overFragment)
-                } else {
-                    viewModel.checkEmptyFields()
-                    Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_SHORT)
-                        .show()
+            if (isPhoneValid && isEmailValid && !state.passengerList.any {
+                    it.hasEmptyProperty
                 }
+            ) {
+                findNavController().navigate(R.id.overFragment)
+            } else {
+                viewModel.checkEmptyFields()
+                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
-
-        return binding.root
     }
 
-    private fun <I : Any?> flowObserver(flow: Flow<I>?, action: suspend (it: I) -> Unit) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            flow?.collect {
-                action(it)
-            }
+    private fun stateObserver(state: BookingState) {
+        if (!state.isLoading) {
+            binding.root.isVisible
+            setupViews(state)
         }
+    }
 
     private fun validateEmail(email: CharSequence?): Boolean {
         return !email.isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
