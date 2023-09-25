@@ -24,7 +24,13 @@ class MovieListUseCase {
         return movieListRepository.getPopular(page)
     }
 
-    suspend fun executeSelection(countries: Int, genres: Int, type: String, yearFrom: Int, page: Int?): List<Movie> {
+    suspend fun executeSelection(
+        countries: Int,
+        genres: Int,
+        type: String,
+        yearFrom: Int,
+        page: Int?
+    ): List<Movie> {
         return movieListRepository.getSelection(countries, genres, type, yearFrom, page)
     }
 
@@ -50,5 +56,25 @@ class MovieListUseCase {
 
     suspend fun executeSereies(id: Int): List<Season> {
         return movieListRepository.getSeries(id)
+    }
+
+    suspend fun executeSearch(
+        type: String,
+        yearFrom: Int,
+        yearTo: Int,
+        ratingFrom: Int,
+        ratingTo: Int,
+        keyword: String,
+        page: Int?
+    ): List<Movie> {
+        return movieListRepository.search(
+            type,
+            yearFrom,
+            yearTo,
+            ratingFrom,
+            ratingTo,
+            keyword,
+            page
+        )
     }
 }

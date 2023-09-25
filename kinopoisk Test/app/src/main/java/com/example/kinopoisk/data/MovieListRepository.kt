@@ -4,6 +4,7 @@ import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.Season
 import com.example.kinopoisk.entity.StaffItem
+import retrofit2.http.Query
 
 class MovieListRepository {
     private val retrofitAndApi = RetrofitAndApi()
@@ -18,11 +19,18 @@ class MovieListRepository {
     suspend fun getPopular(page: Int?): List<Movie> {
         return retrofitAndApi.api.getPopular(page).films
     }
-    suspend fun getSelection(countries: Int, genres: Int, type: String, yearFrom: Int, page: Int?): List<Movie> {
+
+    suspend fun getSelection(
+        countries: Int,
+        genres: Int,
+        type: String,
+        yearFrom: Int,
+        page: Int?
+    ): List<Movie> {
         return retrofitAndApi.api.getSelection(countries, genres, type, yearFrom, page).items
     }
 
-    suspend fun getMovieDescription(id: Int) : Movie {
+    suspend fun getMovieDescription(id: Int): Movie {
         return retrofitAndApi.api.getMovieDescription(id)
     }
 
@@ -44,5 +52,25 @@ class MovieListRepository {
 
     suspend fun getSeries(id: Int): List<Season> {
         return retrofitAndApi.api.getSeries(id).items
+    }
+
+    suspend fun search(
+        type: String,
+        yearFrom: Int,
+        yearTo: Int,
+        ratingFrom: Int,
+        ratingTo: Int,
+        keyword: String,
+        page: Int?
+    ): List<Movie> {
+        return retrofitAndApi.api.search(
+            type,
+            yearFrom,
+            yearTo,
+            ratingFrom,
+            ratingTo,
+            keyword,
+            page
+        ).items
     }
 }
