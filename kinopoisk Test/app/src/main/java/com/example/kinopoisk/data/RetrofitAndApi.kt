@@ -113,5 +113,12 @@ class RetrofitAndApi {
             @Query("keyword") keyword: String,
             @Query("page") page: Int?
         ): MovieSelectionDto
+
+        @Headers("X-API-KEY: $API_KEY")
+        @GET("/api/v1/persons?")
+        suspend fun searchPersons(
+            @Query("name") name: String,
+            @Query("page") page: Int
+        ): SearchPersonListDto
     }
 }

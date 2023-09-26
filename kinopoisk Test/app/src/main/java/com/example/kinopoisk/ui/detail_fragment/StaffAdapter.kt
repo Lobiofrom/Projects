@@ -16,9 +16,7 @@ class StaffAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
         return StaffViewHolder(
             ItemStaffBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
@@ -31,7 +29,7 @@ class StaffAdapter(
             profession.text = item.description ?: item.professionKey
 
             root.setOnClickListener {
-               onClick.invoke(item, imageView)
+                onClick.invoke(item, imageView)
             }
         }
     }
@@ -40,7 +38,7 @@ class StaffAdapter(
 
 class StaffDiffUtilCallback : DiffUtil.ItemCallback<StaffItem>() {
     override fun areItemsTheSame(oldItem: StaffItem, newItem: StaffItem): Boolean =
-        oldItem.staffId == newItem.staffId
+        oldItem.staffId == newItem.staffId || oldItem.kinopoiskId == newItem.kinopoiskId
 
 
     override fun areContentsTheSame(oldItem: StaffItem, newItem: StaffItem): Boolean =

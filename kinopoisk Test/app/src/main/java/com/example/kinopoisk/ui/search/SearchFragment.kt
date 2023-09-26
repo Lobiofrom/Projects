@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.kinopoisk.databinding.FragmentSearchBinding
 import com.example.kinopoisk.ui.fullmovielist.FullMovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.ui.onItemClick.onPersonSearchClick
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -20,6 +21,9 @@ class SearchFragment : Fragment() {
     private val dashboardViewModel: SearchViewModel by activityViewModels()
     private val adapter = FullMovieListAdapter {
         onItemClick(it, this)
+    }
+    private val personAdapter = SearchPersonAdapter { item, view ->
+        onPersonSearchClick(item, view, this)
     }
 
     override fun onCreateView(
@@ -34,14 +38,19 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.recyclerSearch.adapter = adapter
+        binding.recyclerPerson.adapter = personAdapter
+
         binding.settingsButton.setOnClickListener {
             val keyword = binding.searchView.query.toString()
             dashboardViewModel.getSearch(keyword).onEach {
                 adapter.submitData(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
 
-        binding.recyclerSearch.adapter = adapter
+            dashboardViewModel.getPersons(keyword).onEach {
+                personAdapter.submitData(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
 
     override fun onDestroyView() {

@@ -73,4 +73,8 @@ class MovieListRepository {
             page
         ).items
     }
+
+    suspend fun searchPersons(name: String, page: Int): List<StaffItem> {
+        return retrofitAndApi.api.searchPersons(name, page).items
+    }
 }

@@ -77,4 +77,8 @@ class MovieListUseCase {
             page
         )
     }
+
+    suspend fun executePersonSearch(name: String, page: Int): List<StaffItem> {
+        return movieListRepository.searchPersons(name, page)
+    }
 }

@@ -37,3 +37,10 @@ fun onPersonClick(item: StaffItem, imageView: ImageView, fragment: Fragment) {
     bundle.putInt("personId", personId)
     fragment.findNavController().navigate(R.id.actorFragment, bundle)
 }
+
+fun onPersonSearchClick(item: StaffItem, imageView: ImageView, fragment: Fragment) {
+    val bundle = Bundle()
+    val personId = item.kinopoiskId
+    bundle.putInt("personId", personId)
+    fragment.findNavController().navigate(R.id.actorFragment, bundle)
+}
