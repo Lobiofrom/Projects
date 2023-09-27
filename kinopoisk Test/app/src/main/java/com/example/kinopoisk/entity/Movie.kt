@@ -55,7 +55,8 @@ data class Movie(
     val slogan: String?,
     val startYear: Any?,
     val webUrl: String?,
-) : Parcelable {
+) : BaseMediaItem() {
+
     constructor(parcel: Parcel) : this(
         parcel.createTypedArrayList(Country.CREATOR),
         parcel.readDouble(),

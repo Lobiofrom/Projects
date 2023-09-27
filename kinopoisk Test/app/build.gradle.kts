@@ -87,4 +87,9 @@ dependencies {
     //Hilt
     implementation ("com.google.dagger:hilt-android:2.44")
     ksp ("com.google.dagger:hilt-compiler:2.46.1")
+
+    //Adapter Delegates
+    implementation ("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.2")
+    implementation ("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2")
+    implementation ("com.hannesdorfmann:adapterdelegates4-pagination:4.3.2")
 }
