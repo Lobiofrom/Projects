@@ -1,7 +1,10 @@
 package com.example.coctails.presentation
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -30,13 +34,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 
 @SuppressLint("MutableCollectionMutableState")
@@ -48,14 +55,20 @@ fun AddCocktail(
     viewModel: MyViewModel
 ) {
     val context = LocalContext.current
-
     var showIngredientDialog by remember {
         mutableStateOf(false)
     }
-
     val ingredientList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val getContent =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            imageUri = uri
+        }
 
     Column {
         Back(onIconClicked)
@@ -64,11 +77,39 @@ fun AddCocktail(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.img),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(200.dp)
+                    .width(200.dp)
+            ) {
+                if (imageUri == null) {
+
+                    IconButton(
+                        onClick = { getContent.launch("image/*") },
+                        modifier = Modifier
+                            .paint(painter = painterResource(id = R.drawable.img_6))
+                            .align(Alignment.Center)
+                    ) {}
+                    Image(
+                        painter = painterResource(id = R.drawable.img_7),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                } else {
+                    val painter = rememberAsyncImagePainter(model = imageUri)
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .fillMaxSize()
+                            .clip(shape = RoundedCornerShape(30.dp))
+                    )
+                }
+            }
 
             var name by rememberSaveable { mutableStateOf("") }
 
@@ -194,11 +235,15 @@ fun AddCocktail(
             Button(
                 onClick = {
                     if (name.isEmpty() || ingredientList.isEmpty()) {
-                        Toast.makeText(context, "Add cocktail name and ingredients!", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            context,
+                            "Add cocktail name and ingredients!",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                     } else {
                         onSaveClick()
-                        viewModel.addRecipe(name, description, recipe, ingredientList, null)
+                        viewModel.addRecipe(name, description, recipe, ingredientList, imageUri.toString())
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
                             .show()
                     }

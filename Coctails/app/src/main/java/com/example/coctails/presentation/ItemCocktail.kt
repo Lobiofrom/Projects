@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
 
@@ -35,8 +36,9 @@ fun Item(
                 onClick = onItemClick
             )
     ) {
+        val painter = rememberAsyncImagePainter(model = recipe.image ?: painterResource(id = R.drawable.oldfashioned))
         Image(
-            painter = painterResource(id = R.drawable.oldfashioned),
+            painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()

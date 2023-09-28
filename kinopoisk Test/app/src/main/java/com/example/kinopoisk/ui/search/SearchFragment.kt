@@ -1,25 +1,17 @@
 package com.example.kinopoisk.ui.search
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagedList
 import com.example.kinopoisk.databinding.FragmentSearchBinding
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.StaffItem
-import com.example.kinopoisk.ui.detail_fragment.StaffDiffUtilCallback
 import com.example.kinopoisk.ui.fullmovielist.FullMovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonSearchClick
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegate
-import com.hannesdorfmann.adapterdelegates4.paging.PagedListDelegationAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -35,7 +27,7 @@ class SearchFragment : Fragment() {
         onPersonSearchClick(item, view, this)
     }
 
-    private val adpterDelegate = ListDelegationAdapter(
+    private val adapterDelegate = ListDelegationAdapter(
         personAdapterDelegate { item, view ->
             onPersonSearchClick(item, view, this)
         },
@@ -56,19 +48,15 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerSearch.adapter = adpterDelegate
-
-        //binding.recyclerPerson.adapter = personAdapter
+        binding.recyclerSearch.adapter = adapterDelegate
 
         binding.settingsButton.setOnClickListener {
             val keyword = binding.searchView.query.toString()
-
             dashboardViewModel.searchP(keyword)
             dashboardViewModel.search(keyword)
             dashboardViewModel.combinedFlow.onEach { data ->
-                Log.d("SearchFragment", "Combined Flow Received: ${data.size}")
-                adpterDelegate.items = data
-                adpterDelegate.notifyDataSetChanged()
+                adapterDelegate.items = data
+                adapterDelegate.notifyDataSetChanged()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 

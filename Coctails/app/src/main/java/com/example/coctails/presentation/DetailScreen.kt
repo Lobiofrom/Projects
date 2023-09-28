@@ -34,10 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
+import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun DetailScreen(
@@ -52,10 +55,9 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
-
+        val painter = rememberAsyncImagePainter(model = recipe.image ?: painterResource(id = R.drawable.oldfashioned))
         Image(
-            painter = painterResource(id = R.drawable.oldfashioned),
+            painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .height(500.dp),
@@ -195,7 +197,6 @@ fun DetailScreen(
 //fun DetailPreview() {
 //    CoctailsTheme {
 //        val onEditClick: () -> Unit = {}
-//
-//        com.example.coctails.presentation.DetailScreen(onEditClick)
+//        DetailScreen(onEditClick)
 //    }
 //}

@@ -27,7 +27,7 @@ class MyViewModel(
         description: String?,
         recipe: String?,
         ingredients: List<String>?,
-        image: Int?
+        image: String?
     ) {
         viewModelScope.launch {
             recipeDao.upsertRecipe(
