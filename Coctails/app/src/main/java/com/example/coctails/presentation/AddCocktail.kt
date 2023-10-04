@@ -66,8 +66,8 @@ fun AddCocktail(
     }
 
     val getContent =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            imageUri = uri
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+            imageUri = it
         }
 
     Column {
@@ -242,8 +242,9 @@ fun AddCocktail(
                         )
                             .show()
                     } else {
+                        val uriForSave = imageUri.toString()
                         onSaveClick()
-                        viewModel.addRecipe(name, description, recipe, ingredientList, imageUri.toString())
+                        viewModel.addRecipe(name, description, recipe, ingredientList, uriForSave)
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
                             .show()
                     }

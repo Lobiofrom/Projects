@@ -55,7 +55,8 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        val painter = rememberAsyncImagePainter(model = recipe.image ?: painterResource(id = R.drawable.oldfashioned))
+        val painter =
+            rememberAsyncImagePainter(model = recipe.image.ifEmpty { painterResource(id = R.drawable.oldfashioned) })
         Image(
             painter = painter,
             contentDescription = null,
