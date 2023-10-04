@@ -1,6 +1,5 @@
 package com.example.coctails.presentation
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -37,19 +36,27 @@ fun Item(
                 onClick = onItemClick
             )
     ) {
-        val painter =
-            rememberAsyncImagePainter(
-                model = recipe.image.ifEmpty { painterResource(id = R.drawable.oldfashioned) }
+        val painter = rememberAsyncImagePainter(model = recipe.image)
+
+        if (recipe.image.isEmpty()) {
+            Image(
+                painter = painterResource(id = R.drawable.oldfashioned),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(shape = RoundedCornerShape(30.dp)),
+                contentScale = ContentScale.Crop
             )
-        Log.d("photo", "Это картинка: ${recipe.image}")
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(shape = RoundedCornerShape(30.dp)),
-            contentScale = ContentScale.Crop
-        )
+        } else {
+            Image(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(shape = RoundedCornerShape(30.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
         Text(
             text = recipe.title,
             fontSize = 15.sp,

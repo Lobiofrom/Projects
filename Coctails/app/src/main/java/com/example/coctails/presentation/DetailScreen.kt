@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,13 +33,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
-import com.example.coctails.ui.theme.CoctailsTheme
 
 @Composable
 fun DetailScreen(
@@ -53,19 +50,27 @@ fun DetailScreen(
         mutableStateOf(false)
     }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        val painter =
-            rememberAsyncImagePainter(model = recipe.image.ifEmpty { painterResource(id = R.drawable.oldfashioned) })
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .height(500.dp),
-            contentScale = ContentScale.Crop
-        )
+        val painter = rememberAsyncImagePainter(model = recipe.image)
 
-        Back(onEditClick)
+        if (recipe.image.isEmpty()) {
+            Image(
+                painter = painterResource(id = R.drawable.oldfashioned),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(500.dp),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Image(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(500.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Box(
             modifier = Modifier
@@ -190,6 +195,12 @@ fun DetailScreen(
                 }
             }
         }
+        Back(
+            onEditClick,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(26.dp)
+        )
     }
 }
 //

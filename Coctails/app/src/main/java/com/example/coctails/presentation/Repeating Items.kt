@@ -18,11 +18,11 @@ import com.example.coctails.R
 
 @Composable
 fun Back(
-    onIconClicked: () -> Unit
+    onIconClicked: () -> Unit,
+    modifier: Modifier
 ) {
     Row(
-        modifier = Modifier
-            .padding(start = 16.dp, top = 16.dp)
+        modifier = modifier
     ) {
         IconButton(
             onClick = onIconClicked,

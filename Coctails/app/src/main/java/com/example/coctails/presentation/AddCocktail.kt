@@ -85,7 +85,12 @@ fun AddCocktail(
     }
 
     Column {
-        Back(onIconClicked)
+        Back(
+            onIconClicked,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(16.dp)
+        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
