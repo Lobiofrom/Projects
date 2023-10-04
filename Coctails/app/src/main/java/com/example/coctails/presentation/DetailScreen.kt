@@ -59,7 +59,8 @@ fun DetailScreen(
                 painter = painterResource(id = R.drawable.oldfashioned),
                 contentDescription = null,
                 modifier = Modifier
-                    .height(500.dp),
+                    .height(500.dp)
+                    .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
         } else {
@@ -67,7 +68,8 @@ fun DetailScreen(
                 painter = painter,
                 contentDescription = null,
                 modifier = Modifier
-                    .height(500.dp),
+                    .height(500.dp)
+                    .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
         }
