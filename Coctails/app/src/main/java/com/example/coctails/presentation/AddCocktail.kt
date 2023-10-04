@@ -2,6 +2,7 @@ package com.example.coctails.presentation
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
+import com.example.coctails.utils.extractUri
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
@@ -61,6 +64,10 @@ fun AddCocktail(
     val ingredientList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
+    var fileUri by remember {
+        mutableStateOf("")
+    }
+
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -69,6 +76,13 @@ fun AddCocktail(
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
             imageUri = it
         }
+
+    if (imageUri != null) {
+        LaunchedEffect(Unit) {
+            fileUri = extractUri(imageUri, context)
+            Log.d("tag", "picture: $fileUri")
+        }
+    }
 
     Column {
         Back(onIconClicked)
@@ -83,7 +97,7 @@ fun AddCocktail(
                     .height(200.dp)
                     .width(200.dp)
             ) {
-                if (imageUri == null) {
+                if (fileUri.isEmpty()) {
 
                     IconButton(
                         onClick = { getContent.launch("image/*") },
@@ -98,7 +112,7 @@ fun AddCocktail(
                             .align(Alignment.Center)
                     )
                 } else {
-                    val painter = rememberAsyncImagePainter(model = imageUri)
+                    val painter = rememberAsyncImagePainter(model = fileUri)
                     Image(
                         painter = painter,
                         contentDescription = null,
@@ -242,9 +256,8 @@ fun AddCocktail(
                         )
                             .show()
                     } else {
-                        val uriForSave = imageUri.toString()
                         onSaveClick()
-                        viewModel.addRecipe(name, description, recipe, ingredientList, uriForSave)
+                        viewModel.addRecipe(name, description, recipe, ingredientList, fileUri)
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
                             .show()
                     }
