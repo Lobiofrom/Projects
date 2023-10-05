@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -45,16 +46,28 @@ class SearchFragment : Fragment() {
         binding.recyclerSearch.adapter = movieAdapter
         binding.recyclerPerson.adapter = personAdapter
 
-        binding.settingsButton.setOnClickListener {
-            val keyword = binding.searchView.query.toString()
-            dashboardViewModel.getMovies(keyword).onEach {
-                movieAdapter.submitData(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
-            dashboardViewModel.getPersons(keyword).onEach {
-                personAdapter.submitData(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val keyword = newText.orEmpty()
+                dashboardViewModel.getMovies(keyword).onEach {
+                    movieAdapter.submitData(it)
+
+                    if (movieAdapter.itemCount == 0) {
+
+                    }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                dashboardViewModel.getPersons(keyword).onEach {
+                    personAdapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {
