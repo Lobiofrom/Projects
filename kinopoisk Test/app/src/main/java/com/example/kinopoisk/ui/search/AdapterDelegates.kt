@@ -1,44 +1,64 @@
 package com.example.kinopoisk.ui.search
 
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import coil.load
 import com.example.kinopoisk.databinding.ItemBinding
 import com.example.kinopoisk.databinding.ItemSearchedPersonBinding
-import com.example.kinopoisk.entity.BaseMediaItem
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.StaffItem
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.example.kinopoisk.ui.detail_fragment.StaffDiffUtilCallback
+import com.example.kinopoisk.ui.home.DiffUtilCallback
+import ru.sr.adapter.PagingDelegateAdapter
+import ru.sr.adapter.adapterDelegate
 
-fun personAdapterDelegate(onClick: (StaffItem, ImageView) -> Unit) =
-    adapterDelegateViewBinding<StaffItem, BaseMediaItem, ItemSearchedPersonBinding>(
-        { layoutInflater, root ->
+class PersonDelegateAdapter(
+    onClickPerson: (StaffItem) -> Unit,
+) :
+    PagingDelegateAdapter<StaffItem>(StaffDiffUtilCallback()) {
+
+    init {
+        addDelegate(personAdapterDelegate(onClickPerson))
+    }
+}
+
+class MovieDelegateAdapter(
+    onClickPerson: (Movie) -> Unit,
+) :
+    PagingDelegateAdapter<Movie>(DiffUtilCallback()) {
+
+    init {
+        addDelegate(movieAdapterDelegate(onClickPerson))
+    }
+}
+
+fun personAdapterDelegate(onClickPerson: (StaffItem) -> Unit) =
+    adapterDelegate<StaffItem, StaffItem, ItemSearchedPersonBinding>(
+        { parent ->
             ItemSearchedPersonBinding.inflate(
-                layoutInflater,
-                root,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         }
     ) {
-        binding.root.setOnClickListener {
-            onClick.invoke(item, binding.imageView)
-        }
         bind {
             binding.imageView.load(item.posterUrl)
             binding.personName.text = item.nameRu
+            binding.root.setOnClickListener {
+                onClickPerson.invoke(item)
+            }
         }
     }
 
-fun movieAdapterDelegate(onClick: (Movie) -> Unit) =
-    adapterDelegateViewBinding<Movie, BaseMediaItem, ItemBinding>(
-        { layoutInflater, root ->
-            ItemBinding.inflate(layoutInflater, root, false)
+fun movieAdapterDelegate(onClickMovie: (Movie) -> Unit) =
+    adapterDelegate<Movie, Movie, ItemBinding>(
+        { parent ->
+            ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         }
     ) {
-        binding.root.setOnClickListener {
-            onClick.invoke(item)
-        }
         bind {
+            binding.root.setOnClickListener {
+                onClickMovie.invoke(item)
+            }
             if (!item.rating.isNullOrEmpty()) {
                 binding.rating.visibility = View.VISIBLE
                 binding.rating.text = item.rating

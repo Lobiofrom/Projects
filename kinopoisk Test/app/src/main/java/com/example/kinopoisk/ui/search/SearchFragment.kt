@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.kinopoisk.databinding.FragmentSearchBinding
-import com.example.kinopoisk.ui.fullmovielist.FullMovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonSearchClick
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -20,21 +18,17 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val dashboardViewModel: SearchViewModel by activityViewModels()
-    private val adapter = FullMovieListAdapter {
-        onItemClick(it, this)
-    }
-    private val personAdapter = SearchPersonAdapter { item, view ->
-        onPersonSearchClick(item, view, this)
-    }
 
-    private val adapterDelegate = ListDelegationAdapter(
-        personAdapterDelegate { item, view ->
-            onPersonSearchClick(item, view, this)
-        },
-        movieAdapterDelegate {
+    private val personAdapter by lazy {
+        PersonDelegateAdapter {
+            onPersonSearchClick(it, this)
+        }
+    }
+    private val movieAdapter by lazy {
+        MovieDelegateAdapter {
             onItemClick(it, this)
         }
-    )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,25 +42,18 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerSearch.adapter = adapterDelegate
+        binding.recyclerSearch.adapter = movieAdapter
+        binding.recyclerPerson.adapter = personAdapter
 
         binding.settingsButton.setOnClickListener {
             val keyword = binding.searchView.query.toString()
-            dashboardViewModel.searchP(keyword)
-            dashboardViewModel.search(keyword)
-            dashboardViewModel.combinedFlow.onEach { data ->
-                adapterDelegate.items = data
-                adapterDelegate.notifyDataSetChanged()
+            dashboardViewModel.getMovies(keyword).onEach {
+                movieAdapter.submitData(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-
-//            dashboardViewModel.getSearch(keyword).onEach {
-//                adpterDelegate.submitList(it)
-//            }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-//            dashboardViewModel.getPersons(keyword).onEach {
-//                adpterDelegate.
-//            }.launchIn(viewLifecycleOwner.lifecycleScope)
+            dashboardViewModel.getPersons(keyword).onEach {
+                personAdapter.submitData(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 
