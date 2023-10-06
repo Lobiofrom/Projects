@@ -34,38 +34,80 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/errorText"
-        android:layout_width="308dp"
+        android:id="@+id/textmovie"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
+        android:layout_marginStart="38sp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
-        android:text="К сожалению, по вашему запросу ничего не найдено"
+        android:text="Фильмы:"
         android:textSize="16sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear" />
+
+    <TextView
+        android:id="@+id/errortextmovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38sp"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="не найдено"
+        android:visibility="gone"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textmovie" />
+
+
+    <TextView
+        android:id="@+id/textperson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="80dp"
+        android:gravity="center"
+        android:text="Актеры:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear" />
+
+    <TextView
+        android:id="@+id/errortextperson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="58dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="не найдено"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textperson" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="46dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:spanCount="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textmovie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_goneMarginBottom="46dp"
         tools:listitem="@layout/item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPerson"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="40dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear"
+        android:layout_marginBottom="46dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textperson"
         tools:listitem="@layout/item_searched_person" />
 
 

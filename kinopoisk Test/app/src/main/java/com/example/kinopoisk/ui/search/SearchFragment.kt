@@ -53,16 +53,33 @@ class SearchFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 val keyword = newText.orEmpty()
+
                 dashboardViewModel.getMovies(keyword).onEach {
                     movieAdapter.submitData(it)
-
-                    if (movieAdapter.itemCount == 0) {
-
+                    movieAdapter.addLoadStateListener { loadState ->
+                        if (loadState.append.endOfPaginationReached) {
+                            if (movieAdapter.itemCount < 1) {
+                                binding.errortextmovie.visibility = View.VISIBLE
+                            }
+                        }
+                        if (movieAdapter.itemCount > 1) {
+                            binding.errortextmovie.visibility = View.GONE
+                        }
                     }
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
 
                 dashboardViewModel.getPersons(keyword).onEach {
                     personAdapter.submitData(it)
+                    personAdapter.addLoadStateListener { loadState ->
+                        if (loadState.append.endOfPaginationReached) {
+                            if (personAdapter.itemCount < 1) {
+                                binding.errortextperson.visibility = View.VISIBLE
+                            }
+                        }
+                        if (personAdapter.itemCount > 1) {
+                            binding.errortextperson.visibility = View.GONE
+                        }
+                    }
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
 
                 return true
