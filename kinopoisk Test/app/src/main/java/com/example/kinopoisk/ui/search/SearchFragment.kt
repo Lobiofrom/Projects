@@ -8,6 +8,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentSearchBinding
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonSearchClick
@@ -19,17 +21,6 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val dashboardViewModel: SearchViewModel by activityViewModels()
-
-    private val personAdapter by lazy {
-        PersonDelegateAdapter {
-            onPersonSearchClick(it, this)
-        }
-    }
-    private val movieAdapter by lazy {
-        MovieDelegateAdapter {
-            onItemClick(it, this)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,8 +34,24 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val personAdapter by lazy {
+            PersonDelegateAdapter {
+                onPersonSearchClick(it, this)
+            }
+        }
+        val movieAdapter by lazy {
+            MovieDelegateAdapter {
+                onItemClick(it, this)
+            }
+        }
+
         binding.recyclerSearch.adapter = movieAdapter
         binding.recyclerPerson.adapter = personAdapter
+
+        binding.searchBar.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.searchSettingsFragment)
+            true
+        }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -85,6 +92,9 @@ class SearchFragment : Fragment() {
                 return true
             }
         })
+//        binding.settingsButton.setOnClickListener {
+//            findNavController().navigate(R.id.searchSettingsFragment)
+//        }
     }
 
     override fun onDestroyView() {

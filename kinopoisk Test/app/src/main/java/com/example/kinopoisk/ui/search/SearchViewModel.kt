@@ -12,10 +12,25 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchViewModel : ViewModel() {
 
+    val yearFrom = 1950
+    val yearTo = 2023
+    val ratingFrom = 5
+    val ratingTo = 10
+    val type = "ALL"
+
     fun getMovies(keyword: String): Flow<PagingData<Movie>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = { SearchPagingSource(keyword = keyword) }
+            pagingSourceFactory = {
+                SearchPagingSource(
+                    keyword = keyword,
+                    yearFrom = yearFrom,
+                    yearTo = yearTo,
+                    ratingFrom = ratingFrom,
+                    ratingTo = ratingTo,
+                    type = type
+                )
+            }
         ).flow.cachedIn(viewModelScope)
     }
 

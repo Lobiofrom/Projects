@@ -6,32 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="330dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/search_background"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                app:menu="@menu/searchbar_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="237dp"
-            android:layout_height="32dp"
+            android:id="@+id/searchView"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
             app:iconifiedByDefault="false"
-            app:queryHint="Фильмы, актёры..." />
+            app:layout_anchor="@id/search_bar"
+            app:queryHint="Фильмы, актеры..."
+            app:searchIcon="@null"
+            >
+        </androidx.appcompat.widget.SearchView>
 
-        <ImageButton
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingHorizontal="10dp"
-            android:src="@drawable/searchsettings" />
 
-    </LinearLayout>
+<!--                <com.google.android.material.search.SearchView-->
+<!--                    android:id="@+id/searchView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:hint="Фильмы, актеры..."-->
+<!--                    app:layout_anchor="@id/search_bar">-->
+
+<!--                </com.google.android.material.search.SearchView>-->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <TextView
         android:id="@+id/textmovie"
@@ -43,7 +61,7 @@
         android:text="Фильмы:"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear" />
+        app:layout_constraintTop_toBottomOf="@+id/coordinator" />
 
     <TextView
         android:id="@+id/errortextmovie"
@@ -53,8 +71,8 @@
         android:layout_marginTop="6dp"
         android:gravity="center"
         android:text="не найдено"
-        android:visibility="gone"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textmovie" />
 
@@ -69,7 +87,7 @@
         android:text="Актеры:"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear" />
+        app:layout_constraintTop_toBottomOf="@+id/coordinator" />
 
     <TextView
         android:id="@+id/errortextperson"
@@ -78,9 +96,9 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="58dp"
         android:gravity="center"
-        android:visibility="gone"
         android:text="не найдено"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textperson" />
 
@@ -91,9 +109,9 @@
         android:layout_marginTop="6dp"
         android:layout_marginBottom="46dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textmovie"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_goneMarginBottom="46dp"
         tools:listitem="@layout/item" />
 
@@ -103,10 +121,10 @@
         android:layout_height="0dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="40dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="46dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textperson"
         tools:listitem="@layout/item_searched_person" />
 
