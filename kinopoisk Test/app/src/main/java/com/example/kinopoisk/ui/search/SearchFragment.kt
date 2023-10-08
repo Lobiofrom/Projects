@@ -1,10 +1,11 @@
 package com.example.kinopoisk.ui.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,14 +54,15 @@ class SearchFragment : Fragment() {
             true
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
+        binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
+            binding.searchBar.setText(binding.searchView.text)
+            binding.searchView.hide()
+            false
+        }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val keyword = newText.orEmpty()
-
+        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val keyword = s.toString()
                 dashboardViewModel.getMovies(keyword).onEach {
                     movieAdapter.submitData(it)
                     movieAdapter.addLoadStateListener { loadState ->
@@ -88,13 +90,14 @@ class SearchFragment : Fragment() {
                         }
                     }
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
 
-                return true
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-//        binding.settingsButton.setOnClickListener {
-//            findNavController().navigate(R.id.searchSettingsFragment)
-//        }
     }
 
     override fun onDestroyView() {

@@ -20,34 +20,19 @@
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
-                app:menu="@menu/searchbar_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                app:menu="@menu/searchbar_menu" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.appcompat.widget.SearchView
+        <com.google.android.material.search.SearchView
             android:id="@+id/searchView"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            app:iconifiedByDefault="false"
-            app:layout_anchor="@id/search_bar"
-            app:queryHint="Фильмы, актеры..."
-            app:searchIcon="@null"
-            >
-        </androidx.appcompat.widget.SearchView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Фильмы, актеры..."
+            app:layout_anchor="@id/search_bar">
 
-
-<!--                <com.google.android.material.search.SearchView-->
-<!--                    android:id="@+id/searchView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:hint="Фильмы, актеры..."-->
-<!--                    app:layout_anchor="@id/search_bar">-->
-
-<!--                </com.google.android.material.search.SearchView>-->
+        </com.google.android.material.search.SearchView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -75,7 +60,6 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textmovie" />
-
 
     <TextView
         android:id="@+id/textperson"
@@ -127,6 +111,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textperson"
         tools:listitem="@layout/item_searched_person" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
