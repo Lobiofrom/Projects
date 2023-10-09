@@ -60,44 +60,51 @@ class SearchFragment : Fragment() {
             false
         }
 
-        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val keyword = s.toString()
-                dashboardViewModel.getMovies(keyword).onEach {
-                    movieAdapter.submitData(it)
-                    movieAdapter.addLoadStateListener { loadState ->
-                        if (loadState.append.endOfPaginationReached) {
-                            if (movieAdapter.itemCount < 1) {
-                                binding.errortextmovie.visibility = View.VISIBLE
+        binding.searchView.editText.addTextChangedListener(
+            object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    val keyword = s.toString()
+                    dashboardViewModel.getMovies(keyword).onEach {
+                        movieAdapter.submitData(it)
+                        movieAdapter.addLoadStateListener { loadState ->
+                            if (loadState.append.endOfPaginationReached) {
+                                if (movieAdapter.itemCount < 1) {
+                                    binding.errortextmovie.visibility = View.VISIBLE
+                                }
+                            }
+                            if (movieAdapter.itemCount > 1) {
+                                binding.errortextmovie.visibility = View.GONE
                             }
                         }
-                        if (movieAdapter.itemCount > 1) {
-                            binding.errortextmovie.visibility = View.GONE
-                        }
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-                dashboardViewModel.getPersons(keyword).onEach {
-                    personAdapter.submitData(it)
-                    personAdapter.addLoadStateListener { loadState ->
-                        if (loadState.append.endOfPaginationReached) {
-                            if (personAdapter.itemCount < 1) {
-                                binding.errortextperson.visibility = View.VISIBLE
+                    dashboardViewModel.getPersons(keyword).onEach {
+                        personAdapter.submitData(it)
+                        personAdapter.addLoadStateListener { loadState ->
+                            if (loadState.append.endOfPaginationReached) {
+                                if (personAdapter.itemCount < 1) {
+                                    binding.errortextperson.visibility = View.VISIBLE
+                                }
+                            }
+                            if (personAdapter.itemCount > 1) {
+                                binding.errortextperson.visibility = View.GONE
                             }
                         }
-                        if (personAdapter.itemCount > 1) {
-                            binding.errortextperson.visibility = View.GONE
-                        }
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-            }
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
             }
-        })
+        )
     }
 
     override fun onDestroyView() {
