@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchViewModel : ViewModel() {
 
-    val yearFrom = 1950
-    val yearTo = 2023
-    val ratingFrom = 5
-    val ratingTo = 10
-    val type = "ALL"
+    var yearFrom = 1950
+    var yearTo = 2023
+    var ratingFrom = 5
+    var ratingTo = 10
+    var type = "ALL"
 
     fun getMovies(keyword: String): Flow<PagingData<Movie>> {
         return Pager(

@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,11 +28,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,16 +48,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
+import com.example.coctails.entity.Recipe
 import com.example.coctails.utils.extractUri
+import kotlinx.coroutines.launch
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun AddCocktail(
+    recipe: Recipe?,
     onIconClicked: () -> Unit,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
     viewModel: MyViewModel
 ) {
+    var oldImage by remember {
+        mutableStateOf(recipe?.image)
+    }
+    Log.d("tag", "oldImage1: $oldImage")
+
     val context = LocalContext.current
     var showIngredientDialog by remember {
         mutableStateOf(false)
@@ -72,17 +81,17 @@ fun AddCocktail(
         mutableStateOf<Uri?>(null)
     }
 
+    val scope = rememberCoroutineScope()
+
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
             imageUri = it
+            scope.launch {
+                oldImage = null
+                Log.d("tag", "oldImage3: $oldImage")
+                fileUri = extractUri(imageUri, context)
+            }
         }
-
-    if (imageUri != null) {
-        LaunchedEffect(Unit) {
-            fileUri = extractUri(imageUri, context)
-            Log.d("tag", "picture: $fileUri")
-        }
-    }
 
     Column {
         Back(
@@ -102,8 +111,7 @@ fun AddCocktail(
                     .height(200.dp)
                     .width(200.dp)
             ) {
-                if (fileUri.isEmpty()) {
-
+                if (fileUri.isEmpty() && oldImage.isNullOrEmpty()) {
                     IconButton(
                         onClick = { getContent.launch("image/*") },
                         modifier = Modifier
@@ -116,16 +124,32 @@ fun AddCocktail(
                         modifier = Modifier
                             .align(Alignment.Center)
                     )
-                } else {
-                    val painter = rememberAsyncImagePainter(model = fileUri)
+                } else if (oldImage.isNullOrEmpty()) {
                     Image(
-                        painter = painter,
+                        painter = rememberAsyncImagePainter(model = fileUri),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .fillMaxSize()
                             .clip(shape = RoundedCornerShape(30.dp))
+                            .clickable {
+                                getContent.launch("image/*")
+                            }
+                    )
+                } else {
+                    Log.d("tag", "oldImage2: $oldImage")
+                    Image(
+                        painter = rememberAsyncImagePainter(model = oldImage),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .fillMaxSize()
+                            .clip(shape = RoundedCornerShape(30.dp))
+                            .clickable {
+                                getContent.launch("image/*")
+                            }
                     )
                 }
             }
@@ -215,13 +239,13 @@ fun AddCocktail(
                     }
                 }
             }
-            var recipe by rememberSaveable { mutableStateOf("") }
+            var recipeDesription by rememberSaveable { mutableStateOf("") }
 
             OutlinedTextFieldBackground(Color.White) {
                 OutlinedTextField(
-                    value = recipe,
+                    value = recipeDesription,
                     onValueChange = {
-                        recipe = it
+                        recipeDesription = it
                     },
                     label = {
                         Text(
@@ -262,7 +286,13 @@ fun AddCocktail(
                             .show()
                     } else {
                         onSaveClick()
-                        viewModel.addRecipe(name, description, recipe, ingredientList, fileUri)
+                        viewModel.addRecipe(
+                            name,
+                            description,
+                            recipeDesription,
+                            ingredientList,
+                            fileUri
+                        )
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
                             .show()
                     }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,7 +44,8 @@ import com.example.coctails.entity.Recipe
 fun DetailScreen(
     recipe: Recipe,
     viewModel: MyViewModel,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
 
     var showConformation by remember {
@@ -77,8 +79,8 @@ fun DetailScreen(
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(16.dp)
-                .size(48.dp)
+                .padding(6.dp)
+                .size(38.dp)
                 .background(color = Color.White, shape = CircleShape)
                 .clickable {
                     showConformation = true
@@ -88,7 +90,8 @@ fun DetailScreen(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "delete recipe",
                 tint = Color.Black,
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .align(Alignment.Center)
             )
         }
 
@@ -194,11 +197,18 @@ fun DetailScreen(
                         .padding(start = 16.dp, end = 16.dp)
                 ) {
                     Text(text = "Edit")
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 6.dp)
+                            .size(16.dp)
+                    )
                 }
             }
         }
         Back(
-            onEditClick,
+            onBackClick,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(26.dp)

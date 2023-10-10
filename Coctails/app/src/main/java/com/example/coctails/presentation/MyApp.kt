@@ -57,10 +57,11 @@ fun MyApp(
             exit = fadeOut()
         ) {
             AddCocktail(
+                recipe = null,
                 onIconClicked = { showGreeting = true },
                 onCancelClick = { showGreeting = true },
                 onSaveClick = { showGreeting = true },
-                viewModel
+                viewModel = viewModel
             )
         }
     }

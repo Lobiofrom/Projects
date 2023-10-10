@@ -47,6 +47,13 @@ fun Greeting(
     var showDetailScreen by remember {
         mutableStateOf(false)
     }
+    var showEditScreen by remember {
+        mutableStateOf(false)
+    }
+
+    var showGreetingScreen by remember {
+        mutableStateOf(true)
+    }
 
     var recipe by remember {
         mutableStateOf<Recipe?>(null)
@@ -59,7 +66,7 @@ fun Greeting(
 
     }
 
-    if (!showDetailScreen) {
+    if (showGreetingScreen) {
         var isVisible by remember {
             mutableStateOf(false)
         }
@@ -140,7 +147,8 @@ fun Greeting(
                 }
             }
         }
-    } else {
+    }
+    if (showDetailScreen) {
         var isVisible2 by remember {
             mutableStateOf(false)
         }
@@ -158,11 +166,36 @@ fun Greeting(
         ) {
             recipe?.let {
                 DetailScreen(
-                    recipe = it, viewModel = viewModel
-                ) {
-                    showDetailScreen = false
-                }
+                    recipe = it,
+                    viewModel = viewModel,
+                    onEditClick = {
+                        showDetailScreen = false
+                        showGreetingScreen = false
+                        showEditScreen = true
+                    },
+                    onBackClick = {
+                        showDetailScreen = false
+                        showGreetingScreen = true
+                    }
+                )
             }
+        }
+    }
+    if (showEditScreen) {
+        recipe?.let {
+            AddCocktail(
+                recipe = it,
+                onIconClicked = {
+                    showEditScreen = false
+                    showDetailScreen = true
+                },
+                onCancelClick = {
+                    showEditScreen = false
+                    showGreetingScreen = true
+                },
+                onSaveClick = { /*TODO*/ },
+                viewModel = viewModel
+            )
         }
     }
 }

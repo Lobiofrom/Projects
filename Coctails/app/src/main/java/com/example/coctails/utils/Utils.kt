@@ -12,26 +12,17 @@ suspend fun extractUri(uri: Uri?, context: Context): String {
     if (uri == null) {
         return ""
     }
+    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+        val bytes = inputStream.readBytes()
+        val title = uri.lastPathSegment ?: "unknown"
+        val file = File(context.filesDir, title)
 
-    try {
-        context.contentResolver.openInputStream(uri)?.use { inputStream ->
-            val bytes = inputStream.readBytes()
-
-            val title = uri.lastPathSegment ?: "unknown"
-            val uniqueId = System.currentTimeMillis()
-            val fileName = "$title-$uniqueId"
-            val file = File(context.filesDir, fileName)
-
-            withContext(Dispatchers.IO) {
-                FileOutputStream(file).use {
-                    it.write(bytes)
-                }
+        withContext(Dispatchers.IO) {
+            FileOutputStream(file).use {
+                it.write(bytes)
             }
-            return file.toUri().toString()
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        return ""
+        return file.toUri().toString()
     }
     return ""
 }
