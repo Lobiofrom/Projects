@@ -45,7 +45,8 @@ fun DetailScreen(
     recipe: Recipe,
     viewModel: MyViewModel,
     onEditClick: () -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
 
     var showConformation by remember {
@@ -104,7 +105,7 @@ fun DetailScreen(
                         onClick = {
                             viewModel.deleteRecipe(recipe = recipe)
                             showConformation = false
-                            onEditClick()
+                            onDeleteClick()
                         },
                         modifier = Modifier
                             .align(Alignment.BottomEnd)

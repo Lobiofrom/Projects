@@ -1,12 +1,16 @@
 package com.example.coctails.entity
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
 data class Recipe(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Int = 0,
+
     @ColumnInfo(name = "title")
     val title: String,
 
@@ -20,5 +24,5 @@ data class Recipe(
     val recipe: String?,
 
     @ColumnInfo(name = "ingredients")
-    val ingredients: List<String>?
+    val ingredients: SnapshotStateList<String>?
 )

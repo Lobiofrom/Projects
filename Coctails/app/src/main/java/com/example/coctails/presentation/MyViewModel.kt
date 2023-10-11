@@ -1,6 +1,7 @@
 package com.example.coctails.presentation
 
 import android.app.Application
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -26,7 +27,7 @@ class MyViewModel(
         title: String,
         description: String?,
         recipe: String?,
-        ingredients: List<String>?,
+        ingredients: SnapshotStateList<String>?,
         image: String
     ) {
         viewModelScope.launch {

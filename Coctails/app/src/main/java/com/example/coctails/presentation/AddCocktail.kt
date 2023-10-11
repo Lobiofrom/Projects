@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,13 +65,13 @@ fun AddCocktail(
     var oldImage by remember {
         mutableStateOf(recipe?.image)
     }
-    Log.d("tag", "oldImage1: $oldImage")
 
     val context = LocalContext.current
+
     var showIngredientDialog by remember {
         mutableStateOf(false)
     }
-    val ingredientList by remember {
+    var ingredientList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
     var fileUri by remember {
@@ -88,7 +89,6 @@ fun AddCocktail(
             imageUri = it
             scope.launch {
                 oldImage = null
-                Log.d("tag", "oldImage3: $oldImage")
                 fileUri = extractUri(imageUri, context)
             }
         }
@@ -138,7 +138,6 @@ fun AddCocktail(
                             }
                     )
                 } else {
-                    Log.d("tag", "oldImage2: $oldImage")
                     Image(
                         painter = rememberAsyncImagePainter(model = oldImage),
                         contentDescription = null,
@@ -154,16 +153,16 @@ fun AddCocktail(
                 }
             }
 
-            var name by rememberSaveable { mutableStateOf("") }
+            var title by rememberSaveable { mutableStateOf(recipe?.title ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
                 OutlinedTextField(
-                    value = name,
+                    value = title,
                     onValueChange = {
-                        name = it
+                        title = it
                     },
                     label = {
-                        if (name.isEmpty()) {
+                        if (title.isEmpty()) {
                             Text(
                                 text = "Cocktail name",
                                 color = Color.Red
@@ -181,7 +180,7 @@ fun AddCocktail(
                 )
             }
 
-            var description by rememberSaveable { mutableStateOf("") }
+            var description by rememberSaveable { mutableStateOf(recipe?.description ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
                 OutlinedTextField(
@@ -223,23 +222,29 @@ fun AddCocktail(
                     modifier = Modifier
                         .paint(painterResource(id = R.drawable.img_3))
                 ) {}
-                if (ingredientList.isEmpty()) {
+                if (ingredientList.isEmpty() && recipe?.ingredients.isNullOrEmpty()) {
                     Text(
                         text = "Add Ingredients",
                         modifier = Modifier.align(Alignment.CenterVertically),
                         color = Color.Red
                     )
                 } else {
+                    if (!recipe?.ingredients.isNullOrEmpty()) {
+                        ingredientList = recipe?.ingredients!!
+                    }
+                    Log.d("tag", "ingredientList-1: ${ingredientList.joinToString("/")}")
+
                     LazyRow(
                         modifier = Modifier.align(Alignment.CenterVertically)
                     ) {
                         items(ingredientList) {
+                            Log.d("tag", "ingredientList-2: ${ingredientList.joinToString("/")}")
                             ItemIngredient(ingredient = it) { ingredientList.remove(it) }
                         }
                     }
                 }
             }
-            var recipeDesription by rememberSaveable { mutableStateOf("") }
+            var recipeDesription by rememberSaveable { mutableStateOf(recipe?.recipe ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
                 OutlinedTextField(
@@ -277,7 +282,7 @@ fun AddCocktail(
 
             Button(
                 onClick = {
-                    if (name.isEmpty() || ingredientList.isEmpty()) {
+                    if (title.isEmpty() || ingredientList.isEmpty()) {
                         Toast.makeText(
                             context,
                             "Add cocktail name and ingredients!",
@@ -287,7 +292,7 @@ fun AddCocktail(
                     } else {
                         onSaveClick()
                         viewModel.addRecipe(
-                            name,
+                            title,
                             description,
                             recipeDesription,
                             ingredientList,
