@@ -1,4 +1,4 @@
-package com.example.coctails.presentation
+package com.example.coctails.viewmodel
 
 import android.app.Application
 import androidx.compose.runtime.snapshots.SnapshotStateList

@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
+import com.example.coctails.viewmodel.MyViewModel
 
 @Composable
 fun DetailScreen(

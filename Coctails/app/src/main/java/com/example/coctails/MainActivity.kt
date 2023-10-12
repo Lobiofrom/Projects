@@ -9,8 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.coctails.presentation.MyApp
-import com.example.coctails.presentation.MyViewModel
-import com.example.coctails.presentation.MyViewModelFactory
+import com.example.coctails.viewmodel.MyViewModel
+import com.example.coctails.viewmodel.MyViewModelFactory
 import com.example.coctails.ui.theme.CoctailsTheme
 
 class MainActivity : ComponentActivity() {
