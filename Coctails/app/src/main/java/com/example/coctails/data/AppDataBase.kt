@@ -10,7 +10,7 @@ import com.example.coctails.entity.Recipe
     entities = [
         Recipe::class
                ],
-    version = 6,
+    version = 9,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

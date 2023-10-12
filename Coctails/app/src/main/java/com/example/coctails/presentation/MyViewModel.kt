@@ -24,6 +24,7 @@ class MyViewModel(
         )
 
     fun addRecipe(
+        id: Int,
         title: String,
         description: String?,
         recipe: String?,
@@ -33,6 +34,7 @@ class MyViewModel(
         viewModelScope.launch {
             recipeDao.upsertRecipe(
                 Recipe(
+                    id = id,
                     title = title,
                     description = description,
                     recipe = recipe,

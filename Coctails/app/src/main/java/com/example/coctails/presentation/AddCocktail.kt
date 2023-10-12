@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -83,6 +82,10 @@ fun AddCocktail(
     }
 
     val scope = rememberCoroutineScope()
+
+    var recipes by remember {
+        mutableStateOf<List<Recipe>>(emptyList())
+    }
 
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
@@ -289,16 +292,35 @@ fun AddCocktail(
                             Toast.LENGTH_SHORT
                         )
                             .show()
+                    } else if (recipe == null) {
+                        scope.launch {
+                            viewModel.allRecipes.collect {
+                                recipes = it
+                                viewModel.addRecipe(
+                                    id = if (recipes.isEmpty()) 1 else recipes.last().id.plus(1),
+                                    title,
+                                    description,
+                                    recipeDesription,
+                                    ingredientList,
+                                    fileUri
+                                )
+                            }
+                        }
+                        onSaveClick()
+                        Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
+                            .show()
+
                     } else {
                         onSaveClick()
                         viewModel.addRecipe(
+                            id = recipe.id,
                             title,
                             description,
                             recipeDesription,
                             ingredientList,
-                            fileUri
+                            image = if (fileUri.isEmpty()) recipe.image else fileUri
                         )
-                        Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, "Cocktail edited!", Toast.LENGTH_SHORT)
                             .show()
                     }
                 },
@@ -370,11 +392,16 @@ fun AddCocktail(
                 Button(
                     onClick = {
                         if (ingredient.isEmpty()) {
-                            Toast.makeText(context, "Enter ingredient name!", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                "Enter ingredient name!",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         } else {
                             ingredientList.add(ingredient)
-                            Toast.makeText(context, "Ingredient saved!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Ingredient saved!", Toast.LENGTH_SHORT)
+                                .show()
                             showIngredientDialog = false
                         }
                     },

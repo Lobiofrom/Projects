@@ -204,7 +204,10 @@ fun Greeting(
                     showEditScreen = false
                     showGreetingScreen = true
                 },
-                onSaveClick = { /*TODO*/ },
+                onSaveClick = {
+                    showEditScreen = false
+                    showGreetingScreen = true
+                },
                 viewModel = viewModel
             )
         }
