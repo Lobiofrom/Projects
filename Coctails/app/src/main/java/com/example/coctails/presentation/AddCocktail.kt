@@ -55,6 +55,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun AddCocktail(
+    recipes: List<Recipe>,
     recipe: Recipe?,
     onIconClicked: () -> Unit,
     onCancelClick: () -> Unit,
@@ -82,10 +83,6 @@ fun AddCocktail(
     }
 
     val scope = rememberCoroutineScope()
-
-    var recipes by remember {
-        mutableStateOf<List<Recipe>>(emptyList())
-    }
 
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
@@ -293,19 +290,14 @@ fun AddCocktail(
                         )
                             .show()
                     } else if (recipe == null) {
-                        scope.launch {
-                            viewModel.allRecipes.collect {
-                                recipes = it
-                                viewModel.addRecipe(
-                                    id = if (recipes.isEmpty()) 1 else recipes.last().id.plus(1),
-                                    title,
-                                    description,
-                                    recipeDesription,
-                                    ingredientList,
-                                    fileUri
-                                )
-                            }
-                        }
+                        viewModel.addRecipe(
+                            id = if (recipes.isEmpty()) 1 else recipes.last().id.plus(1),
+                            title,
+                            description,
+                            recipeDesription,
+                            ingredientList,
+                            fileUri
+                        )
                         onSaveClick()
                         Toast.makeText(context, "Cocktail saved!", Toast.LENGTH_SHORT)
                             .show()
@@ -318,7 +310,7 @@ fun AddCocktail(
                             description,
                             recipeDesription,
                             ingredientList,
-                            image = if (fileUri.isEmpty()) recipe.image else fileUri
+                            image = fileUri.ifEmpty { recipe.image }
                         )
                         Toast.makeText(context, "Cocktail edited!", Toast.LENGTH_SHORT)
                             .show()

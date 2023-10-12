@@ -195,6 +195,7 @@ fun Greeting(
     if (showEditScreen) {
         recipe?.let {
             AddCocktail(
+                recipes = recipeList,
                 recipe = it,
                 onIconClicked = {
                     showEditScreen = false

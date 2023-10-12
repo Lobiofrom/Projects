@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.example.coctails.entity.Recipe
 import kotlinx.coroutines.delay
 
 @Composable
@@ -20,6 +21,9 @@ fun MyApp(
     var showGreeting by remember {
         mutableStateOf(true)
     }
+    var recipes by remember {
+        mutableStateOf<List<Recipe>>(emptyList())
+    }
 
     if (showGreeting) {
         var isVisible by remember {
@@ -28,6 +32,9 @@ fun MyApp(
         LaunchedEffect(Unit) {
             delay(10)
             isVisible = true
+            viewModel.allRecipes.collect {
+                recipes = it
+            }
         }
         AnimatedVisibility(
             visible = isVisible,
@@ -57,6 +64,7 @@ fun MyApp(
             exit = fadeOut()
         ) {
             AddCocktail(
+                recipes = recipes,
                 recipe = null,
                 onIconClicked = { showGreeting = true },
                 onCancelClick = { showGreeting = true },
