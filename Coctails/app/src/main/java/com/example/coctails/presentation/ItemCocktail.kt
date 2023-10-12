@@ -3,6 +3,7 @@ package com.example.coctails.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,7 @@ fun Item(
 ) {
     Box(
         modifier = Modifier
-            .height(180.dp)
+            .aspectRatio(1f)
             .padding(10.dp)
             .clickable(
                 onClick = onItemClick
