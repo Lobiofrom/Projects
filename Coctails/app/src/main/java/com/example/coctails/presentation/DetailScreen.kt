@@ -212,8 +212,10 @@ fun DetailScreen(
         Back(
             onBackClick,
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(26.dp)
+                .align(Alignment.TopStart)
+                .padding(6.dp)
+                .size(38.dp)
+                .background(color = Color.White, shape = CircleShape)
         )
     }
 }
