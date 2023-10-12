@@ -140,7 +140,6 @@ fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(top = 300.dp),
-            color = Color.White,
             shape = RoundedCornerShape(40.dp)
         ) {
             Column(
@@ -162,6 +161,12 @@ fun DetailScreen(
                     )
                 }
                 if (recipe.ingredients!!.isNotEmpty()) {
+                    Text(
+                        text = "Ingredients:",
+                        fontSize = 18.sp,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
                     Text(
                         text = recipe.ingredients.joinToString("\n") {
                             it

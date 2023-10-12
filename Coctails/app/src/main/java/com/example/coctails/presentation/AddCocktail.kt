@@ -28,6 +28,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -161,54 +162,56 @@ fun AddCocktail(
             var title by rememberSaveable { mutableStateOf(recipe?.title ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = {
-                        title = it
-                    },
-                    label = {
-                        if (title.isEmpty()) {
-                            Text(
-                                text = "Cocktail name",
-                                color = Color.Red
-                            )
-                        }
-                    },
-                    textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 20.sp
-                    ),
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(50.dp),
-                )
+                Surface {
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = {
+                            title = it
+                        },
+                        label = {
+                            if (title.isEmpty()) {
+                                Text(
+                                    text = "Cocktail name",
+                                    color = Color.Red
+                                )
+                            }
+                        },
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
+                        ),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        shape = RoundedCornerShape(50.dp),
+                    )
+                }
             }
 
             var description by rememberSaveable { mutableStateOf(recipe?.description ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = {
-                        description = it
-                    },
-                    label = {
-                        Text(
-                            text = "Description",
-                            color = Color(0xFF79747E)
-                        )
-                    },
-                    textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 20.sp
-                    ),
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .height(174.dp),
-                    shape = RoundedCornerShape(50.dp),
-                )
+                Surface {
+                    OutlinedTextField(
+                        value = description,
+                        onValueChange = {
+                            description = it
+                        },
+                        label = {
+                            Text(
+                                text = "Description",
+                                color = Color(0xFF79747E)
+                            )
+                        },
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
+                        ),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .height(174.dp),
+                        shape = RoundedCornerShape(50.dp),
+                    )
+                }
             }
 
             Text(
@@ -243,7 +246,10 @@ fun AddCocktail(
                         modifier = Modifier.align(Alignment.CenterVertically)
                     ) {
                         items(ingredientList) {
-                            Log.d("tag", "ingredientList-2: ${ingredientList.joinToString("/")}")
+                            Log.d(
+                                "tag",
+                                "ingredientList-2: ${ingredientList.joinToString("/")}"
+                            )
                             ItemIngredient(ingredient = it) { ingredientList.remove(it) }
                         }
                     }
@@ -252,27 +258,28 @@ fun AddCocktail(
             var recipeDesription by rememberSaveable { mutableStateOf(recipe?.recipe ?: "") }
 
             OutlinedTextFieldBackground(Color.White) {
-                OutlinedTextField(
-                    value = recipeDesription,
-                    onValueChange = {
-                        recipeDesription = it
-                    },
-                    label = {
-                        Text(
-                            text = "Recipe",
-                            color = Color(0xFF79747E)
-                        )
-                    },
-                    textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 20.sp
-                    ),
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .height(174.dp),
-                    shape = RoundedCornerShape(50.dp),
-                )
+                Surface {
+                    OutlinedTextField(
+                        value = recipeDesription,
+                        onValueChange = {
+                            recipeDesription = it
+                        },
+                        label = {
+                            Text(
+                                text = "Recipe",
+                                color = Color(0xFF79747E)
+                            )
+                        },
+                        textStyle = TextStyle(
+                            fontSize = 20.sp
+                        ),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .height(174.dp),
+                        shape = RoundedCornerShape(50.dp),
+                    )
+                }
             }
 
             Text(
