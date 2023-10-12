@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -18,12 +20,24 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField("String", "API_KEY1", "\"${properties.getProperty("API_KEY1")}\"")
+        buildConfigField("String", "API_KEY2", "\"${properties.getProperty("API_KEY2")}\"")
+        buildConfigField("String", "API_KEY3", "\"${properties.getProperty("API_KEY3")}\"")
+        buildConfigField("String", "API_KEY4", "\"${properties.getProperty("API_KEY4")}\"")
+        buildConfigField("String", "API_KEY5", "\"${properties.getProperty("API_KEY5")}\"")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -35,6 +49,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -57,9 +72,9 @@ dependencies {
     implementation("io.coil-kt:coil:2.4.0")
 
     //Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp ("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -76,20 +91,20 @@ dependencies {
     //viewpager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     //Indicator for viewPager
-    implementation ("me.relex:circleindicator:2.1.6")
+    implementation("me.relex:circleindicator:2.1.6")
 
     //Paging
-    implementation ("androidx.paging:paging-runtime:3.2.1")
+    implementation("androidx.paging:paging-runtime:3.2.1")
 
     //Recycler Animation
-    implementation ("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 
     //Hilt
-    implementation ("com.google.dagger:hilt-android:2.44")
-    ksp ("com.google.dagger:hilt-compiler:2.46.1")
+    implementation("com.google.dagger:hilt-android:2.44")
+    ksp("com.google.dagger:hilt-compiler:2.46.1")
 
     //Adapter Delegates
-    implementation ("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.2")
-    implementation ("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2")
-    implementation ("com.hannesdorfmann:adapterdelegates4-pagination:4.3.2")
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.2")
+    implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2")
+    implementation("com.hannesdorfmann:adapterdelegates4-pagination:4.3.2")
 }

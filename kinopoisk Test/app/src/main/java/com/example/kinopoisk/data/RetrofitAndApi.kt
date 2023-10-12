@@ -1,5 +1,6 @@
 package com.example.kinopoisk.data
 
+import com.example.kinopoisk.BuildConfig
 import com.example.kinopoisk.entity.Movie
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,7 +11,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val API_KEY = "03e4ab10-b9e4-4bd6-b6d6-0d7321495bfa"
+private const val API_KEY = BuildConfig.API_KEY2
 
 class RetrofitAndApi {
 
