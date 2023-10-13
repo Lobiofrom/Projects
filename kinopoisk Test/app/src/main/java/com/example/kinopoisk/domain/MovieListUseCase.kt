@@ -59,6 +59,9 @@ class MovieListUseCase {
     }
 
     suspend fun executeSearch(
+        countries: Int?,
+        genres: Int?,
+        order: String,
         type: String,
         yearFrom: Int,
         yearTo: Int,
@@ -68,6 +71,9 @@ class MovieListUseCase {
         page: Int?
     ): List<Movie> {
         return movieListRepository.search(
+            countries,
+            genres,
+            order,
             type,
             yearFrom,
             yearTo,

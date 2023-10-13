@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchViewModel : ViewModel() {
 
+    var countries: Int? = null
+    var genres: Int? = null
+    var order = "YEAR"
     var yearFrom = 1950
     var yearTo = 2023
     var ratingFrom = 5
@@ -23,6 +26,9 @@ class SearchViewModel : ViewModel() {
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
                 SearchPagingSource(
+                    countries = countries,
+                    genres = genres,
+                    order = order,
                     keyword = keyword,
                     yearFrom = yearFrom,
                     yearTo = yearTo,

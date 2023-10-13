@@ -100,8 +100,11 @@ class RetrofitAndApi {
         ): SeriesDto
 
         @Headers("X-API-KEY: $API_KEY")
-        @GET("/api/v2.2/films?order=RATING")
+        @GET("/api/v2.2/films?")
         suspend fun search(
+            @Query("countries") countries: Int?,
+            @Query("genres") genres: Int?,
+            @Query("order") order: String,
             @Query("type") type: String,
             @Query("yearFrom") yearFrom: Int,
             @Query("yearTo") yearTo: Int,

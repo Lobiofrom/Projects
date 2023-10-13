@@ -55,6 +55,9 @@ class MovieListRepository {
     }
 
     suspend fun search(
+        countries: Int?,
+        genres: Int?,
+        order: String,
         type: String,
         yearFrom: Int,
         yearTo: Int,
@@ -64,6 +67,9 @@ class MovieListRepository {
         page: Int?
     ): List<Movie> {
         return retrofitAndApi.api.search(
+            countries,
+            genres,
+            order,
             type,
             yearFrom,
             yearTo,

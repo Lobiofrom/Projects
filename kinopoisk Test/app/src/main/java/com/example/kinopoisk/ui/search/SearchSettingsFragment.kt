@@ -1,15 +1,15 @@
 package com.example.kinopoisk.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentSearchSettingsBinding
-import com.google.android.material.tabs.TabLayout
 
 class SearchSettingsFragment : Fragment() {
 
@@ -29,24 +29,118 @@ class SearchSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> viewModel.type = "ALL"
-                    1 -> viewModel.type = "FILM"
-                    2 -> viewModel.type = "TV_SERIES"
+        binding.spinnerCountry.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.Countries_key)
+        )
+
+        binding.spinnerGenre.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.Genre_key)
+        )
+
+        binding.typeLeftButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.type = typeList[0]
+        }
+
+        binding.typeCenterButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.type = typeList[1]
+        }
+
+        binding.typeRightButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.type = typeList[2]
+        }
+
+        binding.sortLeftButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.order = typeList[0]
+        }
+
+        binding.sortCenterButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.order = typeList[1]
+        }
+
+        binding.sortRightButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.order = typeList[2]
+        }
+
+        binding.spinnerCountry.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedCountry =
+                        resources.getIntArray(R.array.Countries_int_value)[position]
+
+                    if (selectedCountry == 0) {
+                        viewModel.countries = null
+                    } else {
+                        viewModel.countries = selectedCountry
+                    }
                 }
-                Log.d("tag", "Type: ${viewModel.type}")
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+        binding.spinnerGenre.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedGenre =
+                        resources.getIntArray(R.array.Genre_int_value)[position]
+
+                    if (selectedGenre == 0) {
+                        viewModel.genres = null
+                    } else {
+                        viewModel.genres = selectedGenre
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+        binding.yearsSeekBar.addOnChangeListener { slider, _, _ ->
+            val minValue = slider.values.first().toInt()
+            val maxValue = slider.values.last().toInt()
+
+            if (minValue == 1950 && maxValue == 2023) binding.textViewYearCurrent.text = "Любой"
+            else binding.textViewYearCurrent.text = buildString {
+                append("С ")
+                append(minValue)
+                append(" - до ")
+                append(maxValue)
+                append(" гг")
             }
-        })
+            viewModel.yearFrom = minValue
+            viewModel.yearTo = maxValue
+        }
 
+        binding.ratingSeekBar.addOnChangeListener { slider, _, _ ->
+            val minValue = slider.values.first().toInt()
+            val maxValue = slider.values.last().toInt()
 
+            if (minValue == 0 && maxValue == 10) binding.textViewYearCurrent.text = "Любой"
+            else binding.textViewRatingCurrent.text = buildString {
+                append(minValue)
+                append(" - ")
+                append(maxValue)
+            }
+            viewModel.ratingFrom = minValue
+            viewModel.ratingTo = maxValue
+        }
     }
 
     override fun onDestroy() {
