@@ -38,7 +38,7 @@ class SearchViewModel : ViewModel() {
         _searchSettings.value.yearFrom = yearFrom
     }
 
-    fun changeYearto(yearTo: Int) {
+    fun changeYearTo(yearTo: Int) {
         _searchSettings.value.yearTo = yearTo
     }
 

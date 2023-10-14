@@ -138,7 +138,7 @@ class SearchSettingsFragment : Fragment() {
                             }
                         }
                         viewModel.changeYearFrom(minValue)
-                        viewModel.changeYearto(maxValue)
+                        viewModel.changeYearTo(maxValue)
                     }
 
                     binding.ratingSeekBar.addOnChangeListener { slider, _, _ ->
