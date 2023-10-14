@@ -8,8 +8,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentSearchSettingsBinding
+import kotlinx.coroutines.launch
 
 class SearchSettingsFragment : Fragment() {
 
@@ -41,36 +45,6 @@ class SearchSettingsFragment : Fragment() {
             resources.getStringArray(R.array.Genre_key)
         )
 
-        binding.typeLeftButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.type_movie)
-            viewModel.type = typeList[0]
-        }
-
-        binding.typeCenterButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.type_movie)
-            viewModel.type = typeList[1]
-        }
-
-        binding.typeRightButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.type_movie)
-            viewModel.type = typeList[2]
-        }
-
-        binding.sortLeftButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.order)
-            viewModel.order = typeList[0]
-        }
-
-        binding.sortCenterButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.order)
-            viewModel.order = typeList[1]
-        }
-
-        binding.sortRightButton.setOnClickListener {
-            val typeList = resources.getStringArray(R.array.order)
-            viewModel.order = typeList[2]
-        }
-
         binding.spinnerCountry.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -83,11 +57,12 @@ class SearchSettingsFragment : Fragment() {
                         resources.getIntArray(R.array.Countries_int_value)[position]
 
                     if (selectedCountry == 0) {
-                        viewModel.countries = null
+                        viewModel.changeCountry(null)
                     } else {
-                        viewModel.countries = selectedCountry
+                        viewModel.changeCountry(selectedCountry)
                     }
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
@@ -103,43 +78,139 @@ class SearchSettingsFragment : Fragment() {
                         resources.getIntArray(R.array.Genre_int_value)[position]
 
                     if (selectedGenre == 0) {
-                        viewModel.genres = null
+                        viewModel.changeGenre(null)
                     } else {
-                        viewModel.genres = selectedGenre
+                        viewModel.changeGenre(selectedGenre)
                     }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        binding.yearsSeekBar.addOnChangeListener { slider, _, _ ->
-            val minValue = slider.values.first().toInt()
-            val maxValue = slider.values.last().toInt()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.searchSettings.collect { state ->
 
-            if (minValue == 1950 && maxValue == 2023) binding.textViewYearCurrent.text = "Любой"
-            else binding.textViewYearCurrent.text = buildString {
-                append("С ")
-                append(minValue)
-                append(" - до ")
-                append(maxValue)
-                append(" гг")
+                    val genre = when (state.selectedGenre) {
+                        null -> 0
+                        11 -> 1
+                        10 -> 2
+                        5 -> 3
+                        33 -> 4
+                        22 -> 5
+                        2 -> 6
+                        13 -> 7
+                        7 -> 8
+                        6 -> 9
+                        12 -> 10
+                        else -> -1
+                    }
+
+                    val country = when (state.selectedCountry) {
+                        null -> 0
+                        1 -> 1
+                        3 -> 2
+                        10 -> 3
+                        34 -> 4
+                        14 -> 5
+                        9 -> 6
+                        13 -> 7
+                        7 -> 8
+                        else -> -1
+                    }
+
+                    binding.spinnerGenre.setSelection(genre)
+                    binding.spinnerCountry.setSelection(country)
+
+                    binding.yearsSeekBar.addOnChangeListener { slider, _, _ ->
+                        val minValue = slider.values.first().toInt()
+                        val maxValue = slider.values.last().toInt()
+
+                        if (minValue == 1950 && maxValue == 2023) {
+                            binding.textViewYearCurrent.text = "Любой"
+                        } else {
+                            binding.textViewYearCurrent.text = buildString {
+                                append("С ")
+                                append(minValue)
+                                append(" - до ")
+                                append(maxValue)
+                                append(" гг")
+                            }
+                        }
+                        viewModel.changeYearFrom(minValue)
+                        viewModel.changeYearto(maxValue)
+                    }
+
+                    binding.ratingSeekBar.addOnChangeListener { slider, _, _ ->
+                        val minValue = slider.values.first().toInt()
+                        val maxValue = slider.values.last().toInt()
+
+                        if (minValue == 0 && maxValue == 10) {
+                            binding.textViewRatingCurrent.text = "Любой"
+                        } else {
+                            binding.textViewRatingCurrent.text = buildString {
+                                append(minValue)
+                                append(" - ")
+                                append(maxValue)
+                            }
+                        }
+                        viewModel.changeRatingFrom(minValue)
+                        viewModel.changeRatingTo(maxValue)
+                    }
+
+                    binding.yearsSeekBar.setValues(state.yearFrom.toFloat(), state.yearTo.toFloat())
+                    binding.ratingSeekBar.setValues(
+                        state.ratingFrom.toFloat(),
+                        state.ratingTo.toFloat()
+                    )
+                    binding.typeButtonGroup.check(
+                        when (state.type) {
+                            "ALL" -> R.id.type_left_button
+                            "FILM" -> R.id.type_center_button
+                            "TV_SERIES" -> R.id.type_right_button
+                            else -> -1
+                        }
+                    )
+                    binding.sortButtonGroup.check(
+                        when (state.selectedOrder) {
+                            "YEAR" -> R.id.sort_left_button
+                            "NUM_VOTE" -> R.id.sort_center_button
+                            "RATING" -> R.id.sort_right_button
+                            else -> -1
+                        }
+                    )
+                }
             }
-            viewModel.yearFrom = minValue
-            viewModel.yearTo = maxValue
         }
 
-        binding.ratingSeekBar.addOnChangeListener { slider, _, _ ->
-            val minValue = slider.values.first().toInt()
-            val maxValue = slider.values.last().toInt()
+        binding.typeLeftButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.changeType(typeList[0])
+        }
 
-            if (minValue == 0 && maxValue == 10) binding.textViewYearCurrent.text = "Любой"
-            else binding.textViewRatingCurrent.text = buildString {
-                append(minValue)
-                append(" - ")
-                append(maxValue)
-            }
-            viewModel.ratingFrom = minValue
-            viewModel.ratingTo = maxValue
+        binding.typeCenterButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.changeType(typeList[1])
+        }
+
+        binding.typeRightButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.type_movie)
+            viewModel.changeType(typeList[2])
+        }
+
+        binding.sortLeftButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.changeOrder(typeList[0])
+        }
+
+        binding.sortCenterButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.changeOrder(typeList[1])
+        }
+
+        binding.sortRightButton.setOnClickListener {
+            val typeList = resources.getStringArray(R.array.order)
+            viewModel.changeOrder(typeList[2])
         }
     }
 

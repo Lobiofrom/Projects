@@ -6,35 +6,65 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.kinopoisk.data.SearchSettingsState
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.StaffItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class SearchViewModel : ViewModel() {
 
-    var countries: Int? = null
-    var genres: Int? = null
-    var order = "YEAR"
-    var yearFrom = 1950
-    var yearTo = 2023
-    var ratingFrom = 5
-    var ratingTo = 10
-    var type = "ALL"
+    private var _searchSettings = MutableStateFlow(SearchSettingsState())
+    val searchSettings = _searchSettings.asStateFlow()
+
+    fun changeType(type: String) {
+        _searchSettings.value.type = type
+    }
+
+    fun changeCountry(selectedCountry: Int?) {
+        _searchSettings.value.selectedCountry = selectedCountry
+    }
+
+    fun changeGenre(selectedGenre: Int?) {
+        _searchSettings.value.selectedGenre = selectedGenre
+    }
+
+    fun changeOrder(selectedOrder: String) {
+        _searchSettings.value.selectedOrder = selectedOrder
+    }
+
+    fun changeYearFrom(yearFrom: Int) {
+        _searchSettings.value.yearFrom = yearFrom
+    }
+
+    fun changeYearto(yearTo: Int) {
+        _searchSettings.value.yearTo = yearTo
+    }
+
+    fun changeRatingFrom(ratingFrom: Int) {
+        _searchSettings.value.ratingFrom = ratingFrom
+    }
+
+    fun changeRatingTo(ratingTo: Int) {
+        _searchSettings.value.ratingTo = ratingTo
+
+    }
 
     fun getMovies(keyword: String): Flow<PagingData<Movie>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
                 SearchPagingSource(
-                    countries = countries,
-                    genres = genres,
-                    order = order,
+                    countries = searchSettings.value.selectedCountry,
+                    genres = searchSettings.value.selectedGenre,
+                    order = searchSettings.value.selectedOrder,
                     keyword = keyword,
-                    yearFrom = yearFrom,
-                    yearTo = yearTo,
-                    ratingFrom = ratingFrom,
-                    ratingTo = ratingTo,
-                    type = type
+                    yearFrom = searchSettings.value.yearFrom,
+                    yearTo = searchSettings.value.yearTo,
+                    ratingFrom = searchSettings.value.ratingFrom,
+                    ratingTo = searchSettings.value.ratingTo,
+                    type = searchSettings.value.type
                 )
             }
         ).flow.cachedIn(viewModelScope)

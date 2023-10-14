@@ -3,7 +3,6 @@ package com.example.kinopoisk.ui.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,8 +59,6 @@ class SearchFragment : Fragment() {
             binding.searchView.hide()
             false
         }
-
-        Log.d("tag", "Type: ${dashboardViewModel.type}")
 
         binding.searchView.editText.addTextChangedListener(
             object : TextWatcher {
