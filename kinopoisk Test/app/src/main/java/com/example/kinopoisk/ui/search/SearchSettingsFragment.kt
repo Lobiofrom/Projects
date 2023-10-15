@@ -91,32 +91,18 @@ class SearchSettingsFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.searchSettings.collect { state ->
 
-                    val genre = when (state.selectedGenre) {
-                        null -> 0
-                        11 -> 1
-                        10 -> 2
-                        5 -> 3
-                        33 -> 4
-                        22 -> 5
-                        2 -> 6
-                        13 -> 7
-                        7 -> 8
-                        6 -> 9
-                        12 -> 10
-                        else -> -1
+                    val genre = if (state.selectedGenre != null) {
+                        resources.getIntArray(R.array.Genre_int_value)
+                            .indexOf(state.selectedGenre!!)
+                    } else {
+                        0
                     }
 
-                    val country = when (state.selectedCountry) {
-                        null -> 0
-                        1 -> 1
-                        3 -> 2
-                        10 -> 3
-                        34 -> 4
-                        14 -> 5
-                        9 -> 6
-                        13 -> 7
-                        7 -> 8
-                        else -> -1
+                    val country = if (state.selectedCountry == null) {
+                        0
+                    } else {
+                        resources.getIntArray(R.array.Countries_int_value)
+                            .indexOf(state.selectedCountry!!)
                     }
 
                     binding.spinnerGenre.setSelection(genre)
