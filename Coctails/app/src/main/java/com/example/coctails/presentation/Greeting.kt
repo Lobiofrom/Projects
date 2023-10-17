@@ -201,38 +201,31 @@ fun Greeting(
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 20.dp) // Adjust the bottom padding to control the distance between Box and FAB
+                            .height(45.dp)
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
+                            )
+                    ) {}
+                    Box(
+                        modifier = Modifier
+                            .padding(26.dp)
+                            .align(Alignment.BottomCenter)
+                            .size(56.dp)
+                            .background(
+                                color = Color.White,
+                                shape = CircleShape
+                            )
+                            .shadow(
+                                elevation = 8.dp,
+                                shape = CircleShape
+                            )
                     ) {
-                        Box(
+                        IconButton(
+                            onClick = onContinueClicked,
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .height(45.dp)
-                                .background(
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
-                                )
+                                .paint(painterResource(id = R.drawable.img_2))
                         ) {}
-                        Box(
-                            modifier = Modifier
-                                .padding(26.dp)
-                                .align(Alignment.BottomCenter)
-                                .size(56.dp)
-                                .background(
-                                    color = Color.White,
-                                    shape = CircleShape
-                                )
-                                .shadow(
-                                    elevation = 8.dp,
-                                    shape = CircleShape
-                                )
-                        ) {
-                            IconButton(
-                                onClick = onContinueClicked,
-                                modifier = Modifier
-                                    .paint(painterResource(id = R.drawable.img_2))
-                            ) {}
-                        }
                     }
                 }
             }
