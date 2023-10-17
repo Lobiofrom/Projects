@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -201,7 +202,7 @@ fun Greeting(
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.BottomCenter)
-                            .height(45.dp)
+                            .height(50.dp)
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
@@ -211,7 +212,7 @@ fun Greeting(
                         modifier = Modifier
                             .padding(26.dp)
                             .align(Alignment.BottomCenter)
-                            .size(56.dp)
+                            .size(60.dp)
                             .background(
                                 color = Color.White,
                                 shape = CircleShape
