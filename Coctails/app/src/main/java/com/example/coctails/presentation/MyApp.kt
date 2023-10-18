@@ -19,14 +19,14 @@ import kotlinx.coroutines.delay
 fun MyApp(
     viewModel: MyViewModel
 ) {
-    var showGreeting by remember {
+    var showBottomNavi by remember {
         mutableStateOf(true)
     }
     var recipes by remember {
         mutableStateOf<List<Recipe>>(emptyList())
     }
 
-    if (showGreeting) {
+    if (showBottomNavi) {
         var isVisible by remember {
             mutableStateOf(false)
         }
@@ -45,8 +45,8 @@ fun MyApp(
             exit = fadeOut()
         ) {
             Greeting(
-                onContinueClicked = { showGreeting = false },
-                viewModel
+                viewModel = viewModel,
+                onContinueClicked = { showBottomNavi = false },
             )
         }
     } else {
@@ -67,9 +67,9 @@ fun MyApp(
             AddCocktail(
                 recipes = recipes,
                 recipe = null,
-                onIconClicked = { showGreeting = true },
-                onCancelClick = { showGreeting = true },
-                onSaveClick = { showGreeting = true },
+                onIconClicked = { showBottomNavi = true },
+                onCancelClick = { showBottomNavi = true },
+                onSaveClick = { showBottomNavi = true },
                 viewModel = viewModel
             )
         }
