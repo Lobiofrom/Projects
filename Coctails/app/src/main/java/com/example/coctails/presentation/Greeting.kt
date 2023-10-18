@@ -138,7 +138,7 @@ fun Greeting(
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .padding(top = 250.dp)
+                                .padding(top = 100.dp)
                         )
 
                         Text(
