@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
 import com.example.coctails.entity.Recipe
@@ -44,11 +45,12 @@ import com.example.coctails.viewmodel.MyViewModel
 @Composable
 fun DetailScreen(
     recipe: Recipe,
-    viewModel: MyViewModel,
     onEditClick: () -> Unit,
     onBackClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
+
+    val viewModel: MyViewModel = viewModel()
 
     var showConformation by remember {
         mutableStateOf(false)

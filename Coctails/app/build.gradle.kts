@@ -84,4 +84,6 @@ dependencies {
     //Navi
     implementation (libs.androidx.navigation.compose)
 
+    //Compose viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 }

@@ -107,30 +107,30 @@ fun Greeting(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            if (recipeList.isEmpty()) {
-                Scaffold(
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = onContinueClicked,
-                            shape = fabShape,
-                            backgroundColor = Color(0xFF4B97FF)
-                        ) {
-                            Icon(Icons.Default.Add, "", tint = Color.White)
-                        }
-                    },
-                    isFloatingActionButtonDocked = true,
-                    floatingActionButtonPosition = FabPosition.Center,
-                    bottomBar = {
-                        BottomAppBar(
-                            cutoutShape = fabShape,
-                            content = {},
-                            backgroundColor = Color.White,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                        )
+            Scaffold(
+                backgroundColor = MaterialTheme.colorScheme.background,
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = onContinueClicked,
+                        shape = fabShape,
+                        backgroundColor = Color(0xFF4B97FF)
+                    ) {
+                        Icon(Icons.Default.Add, "", tint = Color.White)
                     }
-                ) { _ ->
+                },
+                isFloatingActionButtonDocked = true,
+                floatingActionButtonPosition = FabPosition.Center,
+                bottomBar = {
+                    BottomAppBar(
+                        cutoutShape = fabShape,
+                        content = {},
+                        backgroundColor = Color.White,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                    )
+                }
+            ) { _ ->
+                if (recipeList.isEmpty()) {
                     Column(modifier = Modifier.fillMaxWidth()) {
 
                         Image(
@@ -161,32 +161,7 @@ fun Greeting(
                         )
                         Spacer(modifier = Modifier.height(46.dp))
                     }
-                }
-            } else {
-                Scaffold(
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = onContinueClicked,
-                            shape = fabShape,
-                            backgroundColor = Color(0xFF4B97FF)
-                        ) {
-                            Icon(Icons.Default.Add, "", tint = Color.White)
-                        }
-                    },
-                    isFloatingActionButtonDocked = true,
-                    floatingActionButtonPosition = FabPosition.Center,
-
-                    bottomBar = {
-                        BottomAppBar(
-                            cutoutShape = fabShape,
-                            content = {},
-                            backgroundColor = Color.White,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                        )
-                    }
-                ) { _ ->
+                } else {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Column(
                             modifier = Modifier.padding(6.dp)
@@ -274,7 +249,7 @@ fun Greeting(
             recipe?.let {
                 DetailScreen(
                     recipe = it,
-                    viewModel = viewModel,
+                    //viewModel = viewModel,
                     onEditClick = {
                         showDetailScreen = false
                         showGreetingScreen = false

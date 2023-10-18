@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,6 +34,7 @@ fun Item(
             .clickable(
                 onClick = onItemClick
             )
+            .shadow(12.dp, RoundedCornerShape(20.dp))
     ) {
         val painter = rememberAsyncImagePainter(model = recipe.image)
 
