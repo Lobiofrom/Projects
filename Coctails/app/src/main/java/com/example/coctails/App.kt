@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.coctails.data.AppDataBase
 
 class App : Application() {
+
     val db by lazy {
         Room.databaseBuilder(
             applicationContext,

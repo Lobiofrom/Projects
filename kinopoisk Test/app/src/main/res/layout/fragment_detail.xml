@@ -165,6 +165,74 @@
                 app:layout_constraintStart_toEndOf="@+id/time"
                 app:layout_constraintTop_toBottomOf="@+id/flow2" />
 
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:constraint_referenced_ids="like, mark, viewed, share, settings"
+                app:flow_horizontalGap="30dp"
+                app:flow_horizontalStyle="packed"
+                app:flow_verticalStyle="packed"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
+
+            <ImageButton
+                android:id="@+id/like"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icon_like"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+
+            <ImageButton
+                android:id="@+id/mark"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_not_mark"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toEndOf="@+id/like"
+                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+
+            <ImageButton
+                android:id="@+id/viewed"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_viewed"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toEndOf="@+id/mark"
+                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+
+            <ImageButton
+                android:id="@+id/share"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icon_share"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toEndOf="@+id/viewed"
+                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icon_additionally"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toEndOf="@+id/share"
+                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
 
             <TextView
                 android:id="@+id/shortDescription"
@@ -386,6 +454,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

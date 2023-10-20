@@ -50,7 +50,7 @@ fun MapScreen() {
         )
     }
     val context = LocalContext.current
-    val fusedLocationProviderClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
     val locationResult = fusedLocationProviderClient.lastLocation
     var deviceLocation by remember {
         mutableStateOf<LatLng?>(null)

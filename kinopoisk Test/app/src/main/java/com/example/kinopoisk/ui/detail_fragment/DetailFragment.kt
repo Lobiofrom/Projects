@@ -1,11 +1,13 @@
 package com.example.kinopoisk.ui.detail_fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +51,8 @@ class DetailFragment : Fragment() {
         onItemClick(movie, this)
     }
 
+    private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,6 +86,30 @@ class DetailFragment : Fragment() {
         }
 
         if (kinopoiskId != 0) {
+            dbViewModel.allCollections.onEach { movieCollections ->
+                if (movieCollections.isEmpty()) {
+
+
+                    binding.viewed.setOnClickListener {
+                        val newCollection = mutableListOf<Int>()
+                        newCollection.add(kinopoiskId!!)
+                        dbViewModel.addCollection(
+                            title = "viewed",
+                            collection = newCollection
+                        )
+                    } else {
+                        val viewedCollection =
+                            movieCollections.find { it.collectionName == "viewed" }
+                        val currentCollection = viewedCollection?.movieIdList
+                        currentCollection?.remove(kinopoiskId!!)
+                        dbViewModel.addCollection(
+                            title = "viewed",
+                            collection = currentCollection!!
+                        )
+                    }
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
             val picturesViewModel =
                 ViewModelProvider(
                     this,
@@ -143,6 +171,19 @@ class DetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.movieDescription.collect { descriptionDto ->
+
+                    binding.share.setOnClickListener {
+                        val sendIntent: Intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                "Как тебе фильм? ${descriptionDto?.webUrl}"
+                            )
+                            type = "text/plain"
+                        }
+                        val shareIntent = Intent.createChooser(sendIntent, null)
+                        startActivity(shareIntent)
+                    }
 
                     if (descriptionDto?.type == "TV_SERIES") {
                         binding.seriesText.visibility = View.VISIBLE

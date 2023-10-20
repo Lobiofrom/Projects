@@ -72,9 +72,9 @@ dependencies {
     implementation("io.coil-kt:coil:2.4.0")
 
     //Room
-    implementation("androidx.room:room-runtime:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
+    ksp("androidx.room:room-compiler:2.6.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
