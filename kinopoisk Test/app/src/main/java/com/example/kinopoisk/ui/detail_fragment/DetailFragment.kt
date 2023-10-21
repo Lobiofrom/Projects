@@ -76,9 +76,6 @@ class DetailFragment : Fragment() {
 
         val filmId = arguments?.getInt("filmId")
         val kinopoiskId = arguments?.getInt("kinopoiskId")
-        Log.d("tag", "kinopoiskId: $kinopoiskId")
-        Log.d("tag", "filmId: $filmId")
-
 
         binding.galaryAll.setOnClickListener {
             val bundle = Bundle()
@@ -92,24 +89,31 @@ class DetailFragment : Fragment() {
 
         if (kinopoiskId != 0) {
             dbViewModel.allCollections.onEach { movieCollections ->
-                Log.d(
-                    "tag", "Коллекции-1: ${
-                        movieCollections.joinToString(", ") {
-                            it.collectionName
-                            it.movieIdList.toString()
-                        }
-                    }"
-                )
+
                 val viewedCollection = movieCollections.find { it.collectionName == "viewed" }
+                var isViewed = false
+
+                Log.d("tag", "viewedCollection===${viewedCollection?.movieIdList.toString()}")
+
                 if (viewedCollection != null) {
                     if (viewedCollection.movieIdList.contains(kinopoiskId)) {
-                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                    } else {
                         binding.viewed.setImageResource(R.drawable.icon_viewed)
+                        isViewed = true
+                    } else {
+                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
                     }
                 }
 
                 binding.viewed.setOnClickListener {
+
+                    if (isViewed) {
+                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+                    } else {
+                        binding.viewed.setImageResource(R.drawable.icon_viewed)
+                    }
+
+                    isViewed = !isViewed
+
                     val currentCollection = viewedCollection?.movieIdList
                     if (currentCollection != null) {
                         if (currentCollection.contains(kinopoiskId)) {
@@ -124,7 +128,6 @@ class DetailFragment : Fragment() {
                                 title = "viewed",
                                 collection = currentCollection
                             )
-                            Log.d("tag", "currentCollection = $currentCollection")
                         }
                     }
                 }

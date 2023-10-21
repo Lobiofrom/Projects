@@ -69,13 +69,11 @@ class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityLis
                 else -> false
             }
         }
-        val sharedPrefs = getSharedPreferences("db", Context.MODE_PRIVATE)
 
+        val sharedPrefs = getSharedPreferences("db", Context.MODE_PRIVATE)
         val isFirstRun = sharedPrefs.getBoolean("isFirstRun", true)
-        Log.d("tag", "isFirstRun===$isFirstRun")
 
         if (isFirstRun) {
-            Log.d("tag", "isFirstRun===$isFirstRun")
             dbViewModel.addCollection("viewed", mutableListOf())
             dbViewModel.addCollection("Любимые", mutableListOf())
             dbViewModel.addCollection("Хочу посмотреть", mutableListOf())

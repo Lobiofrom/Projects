@@ -2,12 +2,10 @@ package com.example.kinopoisk.ui.actor_fragment
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,8 +14,6 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentActorBinding
-import com.example.kinopoisk.ui.detail_fragment.DBViewModel
-import com.example.kinopoisk.ui.detail_fragment.DBViewModelFactory
 import com.example.kinopoisk.ui.home.MovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import kotlinx.coroutines.flow.launchIn
@@ -33,25 +29,11 @@ class ActorFragment : Fragment() {
         onItemClick(item, this)
     }
 
-    private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentActorBinding.inflate(inflater, container, false)
-
-        dbViewModel.allCollections.onEach { movieCollections ->
-            Log.d(
-                "tag", "Коллекции: ${
-                    movieCollections.joinToString(", ") {
-                        it.collectionName
-                        it.movieIdList.toString()
-                    }
-                }"
-            )
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
 
         val viewModel = ViewModelProvider(this)[ActorViewModel::class.java]
 
