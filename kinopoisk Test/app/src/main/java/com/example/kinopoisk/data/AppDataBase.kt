@@ -8,10 +8,9 @@ import com.example.kinopoisk.utils.MovieIdListConverter
 
 @Database(
     entities = [MovieCollection::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
-
 @TypeConverters(MovieIdListConverter::class)
 
 abstract class AppDataBase : RoomDatabase() {

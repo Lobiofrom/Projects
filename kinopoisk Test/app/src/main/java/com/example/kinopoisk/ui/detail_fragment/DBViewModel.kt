@@ -16,7 +16,11 @@ class DBViewModel(
 ) : ViewModel() {
 
     val allCollections = this.dao.allCollections()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
     fun addCollection(title: String, collection: MutableList<Int>) {
         viewModelScope.launch {

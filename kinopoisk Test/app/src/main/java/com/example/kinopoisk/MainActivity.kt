@@ -1,26 +1,30 @@
 package com.example.kinopoisk
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kinopoisk.databinding.ActivityMainBinding
+import com.example.kinopoisk.ui.detail_fragment.DBViewModel
+import com.example.kinopoisk.ui.detail_fragment.DBViewModelFactory
 import com.example.kinopoisk.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityListener {
 
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var navView: BottomNavigationView
+
+    private val dbViewModel: DBViewModel by viewModels { DBViewModelFactory(application) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +68,21 @@ class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityLis
 
                 else -> false
             }
+        }
+        val sharedPrefs = getSharedPreferences("db", Context.MODE_PRIVATE)
+
+        val isFirstRun = sharedPrefs.getBoolean("isFirstRun", true)
+        Log.d("tag", "isFirstRun===$isFirstRun")
+
+        if (isFirstRun) {
+            Log.d("tag", "isFirstRun===$isFirstRun")
+            dbViewModel.addCollection("viewed", mutableListOf())
+            dbViewModel.addCollection("Любимые", mutableListOf())
+            dbViewModel.addCollection("Хочу посмотреть", mutableListOf())
+
+            val editor = sharedPrefs.edit()
+            editor.putBoolean("isFirstRun", false)
+            editor.apply()
         }
     }
 

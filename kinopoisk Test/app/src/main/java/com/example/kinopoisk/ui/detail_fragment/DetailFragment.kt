@@ -3,6 +3,7 @@ package com.example.kinopoisk.ui.detail_fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
+
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -74,6 +76,9 @@ class DetailFragment : Fragment() {
 
         val filmId = arguments?.getInt("filmId")
         val kinopoiskId = arguments?.getInt("kinopoiskId")
+        Log.d("tag", "kinopoiskId: $kinopoiskId")
+        Log.d("tag", "filmId: $filmId")
+
 
         binding.galaryAll.setOnClickListener {
             val bundle = Bundle()
@@ -87,25 +92,40 @@ class DetailFragment : Fragment() {
 
         if (kinopoiskId != 0) {
             dbViewModel.allCollections.onEach { movieCollections ->
-                if (movieCollections.isEmpty()) {
-
-
-                    binding.viewed.setOnClickListener {
-                        val newCollection = mutableListOf<Int>()
-                        newCollection.add(kinopoiskId!!)
-                        dbViewModel.addCollection(
-                            title = "viewed",
-                            collection = newCollection
-                        )
+                Log.d(
+                    "tag", "Коллекции-1: ${
+                        movieCollections.joinToString(", ") {
+                            it.collectionName
+                            it.movieIdList.toString()
+                        }
+                    }"
+                )
+                val viewedCollection = movieCollections.find { it.collectionName == "viewed" }
+                if (viewedCollection != null) {
+                    if (viewedCollection.movieIdList.contains(kinopoiskId)) {
+                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
                     } else {
-                        val viewedCollection =
-                            movieCollections.find { it.collectionName == "viewed" }
-                        val currentCollection = viewedCollection?.movieIdList
-                        currentCollection?.remove(kinopoiskId!!)
-                        dbViewModel.addCollection(
-                            title = "viewed",
-                            collection = currentCollection!!
-                        )
+                        binding.viewed.setImageResource(R.drawable.icon_viewed)
+                    }
+                }
+
+                binding.viewed.setOnClickListener {
+                    val currentCollection = viewedCollection?.movieIdList
+                    if (currentCollection != null) {
+                        if (currentCollection.contains(kinopoiskId)) {
+                            currentCollection.remove(kinopoiskId)
+                            dbViewModel.addCollection(
+                                title = "viewed",
+                                collection = currentCollection
+                            )
+                        } else {
+                            currentCollection.add(kinopoiskId!!)
+                            dbViewModel.addCollection(
+                                title = "viewed",
+                                collection = currentCollection
+                            )
+                            Log.d("tag", "currentCollection = $currentCollection")
+                        }
                     }
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -248,7 +268,6 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.state.collect {
@@ -262,7 +281,6 @@ class DetailFragment : Fragment() {
         }
 
         return binding.root
-
     }
 
     override fun onDestroy() {
