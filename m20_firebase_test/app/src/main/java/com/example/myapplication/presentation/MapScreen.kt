@@ -7,10 +7,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +50,8 @@ fun MapScreen() {
         )
     }
     val context = LocalContext.current
-    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+    val fusedLocationProviderClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
     val locationResult = fusedLocationProviderClient.lastLocation
     var deviceLocation by remember {
         mutableStateOf<LatLng?>(null)
@@ -74,6 +75,7 @@ fun MapScreen() {
     }
 
     if (deviceLocation != null && lastKnownLocation != null) {
+
         val cameraPositionState = rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(deviceLocation!!, 15f)
         }

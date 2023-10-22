@@ -7,7 +7,6 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -19,17 +18,40 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +64,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -65,7 +91,7 @@ import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.Executor
 
 private const val FILE_NAME = "dd-M-yyyy"
@@ -90,13 +116,14 @@ class MainActivity : ComponentActivity() {
     private var photoList by mutableStateOf(emptyList<Photo>())
     private var deleteList by mutableStateOf(emptyList<Photo>())
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
-        if (map.values.all { it }) {
-            startCamera()
-        } else {
-            Toast.makeText(this, "Permissions are not granted", Toast.LENGTH_LONG).show()
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
+            if (map.values.all { it }) {
+                startCamera()
+            } else {
+                Toast.makeText(this, "Permissions are not granted", Toast.LENGTH_LONG).show()
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +139,7 @@ class MainActivity : ComponentActivity() {
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-            Log.d("Registration token", it.result)
+//            Log.d("Registration token", it.result)
         }
     }
 
@@ -125,7 +152,9 @@ class MainActivity : ComponentActivity() {
         ) {
             composable(
                 route = Destinations.MainScreen.routes,
-                deepLinks = listOf(navDeepLink { uriPattern = "$URI/${Destinations.MainScreen.routes}" })
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = "$URI/${Destinations.MainScreen.routes}"
+                })
             ) {
                 MainScreen(navController)
             }
@@ -157,7 +186,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(
                 route = Destinations.MapScreen.routes,
-                deepLinks = listOf(navDeepLink { uriPattern = "$URI/${Destinations.MapScreen.routes}" })
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = "$URI/${Destinations.MapScreen.routes}"
+                })
             ) {
                 MapScreen()
             }
@@ -244,7 +275,7 @@ class MainActivity : ComponentActivity() {
                                 photo = photo,
                                 navController = navController,
                             )
-                            Divider(color = Color.Transparent, thickness = 5.dp)
+                            HorizontalDivider(thickness = 5.dp, color = Color.Transparent)
                         }
                     }
                 }
@@ -262,10 +293,12 @@ class MainActivity : ComponentActivity() {
 //                        FirebaseCrashlytics.getInstance().recordException(e)
 //                    }
                 },
-                modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(8.dp),
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(android.graphics.Color.parseColor("#101B20"))
+                    Color(android.graphics.Color.parseColor("#101B20"))
                 )
             ) {
                 Text(
@@ -286,10 +319,12 @@ class MainActivity : ComponentActivity() {
                                 showDeleteConfirmation = false
                                 deleteList = emptyList()
                             },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp),
                             shape = RoundedCornerShape(15.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray
+                                Color.LightGray
                             )
                         ) {
                             Text(text = "Delete selected", color = Color.DarkGray)
@@ -300,10 +335,12 @@ class MainActivity : ComponentActivity() {
                                 showDeleteConfirmation = false
                                 deleteList = emptyList()
                             },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp),
                             shape = RoundedCornerShape(15.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray
+                                Color.LightGray
                             )
                         ) {
                             Text(text = "Delete all", color = Color.DarkGray)
@@ -315,10 +352,12 @@ class MainActivity : ComponentActivity() {
                                 showDeleteConfirmation = false
                                 deleteList = emptyList()
                             },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp),
                             shape = RoundedCornerShape(15.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray
+                                Color.LightGray
                             )
                         ) {
                             Text(text = "Cancel", color = Color.DarkGray)
@@ -327,13 +366,19 @@ class MainActivity : ComponentActivity() {
             }
             if (deleteList.isNotEmpty()) {
                 Box(
-                    modifier = Modifier.height(100.dp).width(100.dp).align(Alignment.BottomStart).padding(16.dp)
+                    modifier = Modifier
+                        .height(100.dp)
+                        .width(100.dp)
+                        .align(Alignment.BottomStart)
+                        .padding(16.dp)
                         .background(Color.White, shape = CircleShape)
                 ) {
                     Icon(imageVector = Icons.Default.Delete,
                         contentDescription = "Delete all photos",
                         tint = Color.Black,
-                        modifier = Modifier.size(40.dp).align(Alignment.Center)
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.Center)
                             .clickable { showDeleteConfirmation = true })
                 }
             } else {
@@ -342,10 +387,12 @@ class MainActivity : ComponentActivity() {
                         navController.navigate(Destinations.MapScreen.routes)
                         MyFirebaseMessage().createNotification(context)
                     },
-                    modifier = Modifier.align(Alignment.BottomStart).padding(8.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(8.dp),
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(android.graphics.Color.parseColor("#101B20"))
+                        Color(android.graphics.Color.parseColor("#101B20"))
                     )
                 ) {
                     Text(text = "Open Maps", color = Color.White)
@@ -396,10 +443,12 @@ class MainActivity : ComponentActivity() {
                 onClick = {
                     takePicture()
                 },
-                modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(8.dp),
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(android.graphics.Color.parseColor("#101B20"))
+                    Color(android.graphics.Color.parseColor("#101B20"))
                 )
             ) {
                 Text(text = "take a picture", color = Color.White)
@@ -415,7 +464,9 @@ class MainActivity : ComponentActivity() {
         var showImage by remember { mutableStateOf(true) }
 
         Box(
-            modifier = Modifier.fillMaxSize().background(Color.Black)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
         ) {
             (if (!showImage) null else painter)?.let {
                 Image(
@@ -438,7 +489,8 @@ class MainActivity : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(16.dp).size(48.dp)
+                    .padding(16.dp)
+                    .size(48.dp)
                     .background(Color.White, shape = CircleShape)
                     .clickable { showDeleteConfirmation = true }
             ) {
@@ -464,10 +516,12 @@ class MainActivity : ComponentActivity() {
                                 showImage = false
                                 navController.navigate(Destinations.MainScreen.routes)
                             },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp),
                             shape = RoundedCornerShape(15.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray
+                                Color.LightGray
                             )
                         ) {
                             Text(text = "Delete", color = Color.DarkGray)
@@ -478,10 +532,12 @@ class MainActivity : ComponentActivity() {
                             onClick = {
                                 showDeleteConfirmation = false
                             },
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp),
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp),
                             shape = RoundedCornerShape(15.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray
+                                Color.LightGray
                             )
                         ) {
                             Text(text = "Cancel", color = Color.DarkGray)
@@ -533,17 +589,24 @@ class MainActivity : ComponentActivity() {
         val outPutOptions = ImageCapture.OutputFileOptions.Builder(
             contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues
         ).build()
-        imageCapture.takePicture(outPutOptions, executor, object : ImageCapture.OnImageSavedCallback {
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                val savedUri = outputFileResults.savedUri ?: return
-                viewModel.onPhotoMake(savedUri.toString(), name)
-            }
+        imageCapture.takePicture(
+            outPutOptions,
+            executor,
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val savedUri = outputFileResults.savedUri ?: return
+                    viewModel.onPhotoMake(savedUri.toString(), name)
+                }
 
-            override fun onError(exception: ImageCaptureException) {
-                Toast.makeText(this@MainActivity, "Photo not saved: ${exception.message}", Toast.LENGTH_SHORT)
-                    .show()
-                exception.printStackTrace()
-            }
-        })
+                override fun onError(exception: ImageCaptureException) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Photo not saved: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    exception.printStackTrace()
+                }
+            })
     }
 }
