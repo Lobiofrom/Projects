@@ -1,4 +1,4 @@
-package com.example.kinopoisk.entity
+package com.example.kinopoisk.entity.dBCollection
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
