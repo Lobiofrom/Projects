@@ -1,6 +1,7 @@
 package com.example.kinopoisk.entity.dBCollection
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
 
@@ -11,5 +12,5 @@ data class CollectionWithMovies(
         entityColumn = "movieId",
         associateBy = Junction(CollectionMovieCrossRef::class)
     )
-    val movies: List<MovieId>
+    val movies: MutableList<MovieId>
 )

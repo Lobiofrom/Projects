@@ -1,4 +1,4 @@
-package com.example.roomcodelab.data
+ package com.example.roomcodelab.data
 
 import android.content.Context
 import androidx.room.Database
@@ -33,7 +33,7 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
             var word = Word("Hello")
             wordDao.insert(word)
-            word = Word("World!")
+            word = Word("World! Uraaaaaaa")
             wordDao.insert(word)
             word = Word("I'm Denis!")
             wordDao.insert(word)

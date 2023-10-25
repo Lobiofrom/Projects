@@ -88,50 +88,61 @@ class DetailFragment : Fragment() {
         }
 
         if (kinopoiskId != 0) {
-            dbViewModel.allCollections.onEach { movieCollections ->
 
-                val viewedCollection = movieCollections.find { it.collectionName == "viewed" }
-                var isViewed = false
+//            dbViewModel.allCollectionsWithMovies.onEach { list ->
+//                Log.d(
+//                    "tag", "Collections: ${
+//                        list.joinToString("\n") {
+//                            it.collection.collectionName
+//                        }
+//                    }"
+//                )
+//            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-                Log.d("tag", "viewedCollection===${viewedCollection?.movieIdList.toString()}")
-
-                if (viewedCollection != null) {
-                    if (viewedCollection.movieIdList.contains(kinopoiskId)) {
-                        binding.viewed.setImageResource(R.drawable.icon_viewed)
-                        isViewed = true
-                    } else {
-                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                    }
-                }
-
-                binding.viewed.setOnClickListener {
-
-                    if (isViewed) {
-                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                    } else {
-                        binding.viewed.setImageResource(R.drawable.icon_viewed)
-                    }
-
-                    isViewed = !isViewed
-
-                    val currentCollection = viewedCollection?.movieIdList
-                    if (currentCollection != null) {
-                        if (currentCollection.contains(kinopoiskId)) {
-                            currentCollection.remove(kinopoiskId)
-                            dbViewModel.addCollection(
-                                title = "viewed",
-                                collection = currentCollection
-                            )
-                        } else {
-                            currentCollection.add(kinopoiskId!!)
-                            dbViewModel.addCollection(
-                                title = "viewed",
-                                collection = currentCollection
-                            )
-                        }
-                    }
-                }
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+//            dbViewModel.allCollections.onEach { movieCollections ->
+//
+//                val viewedCollection = movieCollections.find { it.collectionName == "viewed" }
+//                var isViewed = false
+//
+//                Log.d("tag", "viewedCollection===${viewedCollection?.movieIdList.toString()}")
+//
+//                if (viewedCollection != null) {
+//                    if (viewedCollection.movieIdList.contains(kinopoiskId)) {
+//                        binding.viewed.setImageResource(R.drawable.icon_viewed)
+//                        isViewed = true
+//                    } else {
+//                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+//                    }
+//                }
+//
+//                binding.viewed.setOnClickListener {
+//
+//                    if (isViewed) {
+//                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+//                    } else {
+//                        binding.viewed.setImageResource(R.drawable.icon_viewed)
+//                    }
+//
+//                    isViewed = !isViewed
+//
+//                    val currentCollection = viewedCollection?.movieIdList
+//                    if (currentCollection != null) {
+//                        if (currentCollection.contains(kinopoiskId)) {
+//                            currentCollection.remove(kinopoiskId)
+//                            dbViewModel.addCollection(
+//                                title = "viewed",
+//                                collection = currentCollection
+//                            )
+//                        } else {
+//                            currentCollection.add(kinopoiskId!!)
+//                            dbViewModel.addCollection(
+//                                title = "viewed",
+//                                collection = currentCollection
+//                            )
+//                        }
+//                    }
+//                }
+//            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             val picturesViewModel =
                 ViewModelProvider(
@@ -282,6 +293,32 @@ class DetailFragment : Fragment() {
                 }
             }
         }
+
+        dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
+            val logMessage = StringBuilder()
+
+            for (collectionWithMovies in list) {
+                logMessage.append("Collection: ${collectionWithMovies.collection.collectionName}\n")
+                for (movie in collectionWithMovies.movies) {
+                    logMessage.append("Movie ID: ${movie.movieId}\n")
+                }
+                logMessage.append("\n")
+            }
+
+            Log.d("tag", "Collections-2:\n$logMessage")
+        }
+//.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        dbViewModel.allCollections.onEach { list ->
+            Log.d(
+                "tag", "Collections-1: ${
+                    list.joinToString("\n") {
+                        it.movieIdList.toString()
+                    }
+                }"
+            )
+
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         return binding.root
     }

@@ -3,6 +3,7 @@ package com.example.kinopoisk.ui.detail_fragment
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.kinopoisk.App
 import com.example.kinopoisk.data.MovieCollectionDao
@@ -18,23 +19,12 @@ class DBViewModel(
     private val dao: MovieCollectionDao
 ) : ViewModel() {
 
-    val allCollectionsWithMovies = this.dao.getCollectionsWithMovies()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
-
-//    fun addCollectionsWithMovies(collection: Collection, movies: List<MovieId>) {
-//        viewModelScope.launch {
-//            dao.addCollectionWithMovies(
-//                CollectionWithMovies(
-//                    collection = collection,
-//                    movies = movies
-//                )
-//            )
-//        }
-//    }
+    val allCollectionsWithMovies = this.dao.getCollectionsWithMovies().asLiveData()
+//        .stateIn(
+//            viewModelScope,
+//            SharingStarted.WhileSubscribed(5000),
+//            emptyList()
+//        )
 
     val allCollections = this.dao.allCollections()
         .stateIn(

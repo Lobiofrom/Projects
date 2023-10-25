@@ -1,19 +1,16 @@
 package com.example.kinopoisk
 
 import android.app.Application
-import androidx.room.Room
 import com.example.kinopoisk.data.AppDataBase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
 class App : Application() {
 
-    val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            AppDataBase::class.java,
-            "db"
-        ).fallbackToDestructiveMigration().build()
-    }
+    private val scope = CoroutineScope(SupervisorJob())
+
+    val db by lazy { AppDataBase.getDatabase(this, scope) }
 
     override fun onCreate() {
         super.onCreate()
