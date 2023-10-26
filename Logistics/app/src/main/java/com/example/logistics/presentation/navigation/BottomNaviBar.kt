@@ -22,13 +22,14 @@ import com.example.logistics.data.BottomNavItem
 fun BottomNaviBar(
     items: List<BottomNavItem>,
     navController: NavController,
-    onItemClick: (BottomNavItem) -> Unit
+    onItemClick: (BottomNavItem) -> Unit,
+    modifier: Modifier
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
         backgroundColor = Color.DarkGray,
         elevation = 5.dp,
-        modifier = Modifier.height(46.dp)
+        modifier = modifier
     ) {
         items.forEach {
             val selected = it.route == backStackEntry.value?.destination?.route

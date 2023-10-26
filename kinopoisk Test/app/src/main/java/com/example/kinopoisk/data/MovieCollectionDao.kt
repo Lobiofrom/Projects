@@ -44,14 +44,6 @@ interface MovieCollectionDao {
         insertCollectionMovieCrossRef(collectionMovieCrossRefList)
     }
 
-//    @Transaction
-//    suspend fun addCollectionWithMovies(collectionWithMovies: CollectionWithMovies) {
-//        addCollection(collectionWithMovies.collection)
-//        for (movieId in collectionWithMovies.movies) {
-//            addMovieId(movieId)
-//        }
-//    }
-
     @Query("delete from Collection")
     suspend fun deleteAllCollectionsWithMovies()
 

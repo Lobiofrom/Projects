@@ -13,17 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.logistics.data.Task
 import com.example.logistics.presentation.chatscreen.ChatScreen
 import com.example.logistics.presentation.profilescreen.ProfileScreen
 import com.example.logistics.presentation.schedulescreen.ScheduleScreen
-import com.example.logistics.presentation.tasksscreen.TasksScreen
+import com.example.logistics.presentation.tasksscreen.TasksNavigation
 import com.example.logistics.presentation.viewmodel.MyViewModel
 
 @Composable
 fun Navigation(
     navController: NavHostController,
-    viewModel: MyViewModel
+    viewModel: MyViewModel,
+    changeModifier: () -> Unit,
+    changeModifier2: () -> Unit
 ) {
     var tasks by remember {
         mutableStateOf(emptyList<Task>())
@@ -39,10 +42,12 @@ fun Navigation(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        NavHost(navController = navController, startDestination = "tasks") {
-            composable(route = "tasks") {
-                TasksScreen(
-                    tasks = tasks
+        NavHost(navController = navController, startDestination = "tasksNavigation") {
+            composable(route = "tasksNavigation") {
+                TasksNavigation(
+                    viewModel = viewModel,
+                    changeModifier = changeModifier,
+                    changeModifier2 = changeModifier2
                 )
             }
             composable(route = "schedule") {
