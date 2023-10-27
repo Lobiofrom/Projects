@@ -20,27 +20,31 @@ class DBViewModel(
 ) : ViewModel() {
 
     val allCollectionsWithMovies = this.dao.getCollectionsWithMovies().asLiveData()
-//        .stateIn(
-//            viewModelScope,
-//            SharingStarted.WhileSubscribed(5000),
-//            emptyList()
-//        )
 
-    val allCollections = this.dao.allCollections()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
-
-    fun addCollection(title: String, collection: MutableList<Int>) {
+    fun addCollection(title: String) {
         viewModelScope.launch {
-            dao.addCollection(
-                MovieCollection(
-                    collectionName = title,
-                    movieIdList = collection
+            dao.insertCollection(
+                Collection(
+                    collectionName = title
                 )
             )
+        }
+    }
+
+    fun addMovieId(id: Int, collectionId: Long) {
+        viewModelScope.launch {
+            dao.insertMovie(
+                MovieId(
+                    collectionId = collectionId,
+                    movieId = id
+                )
+            )
+        }
+    }
+
+    fun deleteMovieId(id: MovieId) {
+        viewModelScope.launch {
+            dao.deleteMovieId(id)
         }
     }
 }

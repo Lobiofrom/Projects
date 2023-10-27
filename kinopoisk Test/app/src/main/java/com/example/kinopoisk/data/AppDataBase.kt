@@ -8,7 +8,6 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.kinopoisk.entity.dBCollection.Collection
 import com.example.kinopoisk.entity.dBCollection.CollectionMovieCrossRef
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.entity.dBCollection.MovieCollection
 import com.example.kinopoisk.entity.dBCollection.MovieId
 import com.example.kinopoisk.utils.MovieIdListConverter
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
         MovieId::class,
         CollectionMovieCrossRef::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(MovieIdListConverter::class)
@@ -38,33 +37,15 @@ abstract class AppDataBase : RoomDatabase() {
             INSTANCE.let {
                 scope.launch {
                     val dao = it?.collectionDao()
-                    dao?.deleteAllCollectionsWithMovies()
 
-                    val viewed = Collection(collectionName = "Viewedddddd")
-                    val like = Collection(collectionName = "Likeeeeee")
-                    val wantToWatch = Collection(collectionName = "WantToWatch-2")
+                    val viewed = Collection(collectionName = "Viewed")
+                    val like = Collection(collectionName = "Любимые")
+                    val wantToWatch = Collection(collectionName = "Хочу посмотреть")
 
-                    val emptyList1 = mutableListOf(MovieId(movieId = 11), MovieId(movieId = 22))
-                    val emptyList2 = mutableListOf(MovieId(movieId = 33), MovieId(movieId = 111))
-                    val emptyList3 = mutableListOf(MovieId(movieId = 11), MovieId(movieId = 3))
+                    dao?.insertCollection(viewed)
+                    dao?.insertCollection(like)
+                    dao?.insertCollection(wantToWatch)
 
-
-                    val viewedCollection =
-                        CollectionWithMovies(collection = viewed, movies = emptyList1)
-                    val likedCollection =
-                        CollectionWithMovies(collection = like, movies = emptyList2)
-                    val toWatchCollection =
-                        CollectionWithMovies(collection = wantToWatch, movies = emptyList3)
-
-                    dao?.addCollectionWithMovies(viewed, emptyList1)
-                    dao?.addCollectionWithMovies(like, emptyList2)
-                    dao?.addCollectionWithMovies(wantToWatch, emptyList3)
-                    dao?.addCollection(
-                        MovieCollection(
-                        collectionName = "first",
-                        movieIdList = mutableListOf(1,2,3,5)
-                    )
-                    )
                 }
             }
         }

@@ -2,8 +2,8 @@ package com.example.kinopoisk.entity.dBCollection
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["collectionName", "movieId"])
+@Entity(primaryKeys = ["collectionId", "id"])
 data class CollectionMovieCrossRef(
-    val collectionName: String,
-    val movieId: Int
+    var collectionId: Int,
+    var id: Int
 )
