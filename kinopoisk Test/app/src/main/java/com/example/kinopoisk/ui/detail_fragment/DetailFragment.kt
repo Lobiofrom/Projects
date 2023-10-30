@@ -3,12 +3,12 @@ package com.example.kinopoisk.ui.detail_fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
 
-
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -55,15 +54,13 @@ class DetailFragment : Fragment() {
 
     private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
 
+    private val movieAndActorsViewModel: MovieActorsSimilarsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-
-        val movieAndActorsViewModel =
-            ViewModelProvider(this)[MovieActorsSimilarsViewModel::class.java]
 
         bottomNavBarVisibilityListener = activity as? HomeFragment.BottomNavBarVisibilityListener
 
@@ -88,70 +85,9 @@ class DetailFragment : Fragment() {
         }
 
         if (kinopoiskId != 0) {
-            dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
-
-                val viewedCollection = list.find { it.collection.collectionName == "Viewed" }
-                var isViewed = false
-
-                if (viewedCollection != null) {
-                    if (viewedCollection.movies.any { it.movieId == kinopoiskId }) {
-                        binding.viewed.setImageResource(R.drawable.icon_viewed)
-                        isViewed = true
-                    } else {
-                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                    }
-                }
-
-                binding.viewed.setOnClickListener {
-
-                    if (isViewed) {
-                        binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                    } else {
-                        binding.viewed.setImageResource(R.drawable.icon_viewed)
-                    }
-
-                    isViewed = !isViewed
-
-                    val id = viewedCollection?.movies?.find { it.movieId == kinopoiskId }
-
-                    if (id == null) {
-                        dbViewModel.addMovieId(
-                            kinopoiskId!!,
-                            viewedCollection?.collection!!.collectionId
-                        )
-                    } else {
-                        dbViewModel.deleteMovieId(id)
-                    }
-                }
-            }
-
-            val picturesViewModel =
-                ViewModelProvider(
-                    this,
-                    PicturesViewModelFactory(kinopoiskId!!)
-                )[PicturesViewModel::class.java]
-
-            picturesViewModel.get20("STILL")
-
-            picturesViewModel.pictures20.onEach {
-                picturesAdapter.submitData(PagingData.from(it))
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-            movieAndActorsViewModel.getAllDetails(kinopoiskId)
+            getData(kinopoiskId!!)
         } else {
-            val picturesViewModel =
-                ViewModelProvider(
-                    this,
-                    PicturesViewModelFactory(filmId!!)
-                )[PicturesViewModel::class.java]
-
-            picturesViewModel.get20("STILL")
-
-            picturesViewModel.pictures20.onEach {
-                picturesAdapter.submitData(PagingData.from(it))
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-            movieAndActorsViewModel.getAllDetails(filmId)
+            getData(filmId!!)
         }
 
         movieAndActorsViewModel.similars.onEach {
@@ -159,22 +95,22 @@ class DetailFragment : Fragment() {
             binding.allSimilar.text = it.size.toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        movieAndActorsViewModel.staffList.onEach {
+        movieAndActorsViewModel.staffList.onEach { staffList ->
             actorAdapter.run {
-                submitList(it.filter {
+                submitList(staffList.filter {
                     it.professionKey == "ACTOR"
                 })
             }
-            binding.allActors.text = it.filter {
+            binding.allActors.text = staffList.filter {
                 it.professionKey == "ACTOR"
             }.size.toString()
 
             staffAdapter.run {
-                submitList(it.filter {
+                submitList(staffList.filter {
                     it.professionKey != "ACTOR"
                 })
             }
-            binding.allStaff.text = it.filter {
+            binding.allStaff.text = staffList.filter {
                 it.professionKey != "ACTOR"
             }.size.toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -186,7 +122,6 @@ class DetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.movieDescription.collect { descriptionDto ->
-
                     binding.share.setOnClickListener {
                         val sendIntent: Intent = Intent().apply {
                             action = Intent.ACTION_SEND
@@ -199,7 +134,6 @@ class DetailFragment : Fragment() {
                         val shareIntent = Intent.createChooser(sendIntent, null)
                         startActivity(shareIntent)
                     }
-
                     if (descriptionDto?.type == "TV_SERIES") {
                         binding.seriesText.visibility = View.VISIBLE
                         binding.seasonsCount.visibility = View.VISIBLE
@@ -232,28 +166,24 @@ class DetailFragment : Fragment() {
                     nameOriginal = descriptionDto?.nameOriginal ?: ""
                     nameEn = descriptionDto?.nameEn ?: ""
                     nameRu = descriptionDto?.nameRu ?: ""
-
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                movieAndActorsViewModel.series.collect {
-
-                    val episodeCount = it.sumOf {
-                        it.episodes!!.size
+                movieAndActorsViewModel.series.collect { seasonList ->
+                    val episodeCount = seasonList.sumOf { season ->
+                        season.episodes!!.size
                     }
 
                     binding.seasonsCount.text =
-                        "Сезонов: ${it.size}, Серий: $episodeCount"
-
-                    val list = it
+                        "Сезонов: ${seasonList.size}, Серий: $episodeCount"
 
                     binding.seriesAll.setOnClickListener {
                         val bundle = Bundle()
-                        val seasonList = list as? ArrayList<out Parcelable>
-                        bundle.putParcelableArrayList("seasonList", seasonList)
+                        val parcelableList = seasonList as? ArrayList<out Parcelable>
+                        bundle.putParcelableArrayList("seasonList", parcelableList)
                         bundle.putString("nameEn", nameEn)
                         bundle.putString("nameOriginal", nameOriginal)
                         bundle.putString("nameRu", nameRu)
@@ -274,12 +204,122 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
         return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun getData(id: Int) {
+        dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
+
+            val viewedCollection = list.find { it.collection.collectionName == "Viewed" }
+            val likedCollection = list.find { it.collection.collectionName == "Любимые" }
+            val wantToWatch = list.find { it.collection.collectionName == "Хочу посмотреть" }
+
+            var isViewed = false
+            var isLiked = false
+            var isMarked = false
+
+            if (wantToWatch != null) {
+                if (wantToWatch.movies.any { it.movieId == id }) {
+                    binding.mark.setImageResource(R.drawable.icon_mark)
+                    isMarked = true
+                } else {
+                    binding.mark.setImageResource(R.drawable.icon_not_mark)
+
+                }
+            }
+
+            if (likedCollection != null) {
+                if (likedCollection.movies.any { it.movieId == id }) {
+                    binding.like.setImageResource(R.drawable.icon_like)
+                    isLiked = true
+                } else {
+                    binding.like.setImageResource(R.drawable.icon_not_like)
+                }
+            }
+
+            if (viewedCollection != null) {
+                if (viewedCollection.movies.any { it.movieId == id }) {
+                    binding.viewed.setImageResource(R.drawable.icon_viewed)
+                    isViewed = true
+                } else {
+                    binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+                }
+            }
+
+            binding.mark.setOnClickListener {
+                if (isMarked) {
+                    binding.mark.setImageResource(R.drawable.icon_not_mark)
+                } else {
+                    binding.mark.setImageResource(R.drawable.icon_mark)
+                }
+                isMarked = !isMarked
+
+                val foundId = wantToWatch?.movies!!.find { it.movieId == id }
+                if (foundId == null) {
+                    dbViewModel.addMovieId(id, wantToWatch.collection.collectionId)
+                } else {
+                    dbViewModel.deleteMovieId(foundId)
+                }
+            }
+
+            binding.like.setOnClickListener {
+                if (isLiked) {
+                    binding.like.setImageResource(R.drawable.icon_not_like)
+                } else {
+                    binding.like.setImageResource(R.drawable.icon_like)
+                }
+                isLiked = !isLiked
+
+                val foundId = likedCollection?.movies?.find { it.movieId == id }
+
+                if (foundId == null) {
+                    dbViewModel.addMovieId(
+                        id,
+                        likedCollection?.collection!!.collectionId
+                    )
+                } else {
+                    dbViewModel.deleteMovieId(foundId)
+                }
+            }
+
+            binding.viewed.setOnClickListener {
+                if (isViewed) {
+                    binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+                } else {
+                    binding.viewed.setImageResource(R.drawable.icon_viewed)
+                }
+
+                isViewed = !isViewed
+
+                val foundId = viewedCollection?.movies?.find { it.movieId == id }
+
+                if (foundId == null) {
+                    dbViewModel.addMovieId(
+                        id,
+                        viewedCollection?.collection!!.collectionId
+                    )
+                } else {
+                    dbViewModel.deleteMovieId(foundId)
+                }
+            }
+        }
+
+        val picturesViewModel =
+            ViewModelProvider(
+                this,
+                PicturesViewModelFactory(id)
+            )[PicturesViewModel::class.java]
+
+        picturesViewModel.get20("STILL")
+
+        picturesViewModel.pictures20.onEach {
+            picturesAdapter.submitData(PagingData.from(it))
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        movieAndActorsViewModel.getAllDetails(id)
     }
 }
