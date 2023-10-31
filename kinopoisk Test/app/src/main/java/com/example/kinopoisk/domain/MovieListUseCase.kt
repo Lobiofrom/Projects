@@ -1,9 +1,7 @@
 package com.example.kinopoisk.domain
 
-import com.example.kinopoisk.data.MovieDescriptionDto
 import com.example.kinopoisk.data.MovieListRepository
 import com.example.kinopoisk.data.PersonDto
-import com.example.kinopoisk.data.SeriesDto
 import com.example.kinopoisk.entity.Item
 import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.entity.Season

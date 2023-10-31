@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,7 +17,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <ImageView
                 android:id="@+id/movie_image"
@@ -183,56 +182,56 @@
                 android:id="@+id/like"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/icon_like"
                 android:background="@android:color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_like"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
 
             <ImageButton
                 android:id="@+id/mark"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:background="@android:color/transparent"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_mark"
-                android:background="@android:color/transparent"
                 app:layout_constraintStart_toEndOf="@+id/like"
-                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
 
             <ImageButton
                 android:id="@+id/viewed"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:background="@android:color/transparent"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_viewed"
-                android:background="@android:color/transparent"
                 app:layout_constraintStart_toEndOf="@+id/mark"
-                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
 
             <ImageButton
                 android:id="@+id/share"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/icon_share"
                 android:background="@android:color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_share"
                 app:layout_constraintStart_toEndOf="@+id/viewed"
-                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
 
             <ImageButton
                 android:id="@+id/settings"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/icon_additionally"
                 android:background="@android:color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_additionally"
                 app:layout_constraintStart_toEndOf="@+id/share"
-                app:layout_constraintTop_toBottomOf="@+id/flow3"/>
+                app:layout_constraintTop_toBottomOf="@+id/flow3" />
 
             <TextView
                 android:id="@+id/shortDescription"
@@ -256,6 +255,7 @@
                 android:text="Представьте, что вы живёте в альтернативной реальности, где, поглотив всех крупных конкурентов, технологическое господство захватил MegaNet. Сервисы, которые он предоставляет, проникли во все сферы жизни по всему миру. Несмотря на это, энтузиасты не оставляют попыток потягаться силами с мегакорпорацией и пытаются предоставить возможные альтернативы различным сервисам."
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/shortDescription" />
 
@@ -277,9 +277,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:visibility="gone"
                 android:text="1 сезон, 7 серий"
                 android:textSize="12sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/series_text" />
 
@@ -289,14 +289,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:text="ВСЕ"
-                android:visibility="gone"
-                android:textColor="@color/teal_700"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:text="ВСЕ"
+                android:textColor="@color/teal_700"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:clickable="true"
-                android:layout_marginEnd="16dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -316,8 +316,8 @@
                 android:id="@+id/all_actors"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:text="27"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -384,12 +384,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="ВСЕ"
                 android:textColor="@color/teal_700"
-                android:foreground="?attr/selectableItemBackground"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/staff_recycler" />
 
@@ -401,9 +401,9 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/galary_text"
+                app:spanCount="1"
                 tools:listitem="@layout/item_full_gallery" />
 
             <TextView
@@ -411,23 +411,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Похожие фильмы"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/galary_recycler"
-                android:layout_marginTop="8dp"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/galary_recycler" />
 
             <TextView
                 android:id="@+id/all_similar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:text="4"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/galary_recycler" />
 
@@ -435,14 +434,13 @@
                 android:id="@+id/similar_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/similar_text"
                 app:spanCount="1"
-                tools:listitem="@layout/item"
-                android:layout_marginTop="10dp"
-                />
+                tools:listitem="@layout/item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -452,10 +450,164 @@
         android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sheet_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:elevation="20dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:background="#B5B5C9"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <ImageView
+            android:id="@+id/imageViewRemove"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_remove"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewBottomMoviePictures"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textViewNameFilmBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewBottomMoviePictures"
+            app:layout_constraintStart_toEndOf="@+id/imageViewBottomMoviePictures"
+            app:layout_constraintTop_toTopOf="@+id/imageViewBottomMoviePictures"
+            tools:text="Название" />
+
+        <TextView
+            android:id="@+id/textViewGenreFilmBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewBottomMoviePictures"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNameFilmBottom"
+            tools:text="жанр" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="16dp"
+            android:background="#B5B5C9"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewBottomMoviePictures"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#B5B5C9"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCollectionBottom"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="40dp"
+            android:background="#B5B5C9"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCollectionBottom"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/folder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/textViewAddInCollectionInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Добавить в коллецию"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCollectionBottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_bottom_sheet_recycler" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/plus"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4"
+            />
+
+        <TextView
+            android:id="@+id/textViewCreateNewCollectionBottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Создать новую коллекцию"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/view3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCollectionBottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/background_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#80000000" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

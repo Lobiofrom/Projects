@@ -27,6 +27,7 @@ import com.example.kinopoisk.ui.home.MovieListAdapter
 import com.example.kinopoisk.ui.onItemClick.onItemClick
 import com.example.kinopoisk.ui.onItemClick.onPersonClick
 import com.example.kinopoisk.ui.onItemClick.onPictureClick
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -56,6 +57,8 @@ class DetailFragment : Fragment() {
 
     private val movieAndActorsViewModel: MovieActorsSimilarsViewModel by viewModels()
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +69,9 @@ class DetailFragment : Fragment() {
 
         bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
 
+        val bottomSheetAdapter = BottomSheetAdapter()
+
+        binding.recyclerViewCollectionBottom.adapter = bottomSheetAdapter
         binding.galaryRecycler.adapter = picturesAdapter
         binding.actorsRecycler.adapter = actorAdapter
         binding.staffRecycler.adapter = staffAdapter
@@ -73,6 +79,32 @@ class DetailFragment : Fragment() {
 
         val filmId = arguments?.getInt("filmId")
         val kinopoiskId = arguments?.getInt("kinopoiskId")
+
+        bottomSheetBehavior = BottomSheetBehavior.from<View>(binding.sheetBottom).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+            peekHeight = 0
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(
+            object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                        binding.backgroundOverlay.visibility = View.VISIBLE
+                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        binding.backgroundOverlay.visibility = View.GONE
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            }
+        )
+        binding.backgroundOverlay.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.settings.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
 
         binding.galaryAll.setOnClickListener {
             val bundle = Bundle()
@@ -85,9 +117,9 @@ class DetailFragment : Fragment() {
         }
 
         if (kinopoiskId != 0) {
-            getData(kinopoiskId!!)
+            getData(kinopoiskId!!, bottomSheetAdapter)
         } else {
-            getData(filmId!!)
+            getData(filmId!!, bottomSheetAdapter)
         }
 
         movieAndActorsViewModel.similars.onEach {
@@ -144,6 +176,8 @@ class DetailFragment : Fragment() {
                     binding.nameEnglish.text =
                         if (descriptionDto?.nameOriginal.isNullOrEmpty()) descriptionDto?.nameRu?.uppercase() else descriptionDto?.nameOriginal?.uppercase()
                     binding.nameRussian.text = descriptionDto?.nameRu
+                    binding.textViewNameFilmBottom.text = descriptionDto?.nameRu
+
                     binding.rating.text =
                         if (descriptionDto?.ratingKinopoisk == 0.0) "" else descriptionDto?.ratingKinopoisk?.toString()
                             ?: ""
@@ -156,12 +190,15 @@ class DetailFragment : Fragment() {
                     binding.genre.text = descriptionDto?.genres?.take(3)?.joinToString(", ") {
                         it.genre.toString()
                     }
+                    binding.textViewGenreFilmBottom.text =
+                        descriptionDto?.genres?.take(3)?.joinToString(", ") { it.genre.toString() }
                     binding.year.text = descriptionDto?.year?.toString() ?: ""
                     binding.country.text = descriptionDto?.countries?.take(1)?.joinToString {
                         it.country.toString()
                     } ?: ""
                     binding.time.text = "${descriptionDto?.filmLength ?: ""} мин"
                     binding.movieImage.load(descriptionDto?.posterUrl)
+                    binding.imageViewBottomMoviePictures.load(descriptionDto?.posterUrl)
 
                     nameOriginal = descriptionDto?.nameOriginal ?: ""
                     nameEn = descriptionDto?.nameEn ?: ""
@@ -212,8 +249,10 @@ class DetailFragment : Fragment() {
         _binding = null
     }
 
-    private fun getData(id: Int) {
+    private fun getData(id: Int, bottomSheetAdapter: BottomSheetAdapter) {
         dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
+
+            bottomSheetAdapter.submitList(list.subList(1, list.size))
 
             val viewedCollection = list.find { it.collection.collectionName == "Viewed" }
             val likedCollection = list.find { it.collection.collectionName == "Любимые" }
