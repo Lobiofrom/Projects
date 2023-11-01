@@ -8,22 +8,22 @@ import ru.sr.adapter.ListDelegateAdapter
 import ru.sr.adapter.adapterDelegate
 
 class BottomSheetAdapter(
-//    collectionList: List<CollectionWithMovies>,
-//    movieId: Int
+    movieId: Int,
+    viewModel: DBViewModel
 ) :
     ListDelegateAdapter<CollectionWithMovies>(CollectionWithMoviesDiffUtil()) {
     init {
         addDelegate(
             collectionAdapterDelegate(
-                //  collectionList, movieId
+                movieId, viewModel
             )
         )
     }
 }
 
 fun collectionAdapterDelegate(
-//    collectionList: List<CollectionWithMovies>,
-//    movieId: Int
+    movieId: Int,
+    viewModel: DBViewModel
 ) =
     adapterDelegate<CollectionWithMovies, CollectionWithMovies, ItemBottomSheetRecyclerBinding>(
         { parent ->
@@ -35,13 +35,17 @@ fun collectionAdapterDelegate(
         bind {
             binding.textViewNameCollectionCheckBox.text = item.collection.collectionName
             binding.textViewCounterCollectionCheckBox.text = item.movies.size.toString()
-//            if (collectionList.any { collection ->
-//                    collection.movies.any { movie ->
-//                        movie.movieId == movieId
-//                    }
-//                }) {
-//
-//            }
+
+            binding.checkBox.isChecked = item.movies.any { it.movieId == movieId }
+
+            binding.checkBox.setOnClickListener {
+                if (item.movies.any { it.movieId == movieId }) {
+                    val movie = item.movies.find { it.movieId == movieId }
+                    viewModel.deleteMovieId(movie!!)
+                } else {
+                    viewModel.addMovieId(movieId, item.collection.collectionId)
+                }
+            }
         }
     }
 

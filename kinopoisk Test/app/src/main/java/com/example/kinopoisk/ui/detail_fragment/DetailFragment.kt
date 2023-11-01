@@ -69,9 +69,6 @@ class DetailFragment : Fragment() {
 
         bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
 
-        val bottomSheetAdapter = BottomSheetAdapter()
-
-        binding.recyclerViewCollectionBottom.adapter = bottomSheetAdapter
         binding.galaryRecycler.adapter = picturesAdapter
         binding.actorsRecycler.adapter = actorAdapter
         binding.staffRecycler.adapter = staffAdapter
@@ -106,6 +103,20 @@ class DetailFragment : Fragment() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
+        binding.textViewCreateNewCollectionBottom.setOnClickListener {
+            showAddCollectionDialog()
+        }
+        binding.imageViewCloseEditCollectionBottom.setOnClickListener {
+            unShowAddCollectionDialog()
+        }
+        binding.textInputLayoutCollectionBottom.setEndIconOnClickListener {
+            val collectionName = binding.editTextCollectionBottom.text.toString()
+            if (collectionName.isNotEmpty()) {
+                dbViewModel.addCollection(collectionName)
+                unShowAddCollectionDialog()
+            }
+        }
+
         binding.galaryAll.setOnClickListener {
             val bundle = Bundle()
             if (kinopoiskId != 0) {
@@ -117,9 +128,9 @@ class DetailFragment : Fragment() {
         }
 
         if (kinopoiskId != 0) {
-            getData(kinopoiskId!!, bottomSheetAdapter)
+            getData(kinopoiskId!!)
         } else {
-            getData(filmId!!, bottomSheetAdapter)
+            getData(filmId!!)
         }
 
         movieAndActorsViewModel.similars.onEach {
@@ -249,8 +260,24 @@ class DetailFragment : Fragment() {
         _binding = null
     }
 
-    private fun getData(id: Int, bottomSheetAdapter: BottomSheetAdapter) {
+    private fun showAddCollectionDialog() {
+        binding.cardViewEditCollectionBottom.visibility = View.VISIBLE
+        binding.scroll.visibility = View.GONE
+        binding.sheetBottom.visibility = View.GONE
+    }
+
+    private fun unShowAddCollectionDialog() {
+        binding.cardViewEditCollectionBottom.visibility = View.GONE
+        binding.scroll.visibility = View.VISIBLE
+        binding.sheetBottom.visibility = View.VISIBLE
+    }
+
+    private fun getData(id: Int) {
         dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
+
+            val bottomSheetAdapter = BottomSheetAdapter(id, dbViewModel)
+
+            binding.recyclerViewCollectionBottom.adapter = bottomSheetAdapter
 
             bottomSheetAdapter.submitList(list.subList(1, list.size))
 

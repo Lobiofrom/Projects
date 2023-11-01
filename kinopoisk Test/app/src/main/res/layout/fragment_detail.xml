@@ -7,6 +7,45 @@
     android:layout_marginBottom="50dp"
     tools:context=".ui.detail_fragment.DetailFragment">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewEditCollectionBottom"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:background="#AEA5A5"
+        android:elevation="20dp"
+        android:visibility="gone"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="100dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCollectionBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:endIconDrawable="@drawable/save"
+            app:endIconMode="custom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCollectionBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите название коллекции" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageViewCloseEditCollectionBottom"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@drawable/x" />
+
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -492,11 +531,11 @@
 
         <TextView
             android:id="@+id/textViewNameFilmBottom"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="24dp"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewBottomMoviePictures"
@@ -506,11 +545,11 @@
 
         <TextView
             android:id="@+id/textViewGenreFilmBottom"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imageViewBottomMoviePictures"
             app:layout_constraintTop_toBottomOf="@+id/textViewNameFilmBottom"
             tools:text="жанр" />
@@ -578,22 +617,23 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/plus"
             android:layout_marginStart="30dp"
             android:layout_marginTop="3dp"
+            android:src="@drawable/plus"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <TextView
             android:id="@+id/textViewCreateNewCollectionBottom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="1dp"
+            android:clickable="true"
             android:elevation="20dp"
+            android:focusable="true"
             android:gravity="center"
-            android:textColor="@color/black"
             android:text="Создать новую коллекцию"
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/view3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -606,8 +646,8 @@
         android:id="@+id/background_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#80000000" />
+        android:background="#80000000"
+        android:visibility="gone" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
