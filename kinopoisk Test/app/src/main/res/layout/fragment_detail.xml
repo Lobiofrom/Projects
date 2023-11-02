@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:background="#AEA5A5"
         android:elevation="20dp"
-        android:visibility="gone"
         app:cardCornerRadius="50dp"
         app:cardElevation="100dp">
 
@@ -497,7 +497,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded"
-        android:visibility="gone"
         android:elevation="20dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
