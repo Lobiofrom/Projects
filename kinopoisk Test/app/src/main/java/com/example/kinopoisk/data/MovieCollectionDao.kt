@@ -3,14 +3,10 @@ package com.example.kinopoisk.data
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Upsert
 import com.example.kinopoisk.entity.dBCollection.Collection
-import com.example.kinopoisk.entity.dBCollection.CollectionMovieCrossRef
 import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
-import com.example.kinopoisk.entity.dBCollection.MovieCollection
 import com.example.kinopoisk.entity.dBCollection.MovieId
 import kotlinx.coroutines.flow.Flow
 
@@ -27,6 +23,10 @@ interface MovieCollectionDao {
     @Transaction
     @Query("SELECT * FROM collections")
     fun getCollectionsWithMovies(): Flow<List<CollectionWithMovies>>
+
+    @Transaction
+    @Query("SELECT * FROM collections")
+    fun getCollectionsWithMoviesNoFlow(): List<CollectionWithMovies>
 
     @Delete
     suspend fun deleteCollection(collection: Collection)
