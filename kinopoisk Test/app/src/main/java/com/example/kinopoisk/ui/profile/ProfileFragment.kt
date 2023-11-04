@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
         val watchAdapter = MovieListAdapter { item ->
             onItemClick(item, this)
         }
-        val collectionAdapter = ProfileCollectionDelegate()
+        val collectionAdapter = ProfileCollectionDelegate(profileViewModel)
         binding.collectionRecycler.adapter = collectionAdapter
         binding.viewedRecycler.adapter = viewedAdapter
         binding.interestingRecycler.adapter = watchAdapter
@@ -83,6 +83,29 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+        binding.textViewCreateNewCollectionBottom.setOnClickListener {
+            showAddCollectionDialog()
+        }
+        binding.imageViewCloseEditCollectionBottom.setOnClickListener {
+            unShowAddCollectionDialog()
+        }
+        binding.textInputLayoutCollectionBottom.setEndIconOnClickListener {
+            val collectionName = binding.editTextCollectionBottom.text.toString()
+            if (collectionName.isNotEmpty()) {
+                profileViewModel.addCollection(collectionName)
+                unShowAddCollectionDialog()
+            }
+        }
+    }
+
+    private fun showAddCollectionDialog() {
+        binding.cardViewEditCollectionBottom.visibility = View.VISIBLE
+        binding.scroll.visibility = View.GONE
+    }
+
+    private fun unShowAddCollectionDialog() {
+        binding.cardViewEditCollectionBottom.visibility = View.GONE
+        binding.scroll.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

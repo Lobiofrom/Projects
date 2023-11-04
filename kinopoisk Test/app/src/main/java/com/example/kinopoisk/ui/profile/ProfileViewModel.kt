@@ -8,7 +8,10 @@ import com.example.kinopoisk.App
 import com.example.kinopoisk.data.MovieCollectionDao
 import com.example.kinopoisk.domain.MovieListUseCase
 import com.example.kinopoisk.entity.Movie
+import com.example.kinopoisk.entity.dBCollection.Collection
+import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.entity.dBCollection.MovieId
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +46,7 @@ class ProfileViewModel(
             _viewedList.value = viewedList
         }
     }
+
     fun getWantToWatchList(list: List<MovieId>) {
         viewModelScope.launch {
             val wantToWatch = mutableListOf<Movie>()
@@ -51,6 +55,24 @@ class ProfileViewModel(
                 wantToWatch.add(movie)
             }
             _wantToWatch.value = wantToWatch
+        }
+    }
+
+    fun deleteMoviesInCollection(collection: CollectionWithMovies) {
+        viewModelScope.launch {
+            for (movie in collection.movies) {
+                dao.deleteMovieId(movie)
+            }
+            delay(100)
+            dao.deleteCollection(collection.collection)
+        }
+    }
+
+    fun addCollection(name: String) {
+        viewModelScope.launch {
+            dao.insertCollection(
+                Collection(collectionName = name)
+            )
         }
     }
 }

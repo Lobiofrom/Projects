@@ -6,6 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewEditCollectionBottom"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:background="#AEA5A5"
+        android:elevation="20dp"
+        android:visibility="gone"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="100dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCollectionBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:endIconDrawable="@drawable/save"
+            app:endIconMode="custom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCollectionBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите название коллекции" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageViewCloseEditCollectionBottom"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@drawable/x" />
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -90,7 +128,6 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:text="Создать новую коллекцию"
-                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

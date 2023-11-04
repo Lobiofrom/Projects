@@ -8,15 +8,19 @@ import com.example.kinopoisk.ui.detail_fragment.CollectionWithMoviesDiffUtil
 import ru.sr.adapter.ListDelegateAdapter
 import ru.sr.adapter.adapterDelegate
 
-class ProfileCollectionDelegate : ListDelegateAdapter<CollectionWithMovies>(
+class ProfileCollectionDelegate(
+    profileViewModel: ProfileViewModel
+) : ListDelegateAdapter<CollectionWithMovies>(
     CollectionWithMoviesDiffUtil()
 ) {
     init {
-        addDelegate(collectionDelegateInProfile())
+        addDelegate(collectionDelegateInProfile(profileViewModel))
     }
 }
 
-fun collectionDelegateInProfile() =
+fun collectionDelegateInProfile(
+    profileViewModel: ProfileViewModel
+) =
     adapterDelegate<CollectionWithMovies, CollectionWithMovies, ItemCollectionBinding>(
         { parent ->
             ItemCollectionBinding.inflate(
@@ -42,5 +46,8 @@ fun collectionDelegateInProfile() =
                         View.VISIBLE
                     }
                 }
+            binding.imageViewCloseEditCollectionBottom.setOnClickListener {
+                profileViewModel.deleteMoviesInCollection(item)
+            }
         }
     }
