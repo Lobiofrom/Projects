@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentSearchBinding
-import com.example.kinopoisk.ui.onItemClick.onItemClick
-import com.example.kinopoisk.ui.onItemClick.onPersonSearchClick
+import com.example.kinopoisk.utils.onItemClick
+import com.example.kinopoisk.utils.onPersonSearchClick
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

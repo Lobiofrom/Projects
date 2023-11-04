@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kinopoisk.databinding.FragmentActorFilmographyBinding
 import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.utils.onItemClick
 import com.google.android.material.chip.Chip
 
 class ActorFilmographyFragment : Fragment() {

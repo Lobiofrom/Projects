@@ -11,7 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoisk.databinding.FragmentProfileBinding
 import com.example.kinopoisk.ui.home.MovieListAdapter
-import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.utils.onCollectionClick
+import com.example.kinopoisk.utils.onItemClick
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -43,7 +44,10 @@ class ProfileFragment : Fragment() {
         val watchAdapter = MovieListAdapter { item ->
             onItemClick(item, this)
         }
-        val collectionAdapter = ProfileCollectionDelegate(profileViewModel)
+        val collectionAdapter =
+            ProfileCollectionDelegate(profileViewModel) { collectionWithMovies ->
+                onCollectionClick(collectionWithMovies, this)
+            }
         binding.collectionRecycler.adapter = collectionAdapter
         binding.viewedRecycler.adapter = viewedAdapter
         binding.interestingRecycler.adapter = watchAdapter

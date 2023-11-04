@@ -15,7 +15,7 @@ import coil.load
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.FragmentActorBinding
 import com.example.kinopoisk.ui.home.MovieListAdapter
-import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.utils.onItemClick
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

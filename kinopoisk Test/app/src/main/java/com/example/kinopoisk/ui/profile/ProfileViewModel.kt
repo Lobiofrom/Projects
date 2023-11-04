@@ -36,6 +36,20 @@ class ProfileViewModel(
     private var _wantToWatch = MutableStateFlow<List<Movie>>(emptyList())
     val wantToWatch = _wantToWatch.asStateFlow()
 
+    private var _otherCollection = MutableStateFlow<List<Movie>>(emptyList())
+    val otherCollection = _otherCollection.asStateFlow()
+
+    fun getOtherCollection(list: List<MovieId>) {
+        viewModelScope.launch {
+            val viewedList = mutableListOf<Movie>()
+            for (id in list) {
+                val movie = useCase.executeMovieDescription(id.movieId)
+                viewedList.add(movie)
+            }
+            _otherCollection.value = viewedList
+        }
+    }
+
     fun getViewedList(list: List<MovieId>) {
         viewModelScope.launch {
             val viewedList = mutableListOf<Movie>()

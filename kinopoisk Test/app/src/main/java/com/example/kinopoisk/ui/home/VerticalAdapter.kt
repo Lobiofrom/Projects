@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.ItemHorizontalRecyclerBinding
 import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.utils.onItemClick
 
 class VerticalAdapter(private val fragment: HomeFragment) :
     RecyclerView.Adapter<VerticalViewHolder>() {

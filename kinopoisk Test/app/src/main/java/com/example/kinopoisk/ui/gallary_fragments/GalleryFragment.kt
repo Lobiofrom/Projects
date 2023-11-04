@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.kinopoisk.databinding.FragmentGallaryBinding
-import com.example.kinopoisk.ui.onItemClick.onPictureClick
+import com.example.kinopoisk.utils.onPictureClick
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

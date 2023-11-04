@@ -108,6 +108,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fullCollectionFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="470" />
+                            <option name="y" value="13" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fullMovieListFragment">
                     <value>
                       <LayoutPositions>
@@ -248,6 +260,15 @@
                             <option name="x" value="502" />
                             <option name="y" value="803" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_searchSettingsFragment_to_navigation_dashboard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

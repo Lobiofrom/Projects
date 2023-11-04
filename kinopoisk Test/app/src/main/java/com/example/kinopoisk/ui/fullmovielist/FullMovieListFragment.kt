@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import com.example.kinopoisk.data.State
 import com.example.kinopoisk.databinding.FragmentFullMovieListBinding
-import com.example.kinopoisk.ui.onItemClick.onItemClick
+import com.example.kinopoisk.utils.onItemClick
 import com.example.kinopoisk.ui.home.HomeFragment
 import com.example.kinopoisk.ui.home.HomeViewModel
 import com.example.kinopoisk.ui.home.MovieListAdapter

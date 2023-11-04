@@ -9,17 +9,24 @@ import ru.sr.adapter.ListDelegateAdapter
 import ru.sr.adapter.adapterDelegate
 
 class ProfileCollectionDelegate(
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    onItemClick: (CollectionWithMovies) -> Unit
 ) : ListDelegateAdapter<CollectionWithMovies>(
     CollectionWithMoviesDiffUtil()
 ) {
     init {
-        addDelegate(collectionDelegateInProfile(profileViewModel))
+        addDelegate(
+            collectionDelegateInProfile(
+                profileViewModel,
+                onItemClick
+            )
+        )
     }
 }
 
 fun collectionDelegateInProfile(
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    onItemClick: (CollectionWithMovies) -> Unit
 ) =
     adapterDelegate<CollectionWithMovies, CollectionWithMovies, ItemCollectionBinding>(
         { parent ->
@@ -48,6 +55,9 @@ fun collectionDelegateInProfile(
                 }
             binding.imageViewCloseEditCollectionBottom.setOnClickListener {
                 profileViewModel.deleteMoviesInCollection(item)
+            }
+            binding.root.setOnClickListener {
+                onItemClick.invoke(item)
             }
         }
     }

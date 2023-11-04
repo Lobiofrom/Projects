@@ -29,7 +29,11 @@
     <fragment
             android:id="@+id/navigation_notifications"
             android:name="com.example.kinopoisk.ui.profile.ProfileFragment"
-            tools:layout="@layout/fragment_profile"/>
+            tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_notifications_to_fullCollectionFragment"
+            app:destination="@id/fullCollectionFragment" />
+    </fragment>
 
     <fragment android:id="@+id/onboardingFragment"
               android:name="com.example.kinopoisk.ui.onboarding.OnboardingFragment"
@@ -121,4 +125,9 @@
             android:id="@+id/action_searchSettingsFragment_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
     </fragment>
+    <fragment
+        android:id="@+id/fullCollectionFragment"
+        android:name="com.example.kinopoisk.ui.profile.FullCollectionFragment"
+        android:label="fragment_full_collection"
+        tools:layout="@layout/fragment_full_collection" />
 </navigation>
