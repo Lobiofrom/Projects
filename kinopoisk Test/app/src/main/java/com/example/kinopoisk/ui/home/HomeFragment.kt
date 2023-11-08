@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.kinopoisk.data.State
 import com.example.kinopoisk.databinding.FragmentHomeBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -49,14 +48,14 @@ class HomeFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 homeViewModel.state.collect {
                     when (it) {
-                        State.Error -> {
+                        com.example.data.data.State.Error -> {
                             binding.errorText.text = "Нет Интернета"
                             binding.loaderImage.visibility = View.GONE
                             binding.progressCircular.visibility = View.GONE
                             bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
                         }
 
-                        State.Success -> {
+                        com.example.data.data.State.Success -> {
                             binding.errorText.text = ""
                             binding.loaderImage.visibility = View.GONE
                             binding.progressCircular.visibility = View.GONE
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
                             bottomNavBarVisibilityListener?.setBottomNavBarVisibility(true)
                         }
 
-                        State.Loading -> {
+                        com.example.data.data.State.Loading -> {
                             binding.loaderImage.visibility = View.VISIBLE
                             binding.progressCircular.visibility = View.VISIBLE
                             binding.recyclerNewMovies.visibility = View.GONE

@@ -2,8 +2,8 @@ package com.example.kinopoisk.ui.detail_fragment
 
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.databinding.ItemBottomSheetRecyclerBinding
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
 import ru.sr.adapter.ListDelegateAdapter
 import ru.sr.adapter.adapterDelegate
 

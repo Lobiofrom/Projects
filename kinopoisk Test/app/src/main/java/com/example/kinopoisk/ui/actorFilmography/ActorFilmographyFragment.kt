@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kinopoisk.databinding.FragmentActorFilmographyBinding
-import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.utils.onItemClick
 import com.google.android.material.chip.Chip
 
@@ -27,7 +26,7 @@ class ActorFilmographyFragment : Fragment() {
         _binding = FragmentActorFilmographyBinding.inflate(inflater, container, false)
 
         val filmography = when {
-            SDK_INT >= 33 -> arguments?.getParcelableArrayList("filmography", Movie::class.java)
+            SDK_INT >= 33 -> arguments?.getParcelableArrayList("filmography", com.example.domain.domain.entity.Movie::class.java)
             else -> @Suppress("DEPRECATION") arguments?.getParcelableArrayList("filmography")
         }
 

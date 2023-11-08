@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import coil.load
 import com.example.kinopoisk.databinding.ItemStaffBinding
-import com.example.kinopoisk.entity.StaffItem
+import com.example.domain.domain.entity.StaffItem
 
 class ActorAdapter(
     private val onClick: (StaffItem, ImageView) -> Unit

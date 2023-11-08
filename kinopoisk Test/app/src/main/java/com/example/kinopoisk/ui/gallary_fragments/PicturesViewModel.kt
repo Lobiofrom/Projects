@@ -7,8 +7,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.kinopoisk.data.MovieListRepository
-import com.example.kinopoisk.entity.Item
+import com.example.data.data.MovieListRepository
+import com.example.domain.domain.entity.Item
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

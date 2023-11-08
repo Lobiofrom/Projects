@@ -5,14 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.data.data.MovieCollectionDao
+import com.example.domain.domain.entity.dBCollection.MovieId
+import com.example.domain.domain.entity.dBCollection.Collection
 import com.example.kinopoisk.App
-import com.example.kinopoisk.data.MovieCollectionDao
-import com.example.kinopoisk.entity.dBCollection.Collection
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
-import com.example.kinopoisk.entity.dBCollection.MovieCollection
-import com.example.kinopoisk.entity.dBCollection.MovieId
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DBViewModel(

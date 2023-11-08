@@ -5,11 +5,11 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.example.domain.domain.entity.Item
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.StaffItem
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.R
-import com.example.kinopoisk.entity.Item
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.StaffItem
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
 
 fun onItemClick(item: Movie, fragment: Fragment) {
     val bundle = Bundle()

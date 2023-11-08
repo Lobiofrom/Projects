@@ -10,12 +10,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import com.example.kinopoisk.data.State
+import com.example.data.data.State
 import com.example.kinopoisk.databinding.FragmentFullMovieListBinding
-import com.example.kinopoisk.utils.onItemClick
 import com.example.kinopoisk.ui.home.HomeFragment
 import com.example.kinopoisk.ui.home.HomeViewModel
 import com.example.kinopoisk.ui.home.MovieListAdapter
+import com.example.kinopoisk.utils.onItemClick
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -6,9 +6,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.kinopoisk.data.State
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.Movie
+import com.example.data.data.MovieListRepository
+import com.example.data.data.State
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.usecase.MovieListUseCase
 import com.example.kinopoisk.ui.fullmovielist.PopularPagingSourse
 import com.example.kinopoisk.ui.fullmovielist.SelectionsPagingSourse
 import com.example.kinopoisk.ui.fullmovielist.Top250PagingSourse
@@ -38,7 +39,7 @@ class HomeViewModel : ViewModel() {
     private val yearFormat = SimpleDateFormat("yyyy", Locale.US)
     private val currentYear = yearFormat.format(year).uppercase(Locale.US)
 
-    private val movieListUseCase = MovieListUseCase()
+    private val movieListUseCase = MovieListUseCase(MovieListRepository())
 
     private val _premiers = MutableStateFlow<List<Movie>>(emptyList())
     val premiers = _premiers.asStateFlow()

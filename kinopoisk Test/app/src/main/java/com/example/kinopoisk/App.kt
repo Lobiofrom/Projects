@@ -1,7 +1,7 @@
 package com.example.kinopoisk
 
 import android.app.Application
-import com.example.kinopoisk.data.AppDataBase
+import com.example.data.data.AppDataBase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

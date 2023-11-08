@@ -2,11 +2,12 @@ package com.example.kinopoisk.ui.detail_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kinopoisk.data.State
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.Season
-import com.example.kinopoisk.entity.StaffItem
+import com.example.data.data.MovieListRepository
+import com.example.data.data.State
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.Season
+import com.example.domain.domain.entity.StaffItem
+import com.example.domain.domain.usecase.MovieListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MovieActorsSimilarsViewModel : ViewModel() {
 
-    private val useCase = MovieListUseCase()
+    private val useCase = MovieListUseCase(MovieListRepository())
 
     private val _movieDescription = MutableStateFlow<Movie?>(null)
     val movieDescription = _movieDescription.asStateFlow()

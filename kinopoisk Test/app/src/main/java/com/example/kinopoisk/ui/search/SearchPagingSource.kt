@@ -2,11 +2,12 @@ package com.example.kinopoisk.ui.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.Movie
+import com.example.data.data.MovieListRepository
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.usecase.MovieListUseCase
 
 class SearchPagingSource(
-    private val movieListUseCase: MovieListUseCase = MovieListUseCase(),
+    private val movieListUseCase: MovieListUseCase = MovieListUseCase(MovieListRepository()),
     private val countries: Int?,
     private val genres: Int?,
     private val order: String,

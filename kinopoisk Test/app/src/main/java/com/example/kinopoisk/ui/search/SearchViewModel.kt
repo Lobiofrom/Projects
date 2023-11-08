@@ -6,9 +6,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.kinopoisk.data.SearchSettingsState
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.StaffItem
+import com.example.data.data.SearchSettingsState
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.StaffItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

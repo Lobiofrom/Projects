@@ -3,10 +3,10 @@ package com.example.kinopoisk.ui.search
 import android.view.LayoutInflater
 import android.view.View
 import coil.load
+import com.example.domain.domain.entity.Movie
 import com.example.kinopoisk.databinding.ItemBinding
 import com.example.kinopoisk.databinding.ItemSearchedPersonBinding
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.StaffItem
+import com.example.domain.domain.entity.StaffItem
 import com.example.kinopoisk.ui.detail_fragment.StaffDiffUtilCallback
 import com.example.kinopoisk.ui.home.DiffUtilCallback
 import ru.sr.adapter.PagingDelegateAdapter

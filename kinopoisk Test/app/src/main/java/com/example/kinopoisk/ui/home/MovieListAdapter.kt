@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.kinopoisk.databinding.ItemBinding
-import com.example.kinopoisk.entity.Movie
+import com.example.domain.domain.entity.Movie
 
 class MovieListAdapter(
     private val onClick: (Movie) -> Unit

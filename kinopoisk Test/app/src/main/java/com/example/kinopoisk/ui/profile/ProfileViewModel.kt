@@ -4,13 +4,14 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.data.data.MovieCollectionDao
+import com.example.data.data.MovieListRepository
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
+import com.example.domain.domain.entity.dBCollection.MovieId
+import com.example.domain.domain.entity.dBCollection.Collection
+import com.example.domain.domain.usecase.MovieListUseCase
 import com.example.kinopoisk.App
-import com.example.kinopoisk.data.MovieCollectionDao
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.Movie
-import com.example.kinopoisk.entity.dBCollection.Collection
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
-import com.example.kinopoisk.entity.dBCollection.MovieId
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -97,7 +98,7 @@ class ProfileViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dao = (application as App).db.collectionDao()
-        val useCase = MovieListUseCase()
+        val useCase = MovieListUseCase(MovieListRepository())
         return ProfileViewModel(dao, useCase) as T
     }
 }

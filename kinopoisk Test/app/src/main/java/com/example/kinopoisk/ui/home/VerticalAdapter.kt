@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.domain.entity.Movie
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.ItemHorizontalRecyclerBinding
-import com.example.kinopoisk.entity.Movie
 import com.example.kinopoisk.utils.onItemClick
 
 class VerticalAdapter(private val fragment: HomeFragment) :

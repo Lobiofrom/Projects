@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoisk.databinding.ItemFilmographyBinding
-import com.example.kinopoisk.entity.Movie
+import com.example.domain.domain.entity.Movie
 import com.example.kinopoisk.ui.home.DiffUtilCallback
 
 class ActorFilmographyAdapter(

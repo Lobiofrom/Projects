@@ -2,8 +2,9 @@ package com.example.kinopoisk.ui.fullmovielist
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.Movie
+import com.example.data.data.MovieListRepository
+import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.usecase.MovieListUseCase
 
 class SelectionsPagingSourse(
     private val countries: Int,
@@ -11,7 +12,7 @@ class SelectionsPagingSourse(
     private val type: String,
     private val yearFrom: Int,
 ) : PagingSource<Int, Movie>() {
-    private val movieListUseCase = MovieListUseCase()
+    private val movieListUseCase = MovieListUseCase(MovieListRepository())
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int = 1
 

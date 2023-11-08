@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.kinopoisk.databinding.ItemFullGalleryBinding
-import com.example.kinopoisk.entity.Item
+import com.example.domain.domain.entity.Item
 
 class PicturesAdapter(
     private val onClick: (Item, ImageView) -> Unit

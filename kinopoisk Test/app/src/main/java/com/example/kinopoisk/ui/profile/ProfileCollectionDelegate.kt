@@ -2,8 +2,8 @@ package com.example.kinopoisk.ui.profile
 
 import android.view.LayoutInflater
 import android.view.View
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.databinding.ItemCollectionBinding
-import com.example.kinopoisk.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.ui.detail_fragment.CollectionWithMoviesDiffUtil
 import ru.sr.adapter.ListDelegateAdapter
 import ru.sr.adapter.adapterDelegate

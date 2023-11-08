@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoisk.databinding.ItemEpisodeBinding
-import com.example.kinopoisk.entity.Episode
+import com.example.domain.domain.entity.Episode
 
 class EpisodesAdapter(
     private val episodeList: List<Episode>

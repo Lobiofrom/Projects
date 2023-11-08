@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kinopoisk.databinding.FragmentSeriesBinding
-import com.example.kinopoisk.entity.Episode
-import com.example.kinopoisk.entity.Season
+import com.example.domain.domain.entity.Episode
+import com.example.domain.domain.entity.Season
 
 class SeriesFragment : Fragment() {
 

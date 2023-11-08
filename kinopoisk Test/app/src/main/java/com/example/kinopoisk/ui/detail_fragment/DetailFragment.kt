@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import coil.load
 import com.example.kinopoisk.R
-import com.example.kinopoisk.data.State
 import com.example.kinopoisk.databinding.FragmentDetailBinding
 import com.example.kinopoisk.ui.gallary_fragments.PicturesAdapter
 import com.example.kinopoisk.ui.gallary_fragments.PicturesViewModel
@@ -50,7 +49,7 @@ class DetailFragment : Fragment() {
         onPictureClick(picture, imageView, this)
     }
     private val similarsAdapter = MovieListAdapter { movie ->
-        onItemClick(movie, this)
+       onItemClick(movie, this)
     }
 
     private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
@@ -193,7 +192,7 @@ class DetailFragment : Fragment() {
                         if (descriptionDto?.ratingKinopoisk == 0.0) "" else descriptionDto?.ratingKinopoisk?.toString()
                             ?: ""
                     val rating =
-                        if (descriptionDto?.ratingAgeLimits == null) "" else descriptionDto.ratingAgeLimits.replace(
+                        if (descriptionDto?.ratingAgeLimits == null) "" else descriptionDto.ratingAgeLimits!!.replace(
                             "age",
                             ""
                         ) + "+"
@@ -245,9 +244,9 @@ class DetailFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.state.collect {
                     when (it) {
-                        State.Error -> binding.progressCircular.visibility = View.GONE
-                        State.Loading -> binding.progressCircular.visibility = View.VISIBLE
-                        State.Success -> binding.progressCircular.visibility = View.GONE
+                        com.example.data.data.State.Error -> binding.progressCircular.visibility = View.GONE
+                        com.example.data.data.State.Loading -> binding.progressCircular.visibility = View.VISIBLE
+                        com.example.data.data.State.Success -> binding.progressCircular.visibility = View.GONE
                     }
                 }
             }

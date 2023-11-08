@@ -2,11 +2,12 @@ package com.example.kinopoisk.ui.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.kinopoisk.domain.MovieListUseCase
-import com.example.kinopoisk.entity.StaffItem
+import com.example.data.data.MovieListRepository
+import com.example.domain.domain.entity.StaffItem
+import com.example.domain.domain.usecase.MovieListUseCase
 
 class SearchPersonPagingSource(
-    private val useCase: MovieListUseCase = MovieListUseCase(),
+    private val useCase: MovieListUseCase = MovieListUseCase(MovieListRepository()),
     private val name: String
 ) : PagingSource<Int, StaffItem>() {
     override fun getRefreshKey(state: PagingState<Int, StaffItem>): Int = 1

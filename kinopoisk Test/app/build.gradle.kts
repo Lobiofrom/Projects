@@ -4,8 +4,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -71,11 +71,6 @@ dependencies {
     //Coil
     implementation("io.coil-kt:coil:2.4.0")
 
-    //Room
-    implementation("androidx.room:room-runtime:2.6.0")
-    implementation("androidx.room:room-ktx:2.6.0")
-    ksp("androidx.room:room-compiler:2.6.0")
-
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -107,4 +102,13 @@ dependencies {
     implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.2")
     implementation("com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2")
     implementation("com.hannesdorfmann:adapterdelegates4-pagination:4.3.2")
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
+    //Room
+    implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
+    ksp("androidx.room:room-compiler:2.6.0")
+
 }

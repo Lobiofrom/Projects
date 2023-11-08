@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoisk.databinding.ItemSeasonBinding
-import com.example.kinopoisk.entity.Episode
-import com.example.kinopoisk.entity.Season
+import com.example.domain.domain.entity.Episode
+import com.example.domain.domain.entity.Season
 
 class SeasonCountAdapter(
     private val seasonList: List<Season>
