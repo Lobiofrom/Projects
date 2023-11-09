@@ -3,6 +3,7 @@ package com.example.kinopoisk.ui.detail_fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import com.example.kinopoisk.utils.onItemClick
 import com.example.kinopoisk.utils.onPersonClick
 import com.example.kinopoisk.utils.onPictureClick
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -49,7 +51,7 @@ class DetailFragment : Fragment() {
         onPictureClick(picture, imageView, this)
     }
     private val similarsAdapter = MovieListAdapter { movie ->
-       onItemClick(movie, this)
+        onItemClick(movie, this)
     }
 
     private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
@@ -128,8 +130,12 @@ class DetailFragment : Fragment() {
 
         if (kinopoiskId != 0) {
             getData(kinopoiskId!!)
+            Log.d("getData-1", "getData-1: $kinopoiskId")
+            checkIdAndAddToInteresting(kinopoiskId)
         } else {
             getData(filmId!!)
+            Log.d("getData-2", "getData-2: $filmId")
+            checkIdAndAddToInteresting(filmId)
         }
 
         movieAndActorsViewModel.similars.onEach {
@@ -244,9 +250,14 @@ class DetailFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 movieAndActorsViewModel.state.collect {
                     when (it) {
-                        com.example.data.data.State.Error -> binding.progressCircular.visibility = View.GONE
-                        com.example.data.data.State.Loading -> binding.progressCircular.visibility = View.VISIBLE
-                        com.example.data.data.State.Success -> binding.progressCircular.visibility = View.GONE
+                        com.example.data.data.State.Error -> binding.progressCircular.visibility =
+                            View.GONE
+
+                        com.example.data.data.State.Loading -> binding.progressCircular.visibility =
+                            View.VISIBLE
+
+                        com.example.data.data.State.Success -> binding.progressCircular.visibility =
+                            View.GONE
                     }
                 }
             }
@@ -272,104 +283,115 @@ class DetailFragment : Fragment() {
     }
 
     private fun getData(id: Int) {
-        dbViewModel.allCollectionsWithMovies.observe(viewLifecycleOwner) { list ->
 
-            val bottomSheetAdapter = BottomSheetAdapter(id, dbViewModel)
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                dbViewModel.allCollectionsWithMovies.collect { list ->
 
-            binding.recyclerViewCollectionBottom.adapter = bottomSheetAdapter
+                    val bottomSheetAdapter = BottomSheetAdapter(id, dbViewModel)
 
-            bottomSheetAdapter.submitList(list.subList(1, list.size))
+                    binding.recyclerViewCollectionBottom.adapter = bottomSheetAdapter
 
-            val viewedCollection = list.find { it.collection.collectionName == "Viewed" }
-            val likedCollection = list.find { it.collection.collectionName == "Любимые" }
-            val wantToWatch = list.find { it.collection.collectionName == "Хочу посмотреть" }
+                    val filteredList = list.filter {
+                        it.collection.collectionName != "Viewed" &&
+                                it.collection.collectionName != "interesting"
+                    }
 
-            var isViewed = false
-            var isLiked = false
-            var isMarked = false
+                    bottomSheetAdapter.submitList(filteredList)
 
-            if (wantToWatch != null) {
-                if (wantToWatch.movies.any { it.movieId == id }) {
-                    binding.mark.setImageResource(R.drawable.icon_mark)
-                    isMarked = true
-                } else {
-                    binding.mark.setImageResource(R.drawable.icon_not_mark)
+                    val viewedCollection = list.find { it.collection.collectionName == "Viewed" }
+                    val likedCollection = list.find { it.collection.collectionName == "Любимые" }
+                    val wantToWatch =
+                        list.find { it.collection.collectionName == "Хочу посмотреть" }
 
-                }
-            }
+                    var isViewed = false
+                    var isLiked = false
+                    var isMarked = false
 
-            if (likedCollection != null) {
-                if (likedCollection.movies.any { it.movieId == id }) {
-                    binding.like.setImageResource(R.drawable.icon_like)
-                    isLiked = true
-                } else {
-                    binding.like.setImageResource(R.drawable.icon_not_like)
-                }
-            }
+                    if (wantToWatch != null) {
+                        if (wantToWatch.movies.any { it.movieId == id }) {
+                            binding.mark.setImageResource(R.drawable.icon_mark)
+                            isMarked = true
+                        } else {
+                            binding.mark.setImageResource(R.drawable.icon_not_mark)
 
-            if (viewedCollection != null) {
-                if (viewedCollection.movies.any { it.movieId == id }) {
-                    binding.viewed.setImageResource(R.drawable.icon_viewed)
-                    isViewed = true
-                } else {
-                    binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                }
-            }
+                        }
+                    }
 
-            binding.mark.setOnClickListener {
-                if (isMarked) {
-                    binding.mark.setImageResource(R.drawable.icon_not_mark)
-                } else {
-                    binding.mark.setImageResource(R.drawable.icon_mark)
-                }
-                isMarked = !isMarked
+                    if (likedCollection != null) {
+                        if (likedCollection.movies.any { it.movieId == id }) {
+                            binding.like.setImageResource(R.drawable.icon_like)
+                            isLiked = true
+                        } else {
+                            binding.like.setImageResource(R.drawable.icon_not_like)
+                        }
+                    }
 
-                val foundId = wantToWatch?.movies!!.find { it.movieId == id }
-                if (foundId == null) {
-                    dbViewModel.addMovieId(id, wantToWatch.collection.collectionId)
-                } else {
-                    dbViewModel.deleteMovieId(foundId)
-                }
-            }
+                    if (viewedCollection != null) {
+                        if (viewedCollection.movies.any { it.movieId == id }) {
+                            binding.viewed.setImageResource(R.drawable.icon_viewed)
+                            isViewed = true
+                        } else {
+                            binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+                        }
+                    }
 
-            binding.like.setOnClickListener {
-                if (isLiked) {
-                    binding.like.setImageResource(R.drawable.icon_not_like)
-                } else {
-                    binding.like.setImageResource(R.drawable.icon_like)
-                }
-                isLiked = !isLiked
+                    binding.mark.setOnClickListener {
+                        if (isMarked) {
+                            binding.mark.setImageResource(R.drawable.icon_not_mark)
+                        } else {
+                            binding.mark.setImageResource(R.drawable.icon_mark)
+                        }
+                        isMarked = !isMarked
 
-                val foundId = likedCollection?.movies?.find { it.movieId == id }
+                        val foundId1 = wantToWatch?.movies!!.find { it.movieId == id }
+                        if (foundId1 == null) {
+                            dbViewModel.addMovieId(id, wantToWatch.collection.collectionId)
+                        } else {
+                            dbViewModel.deleteMovieId(foundId1)
+                        }
+                    }
 
-                if (foundId == null) {
-                    dbViewModel.addMovieId(
-                        id,
-                        likedCollection?.collection!!.collectionId
-                    )
-                } else {
-                    dbViewModel.deleteMovieId(foundId)
-                }
-            }
+                    binding.like.setOnClickListener {
+                        if (isLiked) {
+                            binding.like.setImageResource(R.drawable.icon_not_like)
+                        } else {
+                            binding.like.setImageResource(R.drawable.icon_like)
+                        }
+                        isLiked = !isLiked
 
-            binding.viewed.setOnClickListener {
-                if (isViewed) {
-                    binding.viewed.setImageResource(R.drawable.icon_not_viewed)
-                } else {
-                    binding.viewed.setImageResource(R.drawable.icon_viewed)
-                }
+                        val foundId2 = likedCollection?.movies?.find { it.movieId == id }
 
-                isViewed = !isViewed
+                        if (foundId2 == null) {
+                            dbViewModel.addMovieId(
+                                id,
+                                likedCollection?.collection!!.collectionId
+                            )
+                        } else {
+                            dbViewModel.deleteMovieId(foundId2)
+                        }
+                    }
 
-                val foundId = viewedCollection?.movies?.find { it.movieId == id }
+                    binding.viewed.setOnClickListener {
+                        if (isViewed) {
+                            binding.viewed.setImageResource(R.drawable.icon_not_viewed)
+                        } else {
+                            binding.viewed.setImageResource(R.drawable.icon_viewed)
+                        }
 
-                if (foundId == null) {
-                    dbViewModel.addMovieId(
-                        id,
-                        viewedCollection?.collection!!.collectionId
-                    )
-                } else {
-                    dbViewModel.deleteMovieId(foundId)
+                        isViewed = !isViewed
+
+                        val foundId3 = viewedCollection?.movies?.find { it.movieId == id }
+
+                        if (foundId3 == null) {
+                            dbViewModel.addMovieId(
+                                id,
+                                viewedCollection?.collection!!.collectionId
+                            )
+                        } else {
+                            dbViewModel.deleteMovieId(foundId3)
+                        }
+                    }
                 }
             }
         }
@@ -386,5 +408,24 @@ class DetailFragment : Fragment() {
             picturesAdapter.submitData(PagingData.from(it))
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         movieAndActorsViewModel.getAllDetails(id)
+    }
+
+    private fun checkIdAndAddToInteresting(id: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                dbViewModel.allCollectionsWithMovies.collect { list ->
+                    if (list.isNotEmpty()) {
+                        val interesting =
+                            list.find { it.collection.collectionName == "interesting" }
+                        if (interesting != null) {
+                            if (!interesting.movies.any { it.movieId == id }) {
+                                delay(200)
+                                dbViewModel.addMovieId(id, interesting.collection.collectionId)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

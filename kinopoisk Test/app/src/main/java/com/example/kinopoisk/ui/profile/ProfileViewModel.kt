@@ -34,8 +34,8 @@ class ProfileViewModel(
     private var _viewedList = MutableStateFlow<List<Movie>>(emptyList())
     val viewedList = _viewedList.asStateFlow()
 
-    private var _wantToWatch = MutableStateFlow<List<Movie>>(emptyList())
-    val wantToWatch = _wantToWatch.asStateFlow()
+    private var _interesting = MutableStateFlow<List<Movie>>(emptyList())
+    val interesting = _interesting.asStateFlow()
 
     private var _otherCollection = MutableStateFlow<List<Movie>>(emptyList())
     val otherCollection = _otherCollection.asStateFlow()
@@ -69,7 +69,7 @@ class ProfileViewModel(
                 val movie = useCase.executeMovieDescription(id.movieId)
                 wantToWatch.add(movie)
             }
-            _wantToWatch.value = wantToWatch
+            _interesting.value = wantToWatch
         }
     }
 

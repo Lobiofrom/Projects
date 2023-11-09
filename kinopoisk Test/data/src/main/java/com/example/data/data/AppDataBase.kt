@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
         MovieId::class,
         CollectionMovieCrossRef::class
     ],
-    version = 7,
+    version = 10,
     exportSchema = false
 )
 @TypeConverters(MovieIdListConverter::class)
@@ -40,11 +40,12 @@ abstract class AppDataBase : RoomDatabase() {
                     val viewed = Collection(collectionName = "Viewed")
                     val like = Collection(collectionName = "Любимые")
                     val wantToWatch = Collection(collectionName = "Хочу посмотреть")
+                    val interesting = Collection(collectionName = "interesting")
 
                     dao?.insertCollection(viewed)
                     dao?.insertCollection(like)
                     dao?.insertCollection(wantToWatch)
-
+                    dao?.insertCollection(interesting)
                 }
             }
         }

@@ -1,9 +1,9 @@
 package com.example.kinopoisk
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -24,12 +24,23 @@ class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityLis
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         navView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        val sharedPrefs = getSharedPreferences("db", Context.MODE_PRIVATE)
+        val isFirstRun = sharedPrefs.getBoolean("isFirstRun", true)
+
+        if (isFirstRun) {
+            navController.navigate(R.id.onboardingFragment)
+            val editor = sharedPrefs.edit()
+            editor.putBoolean("isFirstRun", false)
+            editor.apply()
+        } else {
+            navController.navigate(R.id.navigation_home)
+        }
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -69,18 +80,3 @@ class MainActivity : AppCompatActivity(), HomeFragment.BottomNavBarVisibilityLis
         }
     }
 }
-
-// private val dbViewModel: DBViewModel by viewModels { DBViewModelFactory(application) }
-
-//        val sharedPrefs = getSharedPreferences("db", Context.MODE_PRIVATE)
-//        val isFirstRun = sharedPrefs.getBoolean("isFirstRun", true)
-//
-//        if (isFirstRun) {
-//            dbViewModel.addCollection("viewed", mutableListOf())
-//            dbViewModel.addCollection("Любимые", mutableListOf())
-//            dbViewModel.addCollection("Хочу посмотреть", mutableListOf())
-//
-//            val editor = sharedPrefs.edit()
-//            editor.putBoolean("isFirstRun", false)
-//            editor.apply()
-//        }

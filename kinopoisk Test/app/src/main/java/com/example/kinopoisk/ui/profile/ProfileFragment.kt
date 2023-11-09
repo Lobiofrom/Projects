@@ -1,6 +1,7 @@
 package com.example.kinopoisk.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,16 +57,25 @@ class ProfileFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 profileViewModel.collectionList.collect { collectionList ->
                     if (collectionList.isNotEmpty()) {
-                        collectionAdapter.submitList(collectionList.subList(1, collectionList.size))
+                        val filteredList = collectionList.filter {
+                            it.collection.collectionName != "Viewed" &&
+                                    it.collection.collectionName != "interesting"
+                        }
+                        collectionAdapter.submitList(filteredList)
 
                         val viewed = collectionList.find {
                             it.collection.collectionName == "Viewed"
                         }
-                        val wantToWatchCollection = collectionList.find {
-                            it.collection.collectionName == "Хочу посмотреть"
+                        val interestingCollection = collectionList.find {
+                            it.collection.collectionName == "interesting"
                         }
+                        Log.d("tag", "коллекции: ${interestingCollection?.movies}")
                         profileViewModel.getViewedList(viewed?.movies!!)
-                        profileViewModel.getWantToWatchList(wantToWatchCollection?.movies!!)
+                        interestingCollection.let {
+                            if (it != null) {
+                                profileViewModel.getWantToWatchList(it.movies)
+                            }
+                        }
                     }
                 }
             }
@@ -81,7 +91,7 @@ class ProfileFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                profileViewModel.wantToWatch.collect {
+                profileViewModel.interesting.collect {
                     watchAdapter.submitList(it)
                     binding.interestingSize.text = it.size.toString()
                 }
