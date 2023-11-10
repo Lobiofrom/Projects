@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.R
 import com.example.kinopoisk.databinding.ItemHorizontalRecyclerBinding
 import com.example.kinopoisk.utils.onItemClick
 
-class VerticalAdapter(private val fragment: HomeFragment) :
+class VerticalAdapter(
+    private val fragment: HomeFragment,
+    private val collectionWithMovies: CollectionWithMovies
+    ) :
     RecyclerView.Adapter<VerticalViewHolder>() {
 
     private var movieList: List<List<Movie>> = emptyList()
@@ -33,7 +37,7 @@ class VerticalAdapter(private val fragment: HomeFragment) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: VerticalViewHolder, position: Int) {
-        val horizontalAdapter = MovieListAdapter { movie ->
+        val horizontalAdapter = MovieListAdapterHomeFragment(collectionWithMovies) { movie ->
             onItemClick(movie, fragment)
         }
         holder.binding.itemHorizontalRecycler.adapter = horizontalAdapter

@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.kinopoisk.databinding.ItemBinding
 import com.example.domain.domain.entity.Movie
+import com.example.kinopoisk.databinding.ItemBinding
 
 class MovieListAdapter(
-    private val onClick: (Movie) -> Unit
+    private val onClick: (Movie) -> Unit,
 ) : ListAdapter<Movie, MovieListViewHolder>(DiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         return MovieListViewHolder(
@@ -29,7 +29,7 @@ class MovieListAdapter(
             if (item.ratingKinopoisk != 0.0) {
                 rating.visibility = View.VISIBLE
                 rating.text = item.ratingKinopoisk.toString()
-            } else if (!item.rating.isNullOrEmpty()){
+            } else if (!item.rating.isNullOrEmpty()) {
                 rating.visibility = View.VISIBLE
                 rating.text = item.rating
             } else {
@@ -51,7 +51,7 @@ class MovieListAdapter(
 
 class DiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-        oldItem.kinopoiskId == newItem.kinopoiskId
+        oldItem.kinopoiskId == newItem.kinopoiskId || oldItem.filmId == newItem.filmId
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean = oldItem == newItem
 }

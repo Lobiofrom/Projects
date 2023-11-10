@@ -11,7 +11,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.data.data.State
+import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.databinding.FragmentHomeBinding
+import com.example.kinopoisk.ui.detail_fragment.DBViewModel
+import com.example.kinopoisk.ui.detail_fragment.DBViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -21,30 +27,51 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val verticalAdapter = VerticalAdapter(this)
-
     private var bottomNavBarVisibilityListener: BottomNavBarVisibilityListener? = null
 
     private val homeViewModel: HomeViewModel by activityViewModels()
+
+    private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         bottomNavBarVisibilityListener = activity as? BottomNavBarVisibilityListener
 
-        val root: View = binding.root
+        var collection: CollectionWithMovies? = null
 
-        binding.recyclerNewMovies.adapter = verticalAdapter
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                dbViewModel.allCollectionsWithMovies.collect { list ->
+                    if (list.isNotEmpty()) {
+                        val viewed = list.find {
+                            it.collection.collectionName == "Viewed"
+                        }
+                        collection = viewed
+                    }
+                }
+            }
+        }
+        scope.launch {
+            delay(1)
+            val verticalAdapter = VerticalAdapter(this@HomeFragment, collection!!)
 
-        homeViewModel.genresList.onEach {
-            verticalAdapter.setMovies(it)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+            binding.recyclerNewMovies.adapter = verticalAdapter
 
+            homeViewModel.genresList.onEach {
+                verticalAdapter.setMovies(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+        
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 homeViewModel.state.collect {
@@ -81,7 +108,6 @@ class HomeFragment : Fragment() {
                     requireActivity().moveTaskToBack(true)
                 }
             })
-        return root
     }
 
     override fun onDestroyView() {
