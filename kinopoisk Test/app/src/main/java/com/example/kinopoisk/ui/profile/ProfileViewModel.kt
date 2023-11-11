@@ -3,20 +3,19 @@ package com.example.kinopoisk.ui.profile
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.data.MovieCollectionDao
 import com.example.data.data.MovieListRepository
 import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.dBCollection.Collection
 import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.domain.domain.entity.dBCollection.MovieId
-import com.example.domain.domain.entity.dBCollection.Collection
 import com.example.domain.domain.usecase.MovieListUseCase
 import com.example.kinopoisk.App
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -24,12 +23,7 @@ class ProfileViewModel(
     private val useCase: MovieListUseCase
 ) : ViewModel() {
 
-    val collectionList = this.dao.getCollectionsWithMovies()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+    val collectionList = this.dao.getCollectionsWithMovies().asLiveData()
 
     private var _viewedList = MutableStateFlow<List<Movie>>(emptyList())
     val viewedList = _viewedList.asStateFlow()

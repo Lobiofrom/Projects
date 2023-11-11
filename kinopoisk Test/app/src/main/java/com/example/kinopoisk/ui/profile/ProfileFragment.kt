@@ -53,29 +53,25 @@ class ProfileFragment : Fragment() {
         binding.viewedRecycler.adapter = viewedAdapter
         binding.interestingRecycler.adapter = watchAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                profileViewModel.collectionList.collect { collectionList ->
-                    if (collectionList.isNotEmpty()) {
-                        val filteredList = collectionList.filter {
-                            it.collection.collectionName != "Viewed" &&
-                                    it.collection.collectionName != "interesting"
-                        }
-                        collectionAdapter.submitList(filteredList)
+        profileViewModel.collectionList.observe(viewLifecycleOwner) { collectionList ->
+            if (collectionList.isNotEmpty()) {
+                val filteredList = collectionList.filter {
+                    it.collection.collectionName != "Viewed" &&
+                            it.collection.collectionName != "interesting"
+                }
+                collectionAdapter.submitList(filteredList)
 
-                        val viewed = collectionList.find {
-                            it.collection.collectionName == "Viewed"
-                        }
-                        val interestingCollection = collectionList.find {
-                            it.collection.collectionName == "interesting"
-                        }
-                        Log.d("tag", "коллекции: ${interestingCollection?.movies}")
-                        profileViewModel.getViewedList(viewed?.movies!!)
-                        interestingCollection.let {
-                            if (it != null) {
-                                profileViewModel.getWantToWatchList(it.movies)
-                            }
-                        }
+                val viewed = collectionList.find {
+                    it.collection.collectionName == "Viewed"
+                }
+                val interestingCollection = collectionList.find {
+                    it.collection.collectionName == "interesting"
+                }
+                Log.d("tag", "коллекции: ${interestingCollection?.movies}")
+                profileViewModel.getViewedList(viewed?.movies!!)
+                interestingCollection.let {
+                    if (it != null) {
+                        profileViewModel.getWantToWatchList(it.movies)
                     }
                 }
             }

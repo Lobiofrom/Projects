@@ -40,19 +40,14 @@ class FullCollectionFragment : Fragment() {
         binding.recyclerFullMovieList.adapter = adapter
         val collectionName = arguments?.getString("collectionName")
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.collectionList.collect { collection ->
-                    if (collection.isNotEmpty()) {
-                        val findCollection = collection.find {
-                            it.collection.collectionName == collectionName
-                        }
-                        findCollection?.collection?.collectionName?.let { Log.d("tag", it) }
-
-                        findCollection?.movies?.let { viewModel.getOtherCollection(it) }
-                    }
-
+        viewModel.collectionList.observe(viewLifecycleOwner) { collection ->
+            if (collection.isNotEmpty()) {
+                val findCollection = collection.find {
+                    it.collection.collectionName == collectionName
                 }
+                findCollection?.collection?.collectionName?.let { Log.d("tag", it) }
+
+                findCollection?.movies?.let { viewModel.getOtherCollection(it) }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {

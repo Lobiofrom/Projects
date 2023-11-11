@@ -11,13 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.data.data.State
-import com.example.domain.domain.entity.dBCollection.CollectionWithMovies
 import com.example.kinopoisk.databinding.FragmentHomeBinding
-import com.example.kinopoisk.ui.detail_fragment.DBViewModel
-import com.example.kinopoisk.ui.detail_fragment.DBViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import com.example.kinopoisk.ui.profile.ProfileViewModel
+import com.example.kinopoisk.ui.profile.ProfileViewModelFactory
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,8 +27,11 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
 
-    private val dbViewModel: DBViewModel by activityViewModels { DBViewModelFactory(requireActivity().application) }
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val profileViewModel: ProfileViewModel by activityViewModels {
+        ProfileViewModelFactory(
+            requireActivity().application
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,31 +46,21 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bottomNavBarVisibilityListener = activity as? BottomNavBarVisibilityListener
 
-        var collection: CollectionWithMovies? = null
-
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                dbViewModel.allCollectionsWithMovies.collect { list ->
-                    if (list.isNotEmpty()) {
-                        val viewed = list.find {
-                            it.collection.collectionName == "Viewed"
-                        }
-                        collection = viewed
-                    }
+        profileViewModel.collectionList.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                val viewed = list.find {
+                    it.collection.collectionName == "Viewed"
                 }
+                val verticalAdapter = VerticalAdapter(this@HomeFragment, viewed!!)
+
+                binding.recyclerNewMovies.adapter = verticalAdapter
+
+                homeViewModel.genresList.onEach {
+                    verticalAdapter.setMovies(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
-        scope.launch {
-            delay(1)
-            val verticalAdapter = VerticalAdapter(this@HomeFragment, collection!!)
 
-            binding.recyclerNewMovies.adapter = verticalAdapter
-
-            homeViewModel.genresList.onEach {
-                verticalAdapter.setMovies(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
-        
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 homeViewModel.state.collect {
