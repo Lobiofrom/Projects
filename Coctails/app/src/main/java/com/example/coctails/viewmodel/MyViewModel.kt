@@ -1,22 +1,22 @@
 package com.example.coctails.viewmodel
 
-import android.app.Application
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.coctails.App
-import com.example.coctails.data.RecipeDao
-import com.example.coctails.entity.Recipe
+import com.example.data.data.database.RecipeDao
+import com.example.data.data.repositoryimplementation.RepositoryImp
+import com.example.domain2.entity.Recipe
+import com.example.domain2.usecase.UseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MyViewModel(
-    private val recipeDao: RecipeDao
+    private val useCase: UseCase
 ) : ViewModel() {
 
-    val allRecipes = this.recipeDao.getAllRecipes()
+    val allRecipes = useCase.getRecipes()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
@@ -32,7 +32,7 @@ class MyViewModel(
         image: String
     ) {
         viewModelScope.launch {
-            recipeDao.upsertRecipe(
+            useCase.addRecipe(
                 Recipe(
                     id = id,
                     title = title,
@@ -47,17 +47,17 @@ class MyViewModel(
 
     fun deleteRecipe(recipe: Recipe) {
         viewModelScope.launch {
-            recipeDao.deleteRecipe(recipe)
+            useCase.deleteRecipe(recipe)
         }
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 class MyViewModelFactory(
-    private val application: Application
+    private val recipeDao: RecipeDao
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val recipeDao = (application as App).db.recipeDao()
-        return MyViewModel(recipeDao) as T
+        val useCase = UseCase(RepositoryImp(recipeDao))
+        return MyViewModel(useCase) as T
     }
 }

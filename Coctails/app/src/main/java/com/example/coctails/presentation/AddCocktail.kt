@@ -51,9 +51,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
-import com.example.coctails.entity.Recipe
 import com.example.coctails.utils.extractUri
 import com.example.coctails.viewmodel.MyViewModel
+import com.example.domain2.entity.Recipe
 import kotlinx.coroutines.launch
 
 @SuppressLint("MutableCollectionMutableState")

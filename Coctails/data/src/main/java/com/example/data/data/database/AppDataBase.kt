@@ -1,10 +1,9 @@
-package com.example.coctails.data
+package com.example.data.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.coctails.entity.Converters
-import com.example.coctails.entity.Recipe
+import com.example.domain2.entity.Recipe
 
 @Database(
     entities = [

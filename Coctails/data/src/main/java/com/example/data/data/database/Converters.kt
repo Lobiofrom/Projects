@@ -1,4 +1,4 @@
-package com.example.coctails.entity
+package com.example.data.data.database
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.room.TypeConverter

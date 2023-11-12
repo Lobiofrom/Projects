@@ -50,7 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
-import com.example.coctails.entity.Recipe
+import com.example.domain2.entity.Recipe
 import com.example.coctails.viewmodel.MyViewModel
 import kotlinx.coroutines.delay
 

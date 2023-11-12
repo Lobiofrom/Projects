@@ -18,8 +18,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val recipeDao = (application as App).db.recipeDao()
+
         val viewModel: MyViewModel by viewModels {
-            MyViewModelFactory(application)
+            MyViewModelFactory(recipeDao)
         }
         setContent {
             CoctailsTheme {

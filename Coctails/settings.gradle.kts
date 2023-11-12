@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Coctails"
 include(":app")
+include(":data")
+include(":domain")

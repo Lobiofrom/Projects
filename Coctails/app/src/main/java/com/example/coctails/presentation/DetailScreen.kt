@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.coctails.R
-import com.example.coctails.entity.Recipe
 import com.example.coctails.viewmodel.MyViewModel
+import com.example.domain2.entity.Recipe
 
 @Composable
 fun DetailScreen(
@@ -170,7 +170,7 @@ fun DetailScreen(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                     Text(
-                        text = recipe.ingredients.joinToString("\n") {
+                        text = recipe.ingredients!!.joinToString("\n") {
                             it
                         },
                         fontSize = 16.sp,
@@ -191,7 +191,7 @@ fun DetailScreen(
                             .padding(top = 16.dp)
                     )
                     Text(
-                        text = recipe.recipe,
+                        text = recipe.recipe!!,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center,
                         modifier = Modifier

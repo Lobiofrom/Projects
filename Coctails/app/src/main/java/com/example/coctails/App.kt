@@ -2,7 +2,7 @@ package com.example.coctails
 
 import android.app.Application
 import androidx.room.Room
-import com.example.coctails.data.AppDataBase
+import com.example.data.data.database.AppDataBase
 
 class App : Application() {
 

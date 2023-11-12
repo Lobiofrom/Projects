@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.coctails.entity.Recipe
+import com.example.domain2.entity.Recipe
 import com.example.coctails.viewmodel.MyViewModel
 import kotlinx.coroutines.delay
 

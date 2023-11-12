@@ -1,4 +1,4 @@
-package com.example.coctails.entity
+package com.example.domain2.entity
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.room.ColumnInfo
