@@ -1,6 +1,7 @@
 package com.example.kinopoisk.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,7 @@ class HomeFragment : Fragment() {
                 val viewed = list.find {
                     it.collection.collectionName == "Viewed"
                 }
+                Log.d("viewed", "viewed----> ${viewed?.movies}")
                 val verticalAdapter = VerticalAdapter(this@HomeFragment, viewed!!)
 
                 binding.recyclerNewMovies.adapter = verticalAdapter

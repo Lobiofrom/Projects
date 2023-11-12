@@ -47,14 +47,16 @@ class MovieListAdapterHomeFragment(
                 onClick.invoke(item)
             }
             if (
-                collectionWithMovies.movies.any { it.movieId == item.filmId } ||
-                collectionWithMovies.movies.any { it.movieId == item.kinopoiskId }
+                collectionWithMovies.movies.any { item.filmId == it.movieId } ||
+                collectionWithMovies.movies.any { item.kinopoiskId == it.movieId }
             ) {
                 iconViewed.visibility = View.VISIBLE
                 imageView.foreground =
                     ContextCompat.getDrawable(root.context, R.drawable.gradient_item)
+            } else {
+                iconViewed.visibility = View.GONE
+                imageView.foreground = null
             }
         }
     }
-
 }
