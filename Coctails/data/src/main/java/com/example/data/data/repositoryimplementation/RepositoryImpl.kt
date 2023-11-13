@@ -5,7 +5,7 @@ import com.example.domain2.entity.Recipe
 import com.example.domain2.repository.Repository
 import kotlinx.coroutines.flow.Flow
 
-class RepositoryImp(
+class RepositoryImpl(
     private val dao: RecipeDao
 ) : Repository {
     override suspend fun upsertRecipe(recipe: Recipe) {

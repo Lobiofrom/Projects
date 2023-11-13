@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.data.data.database.RecipeDao
-import com.example.data.data.repositoryimplementation.RepositoryImp
+import com.example.data.data.repositoryimplementation.RepositoryImpl
 import com.example.domain2.entity.Recipe
 import com.example.domain2.usecase.UseCase
 import kotlinx.coroutines.flow.SharingStarted
@@ -57,7 +57,7 @@ class MyViewModelFactory(
     private val recipeDao: RecipeDao
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val useCase = UseCase(RepositoryImp(recipeDao))
+        val useCase = UseCase(RepositoryImpl(recipeDao))
         return MyViewModel(useCase) as T
     }
 }
