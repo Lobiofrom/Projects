@@ -15,6 +15,7 @@ import com.example.leads.ui.theme.LeadsTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             LeadsTheme {
                 Surface(
