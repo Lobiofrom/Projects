@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.domain.models.Hotel
 import com.example.domain.models.States
 import com.example.hotels.R
@@ -126,12 +126,13 @@ fun HotelScreen(
                         .background(color = Color.Black, shape = RoundedCornerShape(20.dp))
 
                 ) { page ->
-                    val painter = rememberAsyncImagePainter(model = hotel?.image_urls?.get(page))
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
+                    AsyncImage(
+                        modifier = Modifier.height(250.dp),
+                        model = hotel?.image_urls?.get(page),
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.height(250.dp)
+                        placeholder = painterResource(R.drawable.ic_launcher_foreground),
+                        error = painterResource(R.drawable.ic_launcher_foreground),
+                        contentDescription = null
                     )
                 }
                 Row(

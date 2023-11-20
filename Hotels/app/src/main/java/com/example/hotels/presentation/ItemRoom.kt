@@ -38,7 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.domain.models.Room
 import com.example.hotels.R
 
@@ -71,12 +71,13 @@ fun ItemRoom(
                     .background(color = Color.Black, shape = RoundedCornerShape(20.dp))
 
             ) { page ->
-                val painter = rememberAsyncImagePainter(model = room.image_urls[page])
-                Image(
-                    painter = painter,
-                    contentDescription = null,
+                AsyncImage(
+                    modifier = Modifier.height(250.dp),
+                    model = room.image_urls[page],
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.height(250.dp)
+                    placeholder = painterResource(R.drawable.ic_launcher_foreground),
+                    error = painterResource(R.drawable.ic_launcher_foreground),
+                    contentDescription = null
                 )
             }
             Row(
