@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.example.hotels.presentation.MainScreen
 import com.example.hotels.ui.theme.HotelsTheme
 import com.example.hotels.viewModels.BookingViewModel
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
             HotelsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color(android.graphics.Color.parseColor("#FBFBFC"))
                 ) {
                     MainScreen(
                         hotelViewModel = hotelViewModel,

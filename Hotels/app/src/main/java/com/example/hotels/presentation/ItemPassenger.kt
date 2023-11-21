@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -43,207 +45,213 @@ fun ItemPassenger(
     var isExpanded by remember {
         mutableStateOf(true)
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 16.dp)
+    Surface(
+        color = Color.White,
+        shape = RoundedCornerShape(20.dp),
+        shadowElevation = 5.dp,
+        modifier = Modifier.padding(top = 6.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text(
-                text = "Турист ",
-                style = TextStyle(
-                    fontSize = 22.sp,
-                ),
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 6.dp)
-                    .align(Alignment.CenterStart)
-            )
-            Text(
-                text = passenger.touristCount.toString(),
-                style = TextStyle(
-                    fontSize = 22.sp,
-                ),
-                modifier = Modifier
-                    .padding(start = 100.dp, top = 6.dp)
-                    .align(Alignment.CenterStart)
-            )
-            Image(
-                painter = painterResource(id = if (isExpanded) R.drawable.expanded else R.drawable.not_expanded),
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 16.dp, top = 6.dp)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = rememberRipple(
-                            bounded = true,
-                            //radius = 250.dp,
-                            color = Color.DarkGray
-                        )
-                    ) { isExpanded = !isExpanded },
-            )
-
-        }
         Column(
             modifier = Modifier
-                .height(if (isExpanded) 360.dp else 0.dp)
-                .padding(top = 6.dp)
-                .alpha(if (isExpanded) 1f else 0f)
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
+                .fillMaxSize()
         ) {
-            var name by rememberSaveable { mutableStateOf("") }
-            TextField(
-                value = name,
-                onValueChange = {
-                    name = it
-                    TextField.NAME.property = it
-                    onTextChange(TextField.NAME, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Имя"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (name.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
+            Box(
                 modifier = Modifier
-                    .width(343.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text(
+                    text = "Турист ",
+                    style = TextStyle(
+                        fontSize = 22.sp,
+                    ),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterStart)
+                )
+                Text(
+                    text = passenger.touristCount.toString(),
+                    style = TextStyle(
+                        fontSize = 22.sp,
+                    ),
+                    modifier = Modifier
+                        .padding(start = 100.dp)
+                        .align(Alignment.CenterStart)
+                )
+                Image(
+                    painter = painterResource(id = if (isExpanded) R.drawable.expanded else R.drawable.not_expanded),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 16.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = rememberRipple(
+                                bounded = true,
+                                //radius = 250.dp,
+                                color = Color.DarkGray
+                            )
+                        ) { isExpanded = !isExpanded },
+                )
 
-            var surname by rememberSaveable { mutableStateOf("") }
-
-            TextField(
-                value = surname,
-                onValueChange = {
-                    surname = it
-                    TextField.SURNAME.property = it
-                    onTextChange(TextField.SURNAME, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Фамилия"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (surname.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
+            }
+            Column(
                 modifier = Modifier
-                    .width(343.dp)
+                    .height(if (isExpanded) 360.dp else 0.dp)
+                    .padding(top = 6.dp)
+                    .alpha(if (isExpanded) 1f else 0f)
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                    .fillMaxWidth()
+            ) {
+                var name by rememberSaveable { mutableStateOf("") }
+                TextField(
+                    value = name,
+                    onValueChange = {
+                        name = it
+                        TextField.NAME.property = it
+                        onTextChange(TextField.NAME, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Имя"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (name.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
 
-            var birthDate by rememberSaveable { mutableStateOf("") }
+                var surname by rememberSaveable { mutableStateOf("") }
 
-            TextField(
-                value = birthDate,
-                onValueChange = {
-                    birthDate = it
-                    TextField.BIRTHDAY.property = it
-                    onTextChange(TextField.BIRTHDAY, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Дата рождения"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (birthDate.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
-                modifier = Modifier
-                    .width(343.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                TextField(
+                    value = surname,
+                    onValueChange = {
+                        surname = it
+                        TextField.SURNAME.property = it
+                        onTextChange(TextField.SURNAME, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Фамилия"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (surname.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
 
-            var nationality by rememberSaveable { mutableStateOf("") }
+                var birthDate by rememberSaveable { mutableStateOf("") }
 
-            TextField(
-                value = nationality,
-                onValueChange = {
-                    nationality = it
-                    TextField.NATIONALITY.property = it
-                    onTextChange(TextField.NATIONALITY, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Граждансвто"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (nationality.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
-                modifier = Modifier
-                    .width(343.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                TextField(
+                    value = birthDate,
+                    onValueChange = {
+                        birthDate = it
+                        TextField.BIRTHDAY.property = it
+                        onTextChange(TextField.BIRTHDAY, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Дата рождения"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (birthDate.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
 
-            var passportNumber by rememberSaveable { mutableStateOf("") }
+                var nationality by rememberSaveable { mutableStateOf("") }
 
-            TextField(
-                value = passportNumber,
-                onValueChange = {
-                    passportNumber = it
-                    TextField.PASSPORT_NUMBER.property = it
-                    onTextChange(TextField.PASSPORT_NUMBER, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Номер загранпаспорта"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (passportNumber.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
-                modifier = Modifier
-                    .width(343.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                TextField(
+                    value = nationality,
+                    onValueChange = {
+                        nationality = it
+                        TextField.NATIONALITY.property = it
+                        onTextChange(TextField.NATIONALITY, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Граждансвто"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (nationality.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
 
-            var passportExpiery by rememberSaveable { mutableStateOf("") }
+                var passportNumber by rememberSaveable { mutableStateOf("") }
 
-            TextField(
-                value = passportExpiery,
-                onValueChange = {
-                    passportExpiery = it
-                    TextField.PASSPORT_DATE.property = it
-                    onTextChange(TextField.PASSPORT_DATE, passenger)
-                },
-                label = {
-                    Text(
-                        text = "Срок действия загранпаспорта"
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = if (passportExpiery.isNotEmpty()) Color(0xFFF6F6F9)
-                    else Color(0xFFEB5757)
-                ),
-                modifier = Modifier
-                    .width(343.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 3.dp)
-                    .width(343.dp)
-            )
+                TextField(
+                    value = passportNumber,
+                    onValueChange = {
+                        passportNumber = it
+                        TextField.PASSPORT_NUMBER.property = it
+                        onTextChange(TextField.PASSPORT_NUMBER, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Номер загранпаспорта"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (passportNumber.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
+
+                var passportExpiery by rememberSaveable { mutableStateOf("") }
+
+                TextField(
+                    value = passportExpiery,
+                    onValueChange = {
+                        passportExpiery = it
+                        TextField.PASSPORT_DATE.property = it
+                        onTextChange(TextField.PASSPORT_DATE, passenger)
+                    },
+                    label = {
+                        Text(
+                            text = "Срок действия загранпаспорта"
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = if (passportExpiery.isNotEmpty()) Color(0xFFF6F6F9)
+                        else Color(0xFFEB5757)
+                    ),
+                    modifier = Modifier
+                        .width(343.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 3.dp)
+                        .width(343.dp)
+                )
+            }
         }
     }
 }

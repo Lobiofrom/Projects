@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,146 +47,148 @@ fun ItemRoom(
     room: Room,
     onButtonClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 6.dp)
+    Surface(
+        color = Color.White,
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier.padding(top = 6.dp),
+        shadowElevation = 5.dp
     ) {
-        val pagerState = rememberPagerState(pageCount = {
-            room.image_urls.size
-        })
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
+                .fillMaxSize()
+                .padding(top = 6.dp)
         ) {
-            HorizontalPager(
-                state = pagerState,
+            val pagerState = rememberPagerState(pageCount = {
+                room.image_urls.size
+            })
+            Box(
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .width(343.dp)
-                    .height(257.dp)
-                    .shadow(elevation = 15.dp, shape = RoundedCornerShape(20.dp))
-                    .background(color = Color.Black, shape = RoundedCornerShape(20.dp))
-
-            ) { page ->
-                AsyncImage(
-                    modifier = Modifier.height(250.dp),
-                    model = room.image_urls[page],
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(R.drawable.ic_launcher_foreground),
-                    error = painterResource(R.drawable.ic_launcher_foreground),
-                    contentDescription = null
-                )
-            }
-            Row(
-                Modifier
-                    .wrapContentHeight()
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp), horizontalArrangement = Arrangement.Center
+                    .align(Alignment.CenterHorizontally)
             ) {
-                repeat(pagerState.pageCount) { iteration ->
-                    val color =
-                        if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
-                    Box(
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .clip(CircleShape)
-                            .background(color)
-                            .size(16.dp)
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .width(343.dp)
+                        .height(257.dp)
+                        .shadow(elevation = 15.dp, shape = RoundedCornerShape(20.dp))
+                        .background(color = Color.Black, shape = RoundedCornerShape(20.dp))
+
+                ) { page ->
+                    AsyncImage(
+                        modifier = Modifier.height(250.dp),
+                        model = room.image_urls[page],
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.drawable.ic_launcher_foreground),
+                        error = painterResource(R.drawable.ic_launcher_foreground),
+                        contentDescription = null
                     )
                 }
+                Row(
+                    Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp), horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(pagerState.pageCount) { iteration ->
+                        val color =
+                            if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                        Box(
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .clip(CircleShape)
+                                .background(color)
+                                .size(16.dp)
+                        )
+                    }
+                }
             }
-        }
-        Text(
-            text = room.name, fontSize = 22.sp, modifier = Modifier
-                .align(Alignment.Start)
-                .padding(top = 6.dp, start = 23.dp)
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            state = rememberLazyGridState(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .padding(start = 30.dp, top = 6.dp, end = 16.dp)
-        ) {
-            items(room.peculiarities) {
-                Surface(
-                    color = Color(android.graphics.Color.parseColor("#FBFBFC")),
-                    shape = RoundedCornerShape(5.dp),
-                    modifier = Modifier
-                        .padding(3.dp)
+            Text(
+                text = room.name, fontSize = 22.sp, modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(top = 6.dp, start = 23.dp)
+            )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                state = rememberLazyGridState(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .padding(start = 30.dp, top = 6.dp, end = 16.dp)
+            ) {
+                items(room.peculiarities) {
+                    Surface(
+                        color = Color(android.graphics.Color.parseColor("#FBFBFC")),
+                        shape = RoundedCornerShape(5.dp),
+                        modifier = Modifier
+                            .padding(3.dp)
+                    ) {
+                        Text(
+                            text = it,
+                            fontSize = 16.sp,
+                            color = Color(android.graphics.Color.parseColor("#828796")),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+            Surface(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(29.dp)
+                    .padding(top = 6.dp, start = 23.dp),
+                color = Color(0x1A0D72FF),
+                shape = RoundedCornerShape(5.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = it,
+                        text = "Подробнее о номере",
                         fontSize = 16.sp,
-                        color = Color(android.graphics.Color.parseColor("#828796")),
-                        textAlign = TextAlign.Center
+                        color = Color(0xFF0D72FF),
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.img_1),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
             }
-        }
-        Surface(
-            modifier = Modifier
-                .width(200.dp)
-                .height(29.dp)
-                .padding(top = 6.dp, start = 23.dp),
-            color = Color(0x1A0D72FF),
-            shape = RoundedCornerShape(5.dp)
-        ) {
             Row(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = "Подробнее о номере",
-                    fontSize = 16.sp,
-                    color = Color(0xFF0D72FF),
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    text = "${room.price} ₽",
+                    fontSize = 30.sp,
+                    modifier = Modifier
+                        .padding(start = 23.dp)
+                        .alignByBaseline()
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.img_1),
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                Text(
+                    text = room.price_per,
+                    fontSize = 16.sp,
+                    color = Color(0xFF828796),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .alignByBaseline()
                 )
             }
-        }
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "${room.price} ₽",
-                fontSize = 30.sp,
+            Button(
+                onClick = onButtonClick,
                 modifier = Modifier
-                    .padding(start = 23.dp)
-                    .alignByBaseline()
-            )
-            Text(
-                text = room.price_per,
-                fontSize = 16.sp,
-                color = Color(0xFF828796),
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .alignByBaseline()
-            )
-        }
-        Button(
-            onClick = onButtonClick,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(343.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(android.graphics.Color.parseColor("#0D72FF"))
-            )
+                    .align(Alignment.CenterHorizontally)
+                    .width(343.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(android.graphics.Color.parseColor("#0D72FF"))
+                )
 
-        ) {
-            Text(text = "Выбрать номер")
+            ) {
+                Text(text = "Выбрать номер")
+            }
         }
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 6.dp, top = 6.dp, end = 6.dp, bottom = 6.dp)
-        )
     }
 }

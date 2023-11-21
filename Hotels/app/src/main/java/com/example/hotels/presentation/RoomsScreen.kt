@@ -1,7 +1,6 @@
 package com.example.hotels.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,35 +51,36 @@ fun RoomsScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp)
+        Surface(
+            color = Color.White,
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.padding(top = 6.dp),
+            shadowElevation = 5.dp
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.img_4), contentDescription = null,
-                modifier = Modifier
-                    .height(30.dp)
-                    .width(30.dp)
-                    .align(Alignment.CenterStart)
-                    .padding(start = 10.dp)
-                    .clickable { navController.navigate("hotel") }
-            )
-            Text(
-                text = hotelName,
-                fontSize = 18.sp,
-                modifier = Modifier.padding(start = 46.dp)
-            )
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_4), contentDescription = null,
+                        modifier = Modifier
+                            .height(30.dp)
+                            .width(30.dp)
+                            .align(Alignment.CenterStart)
+                            .padding(start = 10.dp)
+                            .clickable { navController.navigate("hotel") }
+                    )
+                    Text(
+                        text = hotelName,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(start = 46.dp)
+                    )
+                }
+            }
         }
-        Divider(
-            Modifier
-                .background
-                    (
-                    color = Color(0xFFF6F6F9),
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
-                .height(3.dp)
-        )
+
         LazyColumn(
             modifier = Modifier.padding(top = 6.dp)
         ) {
