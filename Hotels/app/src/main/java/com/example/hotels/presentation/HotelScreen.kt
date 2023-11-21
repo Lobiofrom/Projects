@@ -246,7 +246,8 @@ fun HotelScreen(
                                         color = Color(android.graphics.Color.parseColor("#FBFBFC")),
                                         shape = RoundedCornerShape(5.dp),
                                         modifier = Modifier
-                                            .padding(3.dp)
+                                            .padding(3.dp),
+                                        shadowElevation = 3.dp
                                     ) {
                                         Text(
                                             text = it,

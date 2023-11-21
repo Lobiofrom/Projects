@@ -115,7 +115,7 @@ fun ItemRoom(
                 state = rememberLazyGridState(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
+                    .height(85.dp)
                     .padding(start = 30.dp, top = 6.dp, end = 16.dp)
             ) {
                 items(room.peculiarities) {
@@ -123,7 +123,9 @@ fun ItemRoom(
                         color = Color(android.graphics.Color.parseColor("#FBFBFC")),
                         shape = RoundedCornerShape(5.dp),
                         modifier = Modifier
-                            .padding(3.dp)
+                            .padding(3.dp),
+                        shadowElevation = 3.dp
+
                     ) {
                         Text(
                             text = it,
