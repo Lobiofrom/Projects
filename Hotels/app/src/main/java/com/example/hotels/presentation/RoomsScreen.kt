@@ -46,43 +46,44 @@ fun RoomsScreen(
             rooms = it
         }
     }
+    Surface(
+        color = Color.White,
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier.padding(top = 6.dp),
+        shadowElevation = 5.dp
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().height(50.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_4),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(30.dp)
+                        .width(30.dp)
+                        .align(Alignment.CenterStart)
+                        .padding(start = 10.dp)
+                        .clickable { navController.navigate("hotel") }
+                )
+                Text(
+                    text = hotelName,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(start = 46.dp)
+                )
+            }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 55.dp)
     ) {
-        item {
-            Surface(
-                color = Color.White,
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier.padding(top = 6.dp),
-                shadowElevation = 5.dp
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_4),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(30.dp)
-                                .align(Alignment.CenterStart)
-                                .padding(start = 10.dp)
-                                .clickable { navController.navigate("hotel") }
-                        )
-                        Text(
-                            text = hotelName,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(start = 46.dp)
-                        )
-                    }
-                }
-            }
-        }
         items(rooms) {
             ItemRoom(room = it, onButtonClick = { navController.navigate("booking") })
         }
