@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
             viewModel.login(login, password)
 
             viewLifecycleOwner.lifecycleScope.launch {
-                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                     viewModel.loginData.collect {
                         if (it?.success == "true") {
                             val sharedPrefs =
