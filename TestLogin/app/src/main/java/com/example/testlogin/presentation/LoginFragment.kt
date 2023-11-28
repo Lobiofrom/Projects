@@ -19,6 +19,7 @@ import com.example.testlogin.databinding.FragmentLoginBinding
 import com.example.testlogin.states.States
 import com.example.testlogin.viewmodels.LoginViewModel
 import com.example.testlogin.viewmodels.LoginViewModelFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -49,7 +50,7 @@ class LoginFragment : Fragment() {
             viewModel.login(login, password)
 
             viewLifecycleOwner.lifecycleScope.launch {
-                lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.loginData.collect {
                         if (it?.success == "true") {
                             val sharedPrefs =
@@ -62,8 +63,8 @@ class LoginFragment : Fragment() {
                             editor.apply()
                             findNavController().navigate(R.id.loggedFragment)
                         }
-
-                        if (it?.success == "false" && it.error.error_code == 1003) {
+                        delay(200)
+                        if (it?.success == "false") {
                             val error = getString(R.string.invalid_username)
                             val appContext = context?.applicationContext ?: return@collect
                             Toast.makeText(appContext, error, Toast.LENGTH_SHORT).show()
@@ -79,7 +80,6 @@ class LoginFragment : Fragment() {
                         States.Loading -> binding.loading.visibility = View.VISIBLE
                         States.Success -> binding.loading.visibility = View.GONE
                     }
-
                 }
             }
         }
