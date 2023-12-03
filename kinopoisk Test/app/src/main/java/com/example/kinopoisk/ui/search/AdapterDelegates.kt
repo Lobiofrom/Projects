@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import coil.load
 import com.example.domain.domain.entity.Movie
+import com.example.domain.domain.entity.StaffItem
 import com.example.kinopoisk.databinding.ItemBinding
 import com.example.kinopoisk.databinding.ItemSearchedPersonBinding
-import com.example.domain.domain.entity.StaffItem
 import com.example.kinopoisk.ui.detail_fragment.StaffDiffUtilCallback
 import com.example.kinopoisk.ui.home.DiffUtilCallback
 import ru.sr.adapter.PagingDelegateAdapter
@@ -24,8 +24,7 @@ class PersonDelegateAdapter(
 
 class MovieDelegateAdapter(
     onClickPerson: (Movie) -> Unit,
-) :
-    PagingDelegateAdapter<Movie>(DiffUtilCallback()) {
+) : PagingDelegateAdapter<Movie>(DiffUtilCallback()) {
 
     init {
         addDelegate(movieAdapterDelegate(onClickPerson))
