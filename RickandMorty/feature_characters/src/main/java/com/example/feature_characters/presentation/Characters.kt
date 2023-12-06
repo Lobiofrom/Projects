@@ -13,7 +13,10 @@ fun Characters(
 ) {
     val list = viewModel.list.collectAsLazyPagingItems()
 
+    val scrollState = ScrollStateHolder.scrollState
+
     LazyColumn(
+        state = scrollState,
         modifier = Modifier
             .fillMaxSize()
     ) {
