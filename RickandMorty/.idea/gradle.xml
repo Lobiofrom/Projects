@@ -14,7 +14,6 @@
             <option value="$PROJECT_DIR$/feature_characters" />
             <option value="$PROJECT_DIR$/feature_locations" />
             <option value="$PROJECT_DIR$/feature_search" />
-            <option value="$PROJECT_DIR$/navigation" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

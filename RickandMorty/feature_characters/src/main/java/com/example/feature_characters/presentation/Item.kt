@@ -1,6 +1,7 @@
 package com.example.feature_characters.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.feature_characters.R
@@ -24,12 +24,14 @@ import com.example.feature_characters.domain.model.SimpleCharacter
 
 @Composable
 fun Item(
-    character: SimpleCharacter
+    character: SimpleCharacter,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp),
+            .padding(6.dp)
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
         ),
@@ -84,18 +86,4 @@ fun Item(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun Prev() {
-    Item(
-        character = SimpleCharacter(
-            name = "Cool",
-            status = "dead",
-            species = "Human",
-            location = "here",
-            image = ""
-        )
-    )
 }

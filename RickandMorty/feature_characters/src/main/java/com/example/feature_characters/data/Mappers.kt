@@ -22,6 +22,7 @@ fun CharacterQuery.Character.toCharacter(): Character {
 fun CharactersQuery.Result.toSimpleCharacter(): SimpleCharacter {
 
     return SimpleCharacter(
+        id = id ?: "no id",
         name = name ?: "no name",
         status = status ?: "no status",
         species = species ?: "no species",

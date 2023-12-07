@@ -63,4 +63,11 @@ dependencies {
     //Coil
     implementation(libs.coil.compose)
     debugImplementation(libs.ui.tooling)
+
+    //Interceptor
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+
 }

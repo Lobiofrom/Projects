@@ -1,5 +1,6 @@
 package com.example.logistics.presentation.tasksscreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -67,6 +68,18 @@ fun TasksNavigation(
                     ) {
 
                     }
+                    Log.d("TaskDetails", "TaskDetails===== ${
+                        TaskDetails(
+                            onClick = {
+                                navController2.navigate("tasks")
+                                changeModifier2()
+                            },
+                            task = task
+                        ) {
+
+                        }
+                    }"
+                    )
                 }
             }
         }

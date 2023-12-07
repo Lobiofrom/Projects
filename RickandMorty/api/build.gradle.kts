@@ -43,6 +43,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //Apollo
     implementation(libs.apollo.runtime)
+    //Interceptor
+    implementation(libs.logging.interceptor)
 }
 apollo {
     service("apollo") {
