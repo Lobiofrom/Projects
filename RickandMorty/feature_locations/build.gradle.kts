@@ -51,4 +51,18 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
+
+    implementation(project(":api"))
+    implementation(project(":feature_characters"))
+    //Apollo
+    implementation(libs.apollo.runtime)
+
+    //Paging
+    implementation(libs.androidx.paging.compose)
+    //Coil
+    implementation(libs.coil.compose)
+    debugImplementation(libs.ui.tooling)
+    //Navi
+    implementation(libs.androidx.navigation.compose)
+
 }

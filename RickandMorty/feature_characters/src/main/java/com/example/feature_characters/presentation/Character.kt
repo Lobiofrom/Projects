@@ -11,29 +11,20 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.feature_characters.viewmodel.CharactersViewModel
-import com.example.feature_characters.viewmodel.CharactersViewModelFactory
+import com.example.feature_characters.viewmodel.CharacterViewModel
 
 @Composable
 fun Character(
-    id: String,
-    viewModel: CharactersViewModel = viewModel(
-        factory = CharactersViewModelFactory()
-    ),
+    state: CharacterViewModel.CharacterState
 ) {
-    viewModel.getCharacter(id)
-
-    val state by viewModel.state.collectAsState()
 
     if (state.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -64,10 +55,10 @@ fun Character(
                         text = it,
                         fontSize = 30.sp,
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(end = 36.dp),
+                            .align(Alignment.BottomEnd)
+                            .padding(end = 16.dp),
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        color = if (state.character.status == "Alive") Color.Green else Color.Red
                     )
                 }
             }

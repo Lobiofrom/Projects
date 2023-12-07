@@ -1,10 +1,9 @@
-package com.example.feature_characters.presentation
+package com.example.feature_locations.presentation.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -18,47 +17,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.feature_characters.viewmodel.CharacterViewModel
-import com.example.feature_characters.viewmodel.CharactersViewModel
-
-
-private val scrollState = LazyListState(0)
+import com.example.feature_locations.presentation.viewmodel.LocationsViewModel
 
 @Composable
-fun Characters(
-    charactersViewModel: CharactersViewModel,
-    characterViewModel: CharacterViewModel,
-    navController: NavController
+fun Locations(
+    viewModel: LocationsViewModel,
+    navController: NavController,
+    characterViewModel: CharacterViewModel
 ) {
-
-    val list = charactersViewModel.list.collectAsLazyPagingItems()
-
+    val list = viewModel.locations.collectAsLazyPagingItems()
     var error by remember {
         mutableStateOf(false)
     }
 
     LazyColumn(
-        state = scrollState,
         modifier = Modifier.fillMaxSize()
     ) {
         items(list.itemCount) { index ->
-            list[index]?.let { character ->
-                Item(
-                    character = character,
-                    onClick = {
-                        characterViewModel.getCharacter(character.id)
-                        navController.navigate("character") {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
+            list[index].let {
+                if (it != null) {
+                    Item(
+                        location = it,
+                        navController = navController,
+                        viewModel = characterViewModel
+                    )
+                }
             }
         }
         if (list.itemCount == 0) {
