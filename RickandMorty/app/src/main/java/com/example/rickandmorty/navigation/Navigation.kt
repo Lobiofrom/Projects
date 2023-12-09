@@ -40,7 +40,11 @@ fun Navigation(
             )
         }
         composable(route = "search") {
-            Search()
+            Search(
+                findCharacterVM = koinViewModel(),
+                characterViewModel = characterViewModel,
+                navController = navHostController
+            )
         }
     }
 }

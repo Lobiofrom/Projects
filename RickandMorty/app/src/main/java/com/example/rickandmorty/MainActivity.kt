@@ -42,15 +42,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Preview(
-//    name = "Dark",
-//    uiMode = Configuration.UI_MODE_NIGHT_YES
-//)
-//@Composable
-//fun GreetingPreview() {
-//    RickandMortyTheme {
-//        MainScreen()
-//    }
-//}

@@ -46,10 +46,22 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(project(":api"))
+    implementation(project(":feature_characters"))
+
+    //Navi
+    implementation(libs.androidx.navigation.compose)
 
     //Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
+    //Apollo
+    implementation(libs.apollo.runtime)
+    //Paging
+    implementation(libs.androidx.paging.compose)
+    debugImplementation(libs.ui.tooling)
+    //Coil
+    implementation(libs.coil.compose)
 }
