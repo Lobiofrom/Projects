@@ -36,18 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.example.feature_characters.viewmodel.CharacterViewModel
-import com.example.feature_characters.viewmodel.CharactersViewModel
-import com.example.feature_locations.presentation.viewmodel.LocationsViewModel
 import com.example.rickandmorty.navigation.BottomNaviItem
 import com.example.rickandmorty.navigation.Navigation
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
-    charactersViewModel: CharactersViewModel,
-    characterViewModel: CharacterViewModel,
-    state: CharacterViewModel.CharacterState,
-    locationsViewModel: LocationsViewModel
+    characterViewModel: CharacterViewModel
 ) {
     val navController = rememberNavController()
     val naviItems = listOf(
@@ -134,10 +129,7 @@ fun MainScreen(
         ) {
             Navigation(
                 navHostController = navController,
-                charactersViewModel = charactersViewModel,
-                state = state,
-                characterViewModel = characterViewModel,
-                locationsViewModel = locationsViewModel
+                characterViewModel = characterViewModel
             )
         }
     }

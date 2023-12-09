@@ -22,11 +22,11 @@ class LocationsViewModel(
         pagingSourceFactory = { PagingSource(useCase) }
     ).flow.cachedIn(viewModelScope)
 }
-
-@Suppress("UNCHECKED_CAST")
-class LocationsViewModelFactory : ViewModelProvider.Factory {
-    private val useCase = GetLocationsUseCase(RepositoryImpl(apollo))
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LocationsViewModel(useCase) as T
-    }
-}
+//
+//@Suppress("UNCHECKED_CAST")
+//class LocationsViewModelFactory : ViewModelProvider.Factory {
+//    private val useCase = GetLocationsUseCase(RepositoryImpl(apollo))
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        return LocationsViewModel(useCase) as T
+//    }
+//}

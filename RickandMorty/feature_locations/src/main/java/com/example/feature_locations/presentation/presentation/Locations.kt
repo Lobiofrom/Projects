@@ -21,11 +21,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.feature_characters.viewmodel.CharacterViewModel
 import com.example.feature_locations.presentation.viewmodel.LocationsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Locations(
-    viewModel: LocationsViewModel,
     navController: NavController,
+    viewModel: LocationsViewModel,
     characterViewModel: CharacterViewModel
 ) {
     val list = viewModel.locations.collectAsLazyPagingItems()

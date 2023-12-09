@@ -65,4 +65,8 @@ dependencies {
     debugImplementation(libs.ui.tooling)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    //Coin
+    implementation (libs.koin.androidx.compose)
+
 }

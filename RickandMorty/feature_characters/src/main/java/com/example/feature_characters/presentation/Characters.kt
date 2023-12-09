@@ -33,7 +33,6 @@ fun Characters(
     characterViewModel: CharacterViewModel,
     navController: NavController
 ) {
-
     val list = charactersViewModel.list.collectAsLazyPagingItems()
 
     var error by remember {

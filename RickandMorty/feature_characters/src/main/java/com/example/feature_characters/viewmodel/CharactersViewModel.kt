@@ -23,12 +23,12 @@ class CharactersViewModel(
         pagingSourceFactory = { PagingSource(useCase) }
     ).flow.cachedIn(viewModelScope)
 }
-
-@Suppress("UNCHECKED_CAST")
-class CharactersViewModelFactory : ViewModelProvider.Factory {
-    private val repository = RepoImpl(apollo)
-    private val useCase = GetCharactersUseCase(repository)
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CharactersViewModel(useCase) as T
-    }
-}
+//
+//@Suppress("UNCHECKED_CAST")
+//class CharactersViewModelFactory : ViewModelProvider.Factory {
+//    private val repository = RepoImpl(apollo)
+//    private val useCase = GetCharactersUseCase(repository)
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        return CharactersViewModel(useCase) as T
+//    }
+//}

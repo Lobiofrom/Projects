@@ -7,24 +7,20 @@ import androidx.navigation.compose.composable
 import com.example.feature_characters.presentation.Character
 import com.example.feature_characters.presentation.Characters
 import com.example.feature_characters.viewmodel.CharacterViewModel
-import com.example.feature_characters.viewmodel.CharactersViewModel
 import com.example.feature_locations.presentation.presentation.Locations
-import com.example.feature_locations.presentation.viewmodel.LocationsViewModel
 import com.example.feature_search.presentation.Search
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Navigation(
     navHostController: NavHostController,
-    charactersViewModel: CharactersViewModel,
-    characterViewModel: CharacterViewModel,
-    state: CharacterViewModel.CharacterState,
-    locationsViewModel: LocationsViewModel
+    characterViewModel: CharacterViewModel
 ) {
     NavHost(navController = navHostController, startDestination = "characters") {
         composable(route = "characters") {
             Characters(
                 navController = navHostController,
-                charactersViewModel = charactersViewModel,
+                charactersViewModel = koinViewModel(),
                 characterViewModel = characterViewModel
             )
         }
@@ -32,11 +28,16 @@ fun Navigation(
             route = "character"
         ) {
             Character(
-                state = state
+                characterViewModel = characterViewModel
             )
+
         }
         composable(route = "locations") {
-            Locations(locationsViewModel, navHostController, characterViewModel)
+            Locations(
+                navController = navHostController,
+                viewModel = koinViewModel(),
+                characterViewModel = characterViewModel
+            )
         }
         composable(route = "search") {
             Search()

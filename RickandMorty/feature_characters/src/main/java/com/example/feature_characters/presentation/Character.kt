@@ -11,6 +11,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,8 +25,9 @@ import com.example.feature_characters.viewmodel.CharacterViewModel
 
 @Composable
 fun Character(
-    state: CharacterViewModel.CharacterState
+    characterViewModel: CharacterViewModel
 ) {
+    val state by characterViewModel.state.collectAsState()
 
     if (state.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -58,7 +61,7 @@ fun Character(
                             .align(Alignment.BottomEnd)
                             .padding(end = 16.dp),
                         fontWeight = FontWeight.Bold,
-                        color = if (state.character.status == "Alive") Color.Green else Color.Red
+                        color = if (state.character?.status == "Alive") Color.Green else Color.Red
                     )
                 }
             }
@@ -94,8 +97,8 @@ fun Character(
                     .fillMaxWidth()
                     .padding(bottom = 88.dp, start = 16.dp)
             ) {
-                state.character?.let {
-                    items(it.episode) { episode ->
+                state.character?.episode?.let {
+                    items(it) { episode ->
                         Text(text = episode)
                     }
                 }
