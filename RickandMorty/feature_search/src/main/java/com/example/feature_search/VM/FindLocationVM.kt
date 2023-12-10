@@ -25,8 +25,8 @@ class FindLocationVM(
             Pager(config = PagingConfig(20), pagingSourceFactory = {
                 PagingSourceLocation(useCase, name)
             }).flow.cachedIn(viewModelScope).collect {
-                    _list.value = it
-                }
+                _list.value = it
+            }
         }
     }
 }

@@ -50,9 +50,7 @@ fun Search(
     var showProgress by remember {
         mutableStateOf(false)
     }
-    var showProgress2 by remember {
-        mutableStateOf(false)
-    }
+
     var showCharacters by remember {
         mutableStateOf(false)
     }
@@ -162,7 +160,7 @@ fun Search(
                 }
                 Button(
                     onClick = {
-                        showProgress2 = true
+                        showProgress = true
                         showLocations = true
                         showCharacters = false
                         findLocationVM.getLocation(location)
@@ -207,28 +205,6 @@ fun Search(
                 }
             }
         }
-        if (showProgress2) {
-            when {
-                locationList.loadState.refresh is LoadState.Loading -> {
-                    Box(
-                        modifier = Modifier
-                            .padding(bottom = 150.dp)
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                locationList.loadState.append is LoadState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-        }
         if (showProgress) {
             when {
                 list.loadState.refresh is LoadState.Loading -> {
@@ -243,6 +219,25 @@ fun Search(
                 }
 
                 list.loadState.append is LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                locationList.loadState.refresh is LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .padding(bottom = 150.dp)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                locationList.loadState.append is LoadState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
                     ) {
