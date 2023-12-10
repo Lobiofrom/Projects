@@ -2,7 +2,9 @@ package com.example.rickandmorty.di
 
 import com.example.api.data.apollo
 import com.example.feature_characters.data.RepoImpl
+import com.example.feature_characters.domain.usecases.GetCharacterUseCase
 import com.example.feature_characters.domain.usecases.GetCharactersUseCase
+import com.example.feature_characters.viewmodel.CharacterViewModel
 import com.example.feature_characters.viewmodel.CharactersViewModel
 import com.example.feature_locations.presentation.data.repositoryimpl.RepositoryImpl
 import com.example.feature_locations.presentation.domain.usecase.GetLocationsUseCase
@@ -23,10 +25,12 @@ val appModule = module {
     single<Repository> { com.example.feature_search.data.repoimpl.RepoImpl(apollo) }
 
     factory { GetCharactersUseCase(get()) }
+    factory { GetCharacterUseCase(get()) }
     factory { GetLocationsUseCase(get()) }
     factory { FindCharacterUseCase(get()) }
 
     viewModel { LocationsViewModel(get()) }
     viewModel { CharactersViewModel(get()) }
     viewModel { FindCharacterVM(get()) }
+    viewModel { CharacterViewModel(get()) }
 }

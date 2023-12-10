@@ -35,15 +35,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
-import com.example.feature_characters.viewmodel.CharacterViewModel
 import com.example.rickandmorty.navigation.BottomNaviItem
 import com.example.rickandmorty.navigation.Navigation
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(
-    characterViewModel: CharacterViewModel
-) {
+fun MainScreen() {
     val navController = rememberNavController()
     val naviItems = listOf(
         BottomNaviItem(
@@ -128,8 +125,7 @@ fun MainScreen(
             }
         ) {
             Navigation(
-                navHostController = navController,
-                characterViewModel = characterViewModel
+                navHostController = navController
             )
         }
     }

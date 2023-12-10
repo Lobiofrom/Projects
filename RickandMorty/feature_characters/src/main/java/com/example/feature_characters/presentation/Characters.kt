@@ -21,7 +21,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.feature_characters.viewmodel.CharacterViewModel
 import com.example.feature_characters.viewmodel.CharactersViewModel
 
 
@@ -30,7 +29,6 @@ private val scrollState = LazyListState(0)
 @Composable
 fun Characters(
     charactersViewModel: CharactersViewModel,
-    characterViewModel: CharacterViewModel,
     navController: NavController
 ) {
     val list = charactersViewModel.list.collectAsLazyPagingItems()
@@ -48,8 +46,7 @@ fun Characters(
                 Item(
                     character = character,
                     onClick = {
-                        characterViewModel.getCharacter(character.id)
-                        navController.navigate("character") {
+                        navController.navigate("character/${character.id}") {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
                             }

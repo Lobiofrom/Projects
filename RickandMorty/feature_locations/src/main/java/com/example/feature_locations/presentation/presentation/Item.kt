@@ -25,15 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.feature_characters.viewmodel.CharacterViewModel
 import com.example.feature_locations.presentation.domain.model.Location
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Item(
     location: Location,
     navController: NavController,
-    viewModel: CharacterViewModel = koinViewModel()
 ) {
     Card(
         modifier = Modifier
@@ -101,8 +98,7 @@ fun Item(
                         .size(50.dp)
                         .clip(CircleShape)
                         .clickable {
-                            viewModel.getCharacter(it.id)
-                            navController.navigate("character")
+                            navController.navigate("character/${it.id}")
                         }
                 )
             }
