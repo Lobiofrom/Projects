@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.feature_search.domain.findCharacterUseCase.FindCharacterUseCase
 import com.example.feature_search.domain.models.FoundCharacter
-import com.example.feature_search.pagingSource.PagingSource
+import com.example.feature_search.pagingSource.PagingSourceCharacter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class FindCharacterVM(
             Pager(
                 config = PagingConfig(20),
                 pagingSourceFactory = {
-                    PagingSource(
+                    PagingSourceCharacter(
                         useCase = useCase,
                         name = name,
                         status = status

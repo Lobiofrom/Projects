@@ -49,7 +49,8 @@ fun Navigation(
         composable(route = "search") {
             Search(
                 findCharacterVM = koinViewModel(),
-                navController = navHostController
+                navController = navHostController,
+                findLocationVM = koinViewModel()
             )
         }
     }

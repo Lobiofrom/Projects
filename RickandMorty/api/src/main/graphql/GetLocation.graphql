@@ -1,0 +1,13 @@
+query GetLocation($name: String!, $page: Int!) {
+    locations(page: $page, filter: {name: $name}) {
+        results {
+            name
+            type
+            dimension
+            residents {
+                id
+                image
+            }
+        }
+    }
+}
