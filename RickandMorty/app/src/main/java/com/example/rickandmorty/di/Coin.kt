@@ -32,7 +32,6 @@ val appModule = module {
     factory { FindCharacterUseCase(get()) }
     factory { FindLocationUseCase(get()) }
 
-
     viewModel { LocationsViewModel(get()) }
     viewModel { CharactersViewModel(get()) }
     viewModel { FindCharacterVM(get()) }
