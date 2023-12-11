@@ -15,13 +15,16 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 
 class MainActivity : ComponentActivity() {
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startKoin {
-            androidLogger()
-            androidContext(this@MainActivity)
-            modules(appModule)
+
+        if (savedInstanceState == null) {
+            startKoin {
+                androidLogger()
+                androidContext(this@MainActivity)
+                modules(appModule)
+            }
         }
         setContent {
             RickandMortyTheme {
