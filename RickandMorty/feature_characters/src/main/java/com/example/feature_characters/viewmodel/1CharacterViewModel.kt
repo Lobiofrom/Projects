@@ -1,10 +1,7 @@
 package com.example.feature_characters.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.api.data.apollo
-import com.example.feature_characters.data.RepoImpl
 import com.example.feature_characters.domain.model.Character
 import com.example.feature_characters.domain.usecases.GetCharacterUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,13 +35,4 @@ class CharacterViewModel(
         val character: Character? = null,
         val isLoading: Boolean = false,
     )
-}
-
-@Suppress("UNCHECKED_CAST")
-class CharacterViewModelFactory : ViewModelProvider.Factory {
-    private val repository = RepoImpl(apollo)
-    private val getCharacterUseCase = GetCharacterUseCase(repository)
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CharacterViewModel(getCharacterUseCase) as T
-    }
 }
