@@ -112,6 +112,7 @@ fun Search(
                 }
                 Button(
                     onClick = {
+                        //throw RuntimeException("Test Crash") // Force a crash
                         showProgress = true
                         showCharacters = true
                         showLocations = false
