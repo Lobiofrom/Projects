@@ -40,9 +40,6 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,7 +62,7 @@ dependencies {
     //Navi
     implementation(libs.androidx.navigation.compose)
 
-    //Coin
+    //Koin
     implementation (libs.koin.androidx.compose)
 
 

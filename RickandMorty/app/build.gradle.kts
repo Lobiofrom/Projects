@@ -81,7 +81,7 @@ dependencies {
     //Navi
     implementation(libs.androidx.navigation.compose)
 
-    //Coin
+    //Koin
     implementation (libs.koin.androidx.compose)
 
     //Apollo
